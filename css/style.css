@@ -373,3 +373,119 @@ button {
     align-self: flex-start;
   }
 }
+
+/* Schritt 2: Seitenwechsel und Modul-Platzhalter */
+
+.nav-item:focus-visible {
+  outline: 3px solid rgba(139, 92, 246, 0.42);
+  outline-offset: 2px;
+}
+
+.page-view[hidden] {
+  display: none;
+}
+
+.page-view.is-active {
+  animation: page-enter 220ms ease-out;
+}
+
+.module-placeholder {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+  padding: clamp(32px, 6vw, 72px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  background:
+    radial-gradient(circle at top right, rgba(139, 92, 246, 0.17), transparent 24rem),
+    linear-gradient(145deg, rgba(29, 29, 43, 0.96), rgba(20, 20, 31, 0.96));
+  box-shadow: var(--shadow-card);
+}
+
+.module-placeholder::after {
+  content: "";
+  position: absolute;
+  right: -100px;
+  bottom: -150px;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.12);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+.module-icon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  border-radius: 20px;
+  background: var(--color-primary-soft);
+  font-size: 2rem;
+}
+
+.module-placeholder h3 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.module-placeholder > p:not(.eyebrow) {
+  position: relative;
+  z-index: 1;
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: var(--color-muted);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.development-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  margin-top: 28px;
+  padding: 9px 13px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 999px;
+  background: var(--color-primary-soft);
+  color: #d5c8ff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-view.is-active {
+    animation: none;
+  }
+
+  .nav-item {
+    transition: none;
+  }
+}

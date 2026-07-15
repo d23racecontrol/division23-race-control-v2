@@ -7,7 +7,9 @@ Sauberer Neuaufbau der Division 23 Race Control.
 - Grundstruktur erstellt
 - `index.html`, `css/style.css` und `js/app.js` verbunden
 - Responsive Startoberfläche vorhanden
-- Weitere Bereiche sind bewusst noch deaktiviert
+- Navigation zwischen allen Modulen funktioniert ohne Neuladen
+- Aktiver Menüpunkt, Seitentitel und Browser-Titel wechseln automatisch
+- Noch unfertige Module besitzen eigene Platzhalterseiten
 
 ## Projektstruktur
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Division 23 Race Control V2">
-  <title>Division 23 Race Control V2</title>
+  <title>Dashboard | Division 23 Race Control V2</title>
 
   <link rel="stylesheet" href="css/style.css">
   <script src="js/app.js" defer></script>
@@ -20,44 +20,44 @@
         </div>
       </div>
 
-      <nav class="main-nav">
-        <button class="nav-item is-active" type="button" data-page="dashboard">
+      <nav class="main-nav" aria-label="Module">
+        <button class="nav-item is-active" type="button" data-page="dashboard" aria-current="page">
           <span aria-hidden="true">🏁</span>
           <span>Dashboard</span>
         </button>
 
-        <button class="nav-item" type="button" data-page="calendar" disabled>
+        <button class="nav-item" type="button" data-page="calendar">
           <span aria-hidden="true">📅</span>
           <span>Kalender</span>
         </button>
 
-        <button class="nav-item" type="button" data-page="drivers" disabled>
+        <button class="nav-item" type="button" data-page="drivers">
           <span aria-hidden="true">👥</span>
           <span>Fahrer</span>
         </button>
 
-        <button class="nav-item" type="button" data-page="standings" disabled>
+        <button class="nav-item" type="button" data-page="standings">
           <span aria-hidden="true">🏆</span>
           <span>Tabellen</span>
         </button>
 
-        <button class="nav-item" type="button" data-page="statistics" disabled>
+        <button class="nav-item" type="button" data-page="statistics">
           <span aria-hidden="true">📈</span>
           <span>Statistiken</span>
         </button>
 
-        <button class="nav-item" type="button" data-page="penalties" disabled>
+        <button class="nav-item" type="button" data-page="penalties">
           <span aria-hidden="true">⚖️</span>
           <span>Strafen</span>
         </button>
 
-        <button class="nav-item" type="button" data-page="export" disabled>
+        <button class="nav-item" type="button" data-page="export">
           <span aria-hidden="true">📤</span>
           <span>Export</span>
         </button>
       </nav>
 
-      <button class="nav-item settings-link" type="button" data-page="settings" disabled>
+      <button class="nav-item settings-link" type="button" data-page="settings">
         <span aria-hidden="true">⚙️</span>
         <span>Einstellungen</span>
       </button>
@@ -72,59 +72,133 @@
 
         <div class="status-badge" id="appStatus" role="status">
           <span class="status-dot" aria-hidden="true"></span>
-          System bereit
+          <span id="statusText">System bereit</span>
         </div>
       </header>
 
-      <section class="welcome-card" aria-labelledby="welcomeTitle">
-        <div>
-          <p class="eyebrow">Neuanfang ohne Altlasten</p>
-          <h3 id="welcomeTitle">Willkommen in Race Control V2</h3>
-          <p>
-            Das Grundgerüst steht. Ab jetzt bauen wir jede Funktion einzeln,
-            verständlich und sauber voneinander getrennt auf.
-          </p>
-        </div>
+      <div id="pageContainer">
+        <section class="page-view is-active" data-page-content="dashboard" aria-label="Dashboard">
+          <section class="welcome-card" aria-labelledby="welcomeTitle">
+            <div>
+              <p class="eyebrow">Neuanfang ohne Altlasten</p>
+              <h3 id="welcomeTitle">Willkommen in Race Control V2</h3>
+              <p>
+                Das Grundgerüst steht. Ab jetzt bauen wir jede Funktion einzeln,
+                verständlich und sauber voneinander getrennt auf.
+              </p>
+            </div>
 
-        <div class="version-chip">Version 2.0</div>
-      </section>
+            <div class="version-chip">Version 2.1</div>
+          </section>
 
-      <section class="progress-grid" aria-label="Projektstatus">
-        <article class="progress-card is-done">
-          <span class="progress-icon" aria-hidden="true">✓</span>
-          <div>
-            <p>Schritt 1</p>
-            <h3>Grundgerüst</h3>
-            <span>HTML, CSS und JavaScript sind verbunden.</span>
-          </div>
-        </article>
+          <section class="progress-grid" aria-label="Projektstatus">
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
+              <div>
+                <p>Schritt 1</p>
+                <h3>Grundgerüst</h3>
+                <span>HTML, CSS und JavaScript sind verbunden.</span>
+              </div>
+            </article>
 
-        <article class="progress-card">
-          <span class="progress-icon" aria-hidden="true">2</span>
-          <div>
-            <p>Als Nächstes</p>
-            <h3>Navigation</h3>
-            <span>Seitenwechsel ohne Neuladen vorbereiten.</span>
-          </div>
-        </article>
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
+              <div>
+                <p>Schritt 2</p>
+                <h3>Navigation</h3>
+                <span>Alle Module wechseln ohne Neuladen.</span>
+              </div>
+            </article>
 
-        <article class="progress-card">
-          <span class="progress-icon" aria-hidden="true">3</span>
-          <div>
-            <p>Danach</p>
-            <h3>Ligaauswahl</h3>
-            <span>Logo, Farben und Titel dynamisch wechseln.</span>
-          </div>
-        </article>
-      </section>
+            <article class="progress-card">
+              <span class="progress-icon" aria-hidden="true">3</span>
+              <div>
+                <p>Als Nächstes</p>
+                <h3>Ligaauswahl</h3>
+                <span>Logo, Farben und Titel dynamisch wechseln.</span>
+              </div>
+            </article>
+          </section>
 
-      <section class="system-check" aria-labelledby="systemCheckTitle">
-        <div>
-          <p class="eyebrow">Technischer Test</p>
-          <h3 id="systemCheckTitle">Alle Dateien wurden korrekt geladen</h3>
-        </div>
-        <p id="loadMessage">JavaScript wird geprüft …</p>
-      </section>
+          <section class="system-check" aria-labelledby="systemCheckTitle">
+            <div>
+              <p class="eyebrow">Technischer Test</p>
+              <h3 id="systemCheckTitle">Navigation erfolgreich geladen</h3>
+            </div>
+            <p id="loadMessage">JavaScript wird geprüft …</p>
+          </section>
+        </section>
+
+        <section class="page-view" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
+          <article class="module-placeholder">
+            <div class="module-icon" aria-hidden="true">📅</div>
+            <p class="eyebrow">Modul vorbereitet</p>
+            <h3 id="calendarTitle">Kalender</h3>
+            <p>Hier verwalten wir später Renntermine, Strecken, Startzeiten und Saisonpläne.</p>
+            <span class="development-badge">In Vorbereitung</span>
+          </article>
+        </section>
+
+        <section class="page-view" data-page-content="drivers" aria-labelledby="driversTitle" hidden>
+          <article class="module-placeholder">
+            <div class="module-icon" aria-hidden="true">👥</div>
+            <p class="eyebrow">Modul vorbereitet</p>
+            <h3 id="driversTitle">Fahrer</h3>
+            <p>Hier entstehen später Fahrerkader, Stammfahrer, Gaststarter und Fahrerprofile.</p>
+            <span class="development-badge">In Vorbereitung</span>
+          </article>
+        </section>
+
+        <section class="page-view" data-page-content="standings" aria-labelledby="standingsTitle" hidden>
+          <article class="module-placeholder">
+            <div class="module-icon" aria-hidden="true">🏆</div>
+            <p class="eyebrow">Modul vorbereitet</p>
+            <h3 id="standingsTitle">Tabellen</h3>
+            <p>Hier werden später Punkte, Platzierungen und Meisterschaftsstände berechnet.</p>
+            <span class="development-badge">In Vorbereitung</span>
+          </article>
+        </section>
+
+        <section class="page-view" data-page-content="statistics" aria-labelledby="statisticsTitle" hidden>
+          <article class="module-placeholder">
+            <div class="module-icon" aria-hidden="true">📈</div>
+            <p class="eyebrow">Modul vorbereitet</p>
+            <h3 id="statisticsTitle">Statistiken</h3>
+            <p>Hier erscheinen später Siege, Podien, schnellste Runden und Saisonvergleiche.</p>
+            <span class="development-badge">In Vorbereitung</span>
+          </article>
+        </section>
+
+        <section class="page-view" data-page-content="penalties" aria-labelledby="penaltiesTitle" hidden>
+          <article class="module-placeholder">
+            <div class="module-icon" aria-hidden="true">⚖️</div>
+            <p class="eyebrow">Modul vorbereitet</p>
+            <h3 id="penaltiesTitle">Strafen</h3>
+            <p>Hier verwalten wir später Vorfälle, Entscheidungen und Punktabzüge.</p>
+            <span class="development-badge">In Vorbereitung</span>
+          </article>
+        </section>
+
+        <section class="page-view" data-page-content="export" aria-labelledby="exportTitle" hidden>
+          <article class="module-placeholder">
+            <div class="module-icon" aria-hidden="true">📤</div>
+            <p class="eyebrow">Modul vorbereitet</p>
+            <h3 id="exportTitle">Export</h3>
+            <p>Hier werden später Tabellen, Ergebnislisten und fertige Grafiken exportiert.</p>
+            <span class="development-badge">In Vorbereitung</span>
+          </article>
+        </section>
+
+        <section class="page-view" data-page-content="settings" aria-labelledby="settingsTitle" hidden>
+          <article class="module-placeholder">
+            <div class="module-icon" aria-hidden="true">⚙️</div>
+            <p class="eyebrow">Modul vorbereitet</p>
+            <h3 id="settingsTitle">Einstellungen</h3>
+            <p>Hier kommen später Ligaeinstellungen, Datensicherung und persönliche Optionen hinein.</p>
+            <span class="development-badge">In Vorbereitung</span>
+          </article>
+        </section>
+      </div>
     </main>
   </div>
 </body>
