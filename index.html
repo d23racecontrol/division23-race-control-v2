@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Division 23 Race Control V2">
+  <title>Division 23 Race Control V2</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Hauptnavigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">23</div>
+        <div>
+          <p class="brand-kicker">Division 23 United</p>
+          <h1>Race Control <span>V2</span></h1>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <button class="nav-item is-active" type="button" data-page="dashboard">
+          <span aria-hidden="true">🏁</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" type="button" data-page="calendar" disabled>
+          <span aria-hidden="true">📅</span>
+          <span>Kalender</span>
+        </button>
+
+        <button class="nav-item" type="button" data-page="drivers" disabled>
+          <span aria-hidden="true">👥</span>
+          <span>Fahrer</span>
+        </button>
+
+        <button class="nav-item" type="button" data-page="standings" disabled>
+          <span aria-hidden="true">🏆</span>
+          <span>Tabellen</span>
+        </button>
+
+        <button class="nav-item" type="button" data-page="statistics" disabled>
+          <span aria-hidden="true">📈</span>
+          <span>Statistiken</span>
+        </button>
+
+        <button class="nav-item" type="button" data-page="penalties" disabled>
+          <span aria-hidden="true">⚖️</span>
+          <span>Strafen</span>
+        </button>
+
+        <button class="nav-item" type="button" data-page="export" disabled>
+          <span aria-hidden="true">📤</span>
+          <span>Export</span>
+        </button>
+      </nav>
+
+      <button class="nav-item settings-link" type="button" data-page="settings" disabled>
+        <span aria-hidden="true">⚙️</span>
+        <span>Einstellungen</span>
+      </button>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Race Control V2</p>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+
+        <div class="status-badge" id="appStatus" role="status">
+          <span class="status-dot" aria-hidden="true"></span>
+          System bereit
+        </div>
+      </header>
+
+      <section class="welcome-card" aria-labelledby="welcomeTitle">
+        <div>
+          <p class="eyebrow">Neuanfang ohne Altlasten</p>
+          <h3 id="welcomeTitle">Willkommen in Race Control V2</h3>
+          <p>
+            Das Grundgerüst steht. Ab jetzt bauen wir jede Funktion einzeln,
+            verständlich und sauber voneinander getrennt auf.
+          </p>
+        </div>
+
+        <div class="version-chip">Version 2.0</div>
+      </section>
+
+      <section class="progress-grid" aria-label="Projektstatus">
+        <article class="progress-card is-done">
+          <span class="progress-icon" aria-hidden="true">✓</span>
+          <div>
+            <p>Schritt 1</p>
+            <h3>Grundgerüst</h3>
+            <span>HTML, CSS und JavaScript sind verbunden.</span>
+          </div>
+        </article>
+
+        <article class="progress-card">
+          <span class="progress-icon" aria-hidden="true">2</span>
+          <div>
+            <p>Als Nächstes</p>
+            <h3>Navigation</h3>
+            <span>Seitenwechsel ohne Neuladen vorbereiten.</span>
+          </div>
+        </article>
+
+        <article class="progress-card">
+          <span class="progress-icon" aria-hidden="true">3</span>
+          <div>
+            <p>Danach</p>
+            <h3>Ligaauswahl</h3>
+            <span>Logo, Farben und Titel dynamisch wechseln.</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="system-check" aria-labelledby="systemCheckTitle">
+        <div>
+          <p class="eyebrow">Technischer Test</p>
+          <h3 id="systemCheckTitle">Alle Dateien wurden korrekt geladen</h3>
+        </div>
+        <p id="loadMessage">JavaScript wird geprüft …</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
