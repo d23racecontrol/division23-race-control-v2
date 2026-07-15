@@ -2,14 +2,11 @@
 
 /**
  * Division 23 Race Control V2
- * Einstiegspunkt der Anwendung.
- *
- * Diese Datei bleibt bewusst klein. Spätere Fachlogik wird in eigene
- * Module ausgelagert und von hier aus nur noch gestartet.
+ * Schritt 2.1.1 – stabile Navigation mit Cache-Hotfix.
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "2.1.0";
+const APP_VERSION = "2.1.1";
 const DEFAULT_PAGE = "dashboard";
 
 const PAGE_CONFIG = Object.freeze({
@@ -24,13 +21,14 @@ const PAGE_CONFIG = Object.freeze({
 });
 
 function getPageFromUrl() {
-  const pageFromHash = window.location.hash.replace("#", "").trim();
+  const pageFromHash = window.location.hash.slice(1).trim();
   return PAGE_CONFIG[pageFromHash] ? pageFromHash : DEFAULT_PAGE;
 }
 
 function renderPage(pageName) {
   const safePageName = PAGE_CONFIG[pageName] ? pageName : DEFAULT_PAGE;
   const pageConfig = PAGE_CONFIG[safePageName];
+
   const pageTitle = document.getElementById("pageTitle");
   const statusText = document.getElementById("statusText");
   const navItems = document.querySelectorAll("[data-page]");
@@ -67,26 +65,24 @@ function navigateToPage(pageName) {
   const safePageName = PAGE_CONFIG[pageName] ? pageName : DEFAULT_PAGE;
   const nextHash = `#${safePageName}`;
 
-  renderPage(safePageName);
-
-  if (window.location.hash !== nextHash) {
-    window.history.pushState({ page: safePageName }, "", nextHash);
+  if (window.location.hash === nextHash) {
+    renderPage(safePageName);
+  } else {
+    window.location.hash = safePageName;
   }
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function initializeNavigation() {
-  const navItems = document.querySelectorAll("[data-page]");
+  document.addEventListener("click", (event) => {
+    const navItem = event.target.closest("[data-page]");
 
-  navItems.forEach((navItem) => {
-    navItem.addEventListener("click", () => {
-      navigateToPage(navItem.dataset.page);
-    });
-  });
+    if (!navItem) {
+      return;
+    }
 
-  window.addEventListener("popstate", () => {
-    renderPage(getPageFromUrl());
+    navigateToPage(navItem.dataset.page);
   });
 
   window.addEventListener("hashchange", () => {
@@ -108,7 +104,8 @@ function initializeApp() {
   initializeNavigation();
 
   if (loadMessage) {
-    loadMessage.textContent = `Alles funktioniert – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
+    loadMessage.textContent =
+      `Navigation aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
   }
 
   appStatus.setAttribute("title", `${APP_NAME} v${APP_VERSION}`);
