@@ -4,21 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Division 23 Race Control V2">
-  <title>Dashboard | Division 23 Race Control V2</title>
+  <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=2.1.1">
-  <script src="js/app.js?v=2.1.1" defer></script>
+  <link rel="stylesheet" href="css/style.css?v=2.2.0">
+  <script type="module" src="js/app.js?v=2.2.0"></script>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Hauptnavigation">
       <div class="brand">
-        <div class="brand-mark" aria-hidden="true">23</div>
+        <div class="brand-mark" id="leagueLogo" aria-label="Aktives Liga-Logo">
+          <img id="leagueLogoImage" alt="" hidden>
+          <span id="leagueLogoFallback" aria-hidden="true">PG</span>
+        </div>
         <div>
-          <p class="brand-kicker">Division 23 United</p>
-          <h1>Race Control <span>V2</span></h1>
+          <p class="brand-kicker" id="leagueKicker">Division 23 United</p>
+          <h1 id="leagueBrandTitle">Porsche GT Cup <span>V2</span></h1>
         </div>
       </div>
+
+      <section class="league-switcher" aria-labelledby="leagueSwitcherTitle">
+        <label class="league-switcher-label" id="leagueSwitcherTitle" for="leagueSelect">
+          Aktive Liga
+        </label>
+        <div class="league-select-shell">
+          <span class="league-select-badge" id="leagueSelectBadge" aria-hidden="true">PG</span>
+          <div class="league-select-copy">
+            <strong id="activeLeagueShortName">PGTC</strong>
+            <select id="leagueSelect" aria-label="Aktive Liga auswählen">
+              <option value="pgtc">Porsche GT Cup</option>
+              <option value="atm">ATM</option>
+              <option value="whc">World Hypercar Championship</option>
+              <option value="mtc">Mégane Trophy Cup</option>
+              <option value="gt3dl">GT3 Derby League</option>
+            </select>
+          </div>
+          <span class="league-select-chevron" aria-hidden="true">⌄</span>
+        </div>
+      </section>
 
       <nav class="main-nav" aria-label="Module">
         <button class="nav-item is-active" type="button" data-page="dashboard" aria-current="page">
@@ -66,7 +89,7 @@
     <main class="main-content">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Race Control V2</p>
+          <p class="eyebrow" id="activeLeagueEyebrow">PGTC · Race Control V2</p>
           <h2 id="pageTitle">Dashboard</h2>
         </div>
 
@@ -80,15 +103,37 @@
         <section class="page-view is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="welcome-card" aria-labelledby="welcomeTitle">
             <div>
-              <p class="eyebrow">Neuanfang ohne Altlasten</p>
-              <h3 id="welcomeTitle">Willkommen in Race Control V2</h3>
-              <p>
-                Das Grundgerüst steht. Ab jetzt bauen wir jede Funktion einzeln,
-                verständlich und sauber voneinander getrennt auf.
+              <p class="eyebrow">Aktive Liga</p>
+              <h3 id="welcomeTitle">Porsche GT Cup</h3>
+              <p id="leagueDescription">
+                Die Testliga für den Aufbau von Race Control V2. Alle späteren Module greifen gezielt auf diese Liga zu.
               </p>
             </div>
 
-            <div class="version-chip">Version 2.1.1</div>
+            <div class="version-chip" id="dashboardLeagueChip">PGTC</div>
+          </section>
+
+          <section class="league-summary-grid" aria-label="Aktives Ligaprofil">
+            <article class="league-summary-card">
+              <p class="eyebrow">Ligaprofil</p>
+              <h3 id="leagueSummaryName">Porsche GT Cup</h3>
+              <span id="leagueSummaryKicker">Powered by Division 23</span>
+            </article>
+
+            <article class="league-summary-card">
+              <p class="eyebrow">Design</p>
+              <div class="theme-preview" aria-label="Aktuelle Ligafarben">
+                <span class="theme-swatch theme-swatch-primary" title="Primärfarbe"></span>
+                <span class="theme-swatch theme-swatch-accent" title="Akzentfarbe"></span>
+                <strong id="themeLabel">Rot · Gold</strong>
+              </div>
+            </article>
+
+            <article class="league-summary-card">
+              <p class="eyebrow">Auswahl</p>
+              <h3>Automatisch gespeichert</h3>
+              <span>Beim nächsten Öffnen bleibt die zuletzt gewählte Liga aktiv.</span>
+            </article>
           </section>
 
           <section class="progress-grid" aria-label="Projektstatus">
@@ -110,12 +155,12 @@
               </div>
             </article>
 
-            <article class="progress-card">
-              <span class="progress-icon" aria-hidden="true">3</span>
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
               <div>
-                <p>Als Nächstes</p>
+                <p>Schritt 3</p>
                 <h3>Ligaauswahl</h3>
-                <span>Logo, Farben und Titel dynamisch wechseln.</span>
+                <span>Name, Logo-Platzhalter und Farben wechseln dynamisch.</span>
               </div>
             </article>
           </section>
@@ -123,7 +168,7 @@
           <section class="system-check" aria-labelledby="systemCheckTitle">
             <div>
               <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Navigation erfolgreich geladen</h3>
+              <h3 id="systemCheckTitle">Ligaauswahl erfolgreich geladen</h3>
             </div>
             <p id="loadMessage">JavaScript wird geprüft …</p>
           </section>
@@ -134,7 +179,7 @@
             <div class="module-icon" aria-hidden="true">📅</div>
             <p class="eyebrow">Modul vorbereitet</p>
             <h3 id="calendarTitle">Kalender</h3>
-            <p>Hier verwalten wir später Renntermine, Strecken, Startzeiten und Saisonpläne.</p>
+            <p>Hier verwalten wir später Renntermine, Strecken, Startzeiten und Saisonpläne für <strong data-active-league-name>Porsche GT Cup</strong>.</p>
             <span class="development-badge">In Vorbereitung</span>
           </article>
         </section>
@@ -144,8 +189,8 @@
             <div class="module-icon" aria-hidden="true">👥</div>
             <p class="eyebrow">Modul vorbereitet</p>
             <h3 id="driversTitle">Fahrer</h3>
-            <p>Hier entstehen später Fahrerkader, Stammfahrer, Gaststarter und Fahrerprofile.</p>
-            <span class="development-badge">In Vorbereitung</span>
+            <p>Hier entstehen später Fahrerkader, Stammfahrer, Gaststarter und Fahrerprofile für <strong data-active-league-name>Porsche GT Cup</strong>.</p>
+            <span class="development-badge">Als Nächstes</span>
           </article>
         </section>
 
@@ -154,7 +199,7 @@
             <div class="module-icon" aria-hidden="true">🏆</div>
             <p class="eyebrow">Modul vorbereitet</p>
             <h3 id="standingsTitle">Tabellen</h3>
-            <p>Hier werden später Punkte, Platzierungen und Meisterschaftsstände berechnet.</p>
+            <p>Hier werden später Punkte, Platzierungen und Meisterschaftsstände für <strong data-active-league-name>Porsche GT Cup</strong> berechnet.</p>
             <span class="development-badge">In Vorbereitung</span>
           </article>
         </section>
@@ -164,7 +209,7 @@
             <div class="module-icon" aria-hidden="true">📈</div>
             <p class="eyebrow">Modul vorbereitet</p>
             <h3 id="statisticsTitle">Statistiken</h3>
-            <p>Hier erscheinen später Siege, Podien, schnellste Runden und Saisonvergleiche.</p>
+            <p>Hier erscheinen später Siege, Podien, schnellste Runden und Saisonvergleiche für <strong data-active-league-name>Porsche GT Cup</strong>.</p>
             <span class="development-badge">In Vorbereitung</span>
           </article>
         </section>
@@ -174,7 +219,7 @@
             <div class="module-icon" aria-hidden="true">⚖️</div>
             <p class="eyebrow">Modul vorbereitet</p>
             <h3 id="penaltiesTitle">Strafen</h3>
-            <p>Hier verwalten wir später Vorfälle, Entscheidungen und Punktabzüge.</p>
+            <p>Hier verwalten wir später Vorfälle, Entscheidungen und Punktabzüge für <strong data-active-league-name>Porsche GT Cup</strong>.</p>
             <span class="development-badge">In Vorbereitung</span>
           </article>
         </section>
@@ -184,7 +229,7 @@
             <div class="module-icon" aria-hidden="true">📤</div>
             <p class="eyebrow">Modul vorbereitet</p>
             <h3 id="exportTitle">Export</h3>
-            <p>Hier werden später Tabellen, Ergebnislisten und fertige Grafiken exportiert.</p>
+            <p>Hier werden später Tabellen, Ergebnislisten und fertige Grafiken für <strong data-active-league-name>Porsche GT Cup</strong> exportiert.</p>
             <span class="development-badge">In Vorbereitung</span>
           </article>
         </section>

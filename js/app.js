@@ -1,18 +1,31 @@
 "use strict";
 
+import {
+  DEFAULT_LEAGUE_ID,
+  getLeague,
+  isValidLeagueId
+} from "./leagues.js?v=2.2.0";
+import {
+  readStoredValue,
+  writeStoredValue
+} from "./storage.js?v=2.2.0";
+
 /**
  * Division 23 Race Control V2
- * Schritt 2.1.1 – stabile Navigation mit Cache-Hotfix.
+ * Einstiegspunkt der Anwendung.
+ *
+ * Navigation, Liga-Konfiguration und Speicherung sind bewusst getrennt.
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "2.1.1";
+const APP_VERSION = "2.2.0";
 const DEFAULT_PAGE = "dashboard";
+const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 
 const PAGE_CONFIG = Object.freeze({
   dashboard: { title: "Dashboard", status: "System bereit" },
   calendar: { title: "Kalender", status: "Modul vorbereitet" },
-  drivers: { title: "Fahrer", status: "Modul vorbereitet" },
+  drivers: { title: "Fahrer", status: "Als Nächstes" },
   standings: { title: "Tabellen", status: "Modul vorbereitet" },
   statistics: { title: "Statistiken", status: "Modul vorbereitet" },
   penalties: { title: "Strafen", status: "Modul vorbereitet" },
@@ -20,15 +33,26 @@ const PAGE_CONFIG = Object.freeze({
   settings: { title: "Einstellungen", status: "Modul vorbereitet" }
 });
 
+let activeLeagueId = DEFAULT_LEAGUE_ID;
+
 function getPageFromUrl() {
   const pageFromHash = window.location.hash.slice(1).trim();
   return PAGE_CONFIG[pageFromHash] ? pageFromHash : DEFAULT_PAGE;
 }
 
+function getActiveLeague() {
+  return getLeague(activeLeagueId);
+}
+
+function updateDocumentTitle(pageName) {
+  const pageConfig = PAGE_CONFIG[pageName] ?? PAGE_CONFIG[DEFAULT_PAGE];
+  const league = getActiveLeague();
+  document.title = `${pageConfig.title} | ${league.shortName} | ${APP_NAME}`;
+}
+
 function renderPage(pageName) {
   const safePageName = PAGE_CONFIG[pageName] ? pageName : DEFAULT_PAGE;
   const pageConfig = PAGE_CONFIG[safePageName];
-
   const pageTitle = document.getElementById("pageTitle");
   const statusText = document.getElementById("statusText");
   const navItems = document.querySelectorAll("[data-page]");
@@ -58,7 +82,7 @@ function renderPage(pageName) {
 
   pageTitle.textContent = pageConfig.title;
   statusText.textContent = pageConfig.status;
-  document.title = `${pageConfig.title} | ${APP_NAME}`;
+  updateDocumentTitle(safePageName);
 }
 
 function navigateToPage(pageName) {
@@ -92,6 +116,106 @@ function initializeNavigation() {
   renderPage(getPageFromUrl());
 }
 
+function updateLeagueLogo(league) {
+  const logoContainer = document.getElementById("leagueLogo");
+  const logoImage = document.getElementById("leagueLogoImage");
+  const logoFallback = document.getElementById("leagueLogoFallback");
+
+  if (!logoContainer || !logoImage || !logoFallback) {
+    return;
+  }
+
+  logoContainer.setAttribute("aria-label", `${league.name} Logo`);
+  logoFallback.textContent = league.logoText;
+  logoFallback.hidden = false;
+  logoImage.hidden = true;
+  logoImage.alt = `${league.name} Logo`;
+
+  logoImage.onload = () => {
+    logoImage.hidden = false;
+    logoFallback.hidden = true;
+  };
+
+  logoImage.onerror = () => {
+    logoImage.hidden = true;
+    logoFallback.hidden = false;
+  };
+
+  logoImage.src = `${league.logoPath}?v=${APP_VERSION}`;
+}
+
+function applyLeagueTheme(leagueId, { persist = true } = {}) {
+  const league = getLeague(leagueId);
+  activeLeagueId = league.id;
+
+  const root = document.documentElement;
+  root.style.setProperty("--color-primary", league.colors.primary);
+  root.style.setProperty("--color-primary-rgb", league.colors.primaryRgb);
+  root.style.setProperty("--color-accent", league.colors.accent);
+  root.style.setProperty("--color-accent-rgb", league.colors.accentRgb);
+  document.body.dataset.league = league.id;
+
+  const leagueSelect = document.getElementById("leagueSelect");
+  const leagueSelectBadge = document.getElementById("leagueSelectBadge");
+  const activeLeagueShortName = document.getElementById("activeLeagueShortName");
+  const leagueKicker = document.getElementById("leagueKicker");
+  const leagueBrandTitle = document.getElementById("leagueBrandTitle");
+  const activeLeagueEyebrow = document.getElementById("activeLeagueEyebrow");
+  const welcomeTitle = document.getElementById("welcomeTitle");
+  const leagueDescription = document.getElementById("leagueDescription");
+  const dashboardLeagueChip = document.getElementById("dashboardLeagueChip");
+  const leagueSummaryName = document.getElementById("leagueSummaryName");
+  const leagueSummaryKicker = document.getElementById("leagueSummaryKicker");
+  const themeLabel = document.getElementById("themeLabel");
+
+  if (leagueSelect) leagueSelect.value = league.id;
+  if (leagueSelectBadge) leagueSelectBadge.textContent = league.logoText;
+  if (activeLeagueShortName) activeLeagueShortName.textContent = league.shortName;
+  if (leagueKicker) leagueKicker.textContent = league.kicker;
+  if (leagueBrandTitle) leagueBrandTitle.innerHTML = `${league.name} <span>V2</span>`;
+  if (activeLeagueEyebrow) activeLeagueEyebrow.textContent = `${league.shortName} · Race Control V2`;
+  if (welcomeTitle) welcomeTitle.textContent = league.name;
+  if (leagueDescription) leagueDescription.textContent = league.description;
+  if (dashboardLeagueChip) dashboardLeagueChip.textContent = league.shortName;
+  if (leagueSummaryName) leagueSummaryName.textContent = league.name;
+  if (leagueSummaryKicker) leagueSummaryKicker.textContent = league.kicker;
+  if (themeLabel) themeLabel.textContent = league.themeLabel;
+
+  document.querySelectorAll("[data-active-league-name]").forEach((element) => {
+    element.textContent = league.name;
+  });
+
+  updateLeagueLogo(league);
+  updateDocumentTitle(getPageFromUrl());
+
+  if (persist) {
+    writeStoredValue(ACTIVE_LEAGUE_STORAGE_KEY, league.id);
+  }
+}
+
+function initializeLeagueSelection() {
+  const storedLeagueId = readStoredValue(
+    ACTIVE_LEAGUE_STORAGE_KEY,
+    DEFAULT_LEAGUE_ID
+  );
+  const initialLeagueId = isValidLeagueId(storedLeagueId)
+    ? storedLeagueId
+    : DEFAULT_LEAGUE_ID;
+
+  applyLeagueTheme(initialLeagueId, { persist: false });
+
+  const leagueSelect = document.getElementById("leagueSelect");
+
+  if (!leagueSelect) {
+    console.error(`${APP_NAME}: Die Ligaauswahl wurde nicht gefunden.`);
+    return;
+  }
+
+  leagueSelect.addEventListener("change", (event) => {
+    applyLeagueTheme(event.target.value);
+  });
+}
+
 function initializeApp() {
   const loadMessage = document.getElementById("loadMessage");
   const appStatus = document.getElementById("appStatus");
@@ -101,11 +225,12 @@ function initializeApp() {
     return;
   }
 
+  initializeLeagueSelection();
   initializeNavigation();
 
   if (loadMessage) {
     loadMessage.textContent =
-      `Navigation aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
+      `Navigation und Ligaauswahl aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
   }
 
   appStatus.setAttribute("title", `${APP_NAME} v${APP_VERSION}`);
