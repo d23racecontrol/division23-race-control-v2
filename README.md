@@ -1,39 +1,34 @@
-# Division 23 Race Control V2 – Schritt 18: Datensicherung & Export
+# Division 23 Race Control V2 – Schritt 19: Dashboard
 
-Version: 3.7.0
+Version: 3.8.0
 
-## Neue Funktionen
+Dieser Schritt füllt ausschließlich den Reiter **Dashboard**.
+Der Reiter **Kalender bleibt unverändert** und wird erst im nächsten,
+eigenständigen Schritt gebaut.
 
-### Liga-Backup als JSON
-Sichert für die aktuell ausgewählte Liga:
-- Fahrer
+## Dashboard-Inhalte pro Liga
+
+- echtes Liga-Logo, Name und Ligadesign
+- aktive Fahrer und Stammfahrerzahl
+- angelegte Renntermine
+- gespeicherte Ergebnisbögen
+- offene Strafakten
+- nächstes zukünftiges Rennen
+- Top 3 der Meisterschaft
+- bei WHC auswählbar:
+  - Liga 1
+  - Liga 2
+  - Herstellerwertung
+- letztes gespeichertes Rennergebnis
+- offene Fälle der Rennkommission
+- Schnellzugriffe zu Fahrer, Rennen, Ergebnissen und Export
+
+Alle Werte aktualisieren sich direkt nach Änderungen an:
+- Fahrern
 - Rennen
-- Ergebnisbögen
-- Strafakten
-
-### Gesamtsicherung
-Sichert alle sieben Ligen in einer einzigen JSON-Datei.
-
-### Backup wiederherstellen
-- Datei wird vor dem Import geprüft
-- Vorschau mit Datenmengen je Liga
-- erst nach Bestätigung werden Daten ersetzt
-- eine Liga-Sicherung ersetzt nur diese eine Liga
-- eine Gesamtsicherung ersetzt alle sieben Ligen
-- nicht betroffene Ligen bleiben unverändert
-
-### Tabellen als CSV
-- Excel-freundliches Semikolon-Format
-- UTF-8 mit BOM für Umlaute
-- Fahrerwertungen
-- WHC Liga 1 und Liga 2
-- WHC Herstellerwertung
-- Saisonbonus und Punktstrafen werden mit exportiert
-
-## Sicherheit
-
-Backups enthalten Ligadaten im Klartext. Sie sollten sicher aufbewahrt und
-nicht öffentlich geteilt werden.
+- Ergebnissen
+- Strafen
+- importierten Backups
 
 ## GitHub-Upload
 
@@ -44,17 +39,16 @@ Hochladen:
 - `README.md`
 
 Commit:
-`Schritt 18 Datensicherung und Export hinzugefügt`
+`Schritt 19 Liga-Dashboard hinzugefügt`
 
 ## Test
 
-1. Aktive Liga mit Fahrern, Rennen, Ergebnissen und einer Strafakte auswählen.
-2. **Liga-Backup herunterladen**.
-3. **Tabelle als CSV herunterladen** und öffnen.
-4. Einen Testfahrer löschen.
-5. Die eben erstellte JSON-Datei auswählen.
-6. Vorschau prüfen und Sicherung einspielen.
-7. Der gelöschte Fahrer muss wieder vorhanden sein.
-8. Zu einer anderen Liga wechseln; deren Daten dürfen durch ein Einzelbackup
-   nicht verändert worden sein.
-9. Optional eine Gesamtsicherung herunterladen.
+1. Eine Liga mit vorhandenen Daten auswählen.
+2. Dashboard öffnen.
+3. Fahrerzahl, Rennen, Ergebnisanzahl und offene Strafen prüfen.
+4. Das nächste zukünftige Rennen muss erscheinen.
+5. Die Top 3 müssen mit der Meisterschaftstabelle übereinstimmen.
+6. Einen Fahrer oder ein Rennen ändern und zum Dashboard zurückkehren.
+7. Die Angaben müssen direkt aktualisiert sein.
+8. WHC auswählen und zwischen Liga 1, Liga 2 und Herstellerwertung wechseln.
+9. Kalender öffnen: Er muss weiterhin der bisherige Platzhalter sein.

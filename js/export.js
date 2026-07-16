@@ -4,20 +4,20 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=3.7.0";
-import { getDriversForLeague } from "./drivers.js?v=3.7.0";
-import { getRacesForLeague } from "./races.js?v=3.7.0";
-import { getResultsForLeague } from "./results.js?v=3.7.0";
-import { getPenaltiesForLeague } from "./penalties.js?v=3.7.0";
+} from "./leagues.js?v=3.8.0";
+import { getDriversForLeague } from "./drivers.js?v=3.8.0";
+import { getRacesForLeague } from "./races.js?v=3.8.0";
+import { getResultsForLeague } from "./results.js?v=3.8.0";
+import { getPenaltiesForLeague } from "./penalties.js?v=3.8.0";
 import {
   getStandingsExportSnapshot,
   getStandingsExportViews
-} from "./standings.js?v=3.7.0";
-import { writeStoredJson } from "./storage.js?v=3.7.0";
+} from "./standings.js?v=3.8.0";
+import { writeStoredJson } from "./storage.js?v=3.8.0";
 
 const BACKUP_SCHEMA = "division23-race-control-v2-backup";
 const BACKUP_SCHEMA_VERSION = 1;
-const APP_VERSION = "3.7.0";
+const APP_VERSION = "3.8.0";
 const MAX_BACKUP_FILE_SIZE = 25 * 1024 * 1024;
 
 let activeLeagueId = "pgtc";

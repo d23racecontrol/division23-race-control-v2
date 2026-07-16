@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=3.7.1">
-  <script type="module" src="js/app.js?v=3.7.1"></script>
+  <link rel="stylesheet" href="css/style.css?v=3.8.0">
+  <script type="module" src="js/app.js?v=3.8.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -108,140 +108,119 @@
       </header>
 
       <div id="pageContainer">
-        <section class="page-view is-active" data-page-content="dashboard" aria-label="Dashboard">
-          <section class="welcome-card" aria-labelledby="welcomeTitle">
-            <div>
-              <p class="eyebrow">Aktive Liga</p>
-              <h3 id="welcomeTitle">Porsche GT Cup</h3>
-              <p id="leagueDescription">
-                Die Testliga für den Aufbau von Race Control V2. Alle späteren Module greifen gezielt auf diese Liga zu.
-              </p>
+        <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
+          <section class="dashboard-hero">
+            <div class="dashboard-hero-logo" aria-hidden="true">
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=3.8.0" alt="" hidden>
+              <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
-            <div class="version-chip" id="dashboardLeagueChip">PGTC</div>
-          </section>
-
-          <section class="league-summary-grid" aria-label="Aktives Ligaprofil">
-            <article class="league-summary-card">
-              <p class="eyebrow">Ligaprofil</p>
-              <h3 id="leagueSummaryName">Porsche GT Cup</h3>
-              <span id="leagueSummaryKicker">Powered by Division 23</span>
-            </article>
-
-            <article class="league-summary-card">
-              <p class="eyebrow">Design</p>
-              <div class="theme-preview" aria-label="Aktuelle Ligafarben">
-                <span class="theme-swatch theme-swatch-primary" title="Primärfarbe"></span>
-                <span class="theme-swatch theme-swatch-accent" title="Akzentfarbe"></span>
-                <strong id="themeLabel">Rot · Gold</strong>
-              </div>
-            </article>
-
-            <article class="league-summary-card">
-              <p class="eyebrow">Auswahl</p>
-              <h3>Automatisch gespeichert</h3>
-              <span>Beim nächsten Öffnen bleibt die zuletzt gewählte Liga aktiv.</span>
-            </article>
-          </section>
-
-          <section class="progress-grid" aria-label="Projektstatus">
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 1</p>
-                <h3>Grundgerüst</h3>
-                <span>HTML, CSS und JavaScript sind verbunden.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 2</p>
-                <h3>Navigation</h3>
-                <span>Alle Module wechseln ohne Neuladen.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 3</p>
-                <h3>Ligaauswahl</h3>
-                <span>Name, echte Liga-Logos und Farben wechseln dynamisch.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 4</p>
-                <h3>Fahrerverwaltung</h3>
-                <span>Fahrerkader werden pro Liga getrennt gespeichert.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Phase 3</p>
-                <h3>Rennerfassung</h3>
-                <span>Rennen, Termine und Starterfelder werden pro Liga verwaltet.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 8</p>
-                <h3>Rennergebnisse</h3>
-                <span>Platzierungen, Status, Gaststarter, FL und Pole werden erfasst.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 9</p>
-                <h3>PGTC-Tabelle</h3>
-                <span>Punkte und Tie-Breaker werden automatisch berechnet.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 10</p>
-                <h3>ATM-Tabelle</h3>
-                <span>Qualifying, Hauptrennen und ATM-Punkte werden automatisch gewertet.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 11</p>
-                <h3>WHC-Wertungen</h3>
-                <span>Liga 1, Liga 2 und gemeinsame Herstellerwertung sind eingerichtet.</span>
-              </div>
-            </article>
-
-            <article class="progress-card is-done">
-              <span class="progress-icon" aria-hidden="true">✓</span>
-              <div>
-                <p>Schritt 16</p>
-                <h3>Statistiken</h3>
-                <span>Siege, Podien, Pole, FL, Starts, Ausfälle und Punkte werden automatisch ausgewertet.</span>
-              </div>
-            </article>
-          </section>
-
-          <section class="system-check" aria-labelledby="systemCheckTitle">
-            <div>
-              <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Fahrer-, Renn-, Ergebnis-, Tabellen-, Statistik-, Strafen- und Exportmodule erfolgreich geladen</h3>
+            <div class="dashboard-hero-content">
+              <p class="eyebrow">Aktive Liga · Live-Übersicht</p>
+              <h3 id="dashboardLeagueName">Porsche GT Cup</h3>
+              <p id="dashboardLeagueDescription">Alle wichtigen Daten der ausgewählten Liga auf einen Blick.</p>
             </div>
-            <p id="loadMessage">JavaScript wird geprüft …</p>
+
+            <div class="dashboard-league-code" id="dashboardLeagueCode">PGTC</div>
+          </section>
+
+          <section class="dashboard-summary-grid" aria-label="Ligastatus">
+            <article>
+              <span>Aktive Fahrer</span>
+              <strong id="dashboardDriverCount">0</strong>
+              <small id="dashboardDriverDetail">0 Stammfahrer</small>
+            </article>
+            <article>
+              <span>Renntermine</span>
+              <strong id="dashboardRaceCount">0</strong>
+              <small id="dashboardRaceDetail">0 mit Ergebnis</small>
+            </article>
+            <article>
+              <span>Ergebnisbögen</span>
+              <strong id="dashboardResultCount">0</strong>
+              <small id="dashboardResultDetail">0 Renntermine ausgewertet</small>
+            </article>
+            <article>
+              <span>Offene Strafen</span>
+              <strong id="dashboardPenaltyCount">0</strong>
+              <small id="dashboardPenaltyDetail">0 offene Entscheidungen</small>
+            </article>
+          </section>
+
+          <section class="dashboard-primary-grid">
+            <article class="dashboard-panel dashboard-next-race-panel">
+              <header class="dashboard-panel-header">
+                <div>
+                  <p class="eyebrow">Als Nächstes</p>
+                  <h3>Nächstes Rennen</h3>
+                </div>
+                <button class="dashboard-text-button" type="button" data-page="races">Rennplanung öffnen →</button>
+              </header>
+
+              <div id="dashboardNextRaceContent"></div>
+            </article>
+
+            <article class="dashboard-panel dashboard-standings-panel">
+              <header class="dashboard-panel-header">
+                <div>
+                  <p class="eyebrow">Meisterschaft</p>
+                  <h3 id="dashboardStandingLabel">Fahrerwertung</h3>
+                </div>
+
+                <label class="dashboard-view-field" id="dashboardStandingViewField" for="dashboardStandingView" hidden>
+                  <span>Wertung</span>
+                  <select id="dashboardStandingView"></select>
+                </label>
+              </header>
+
+              <div class="dashboard-leader-rows" id="dashboardLeaderRows"></div>
+
+              <button class="dashboard-text-button dashboard-panel-link" type="button" data-page="standings">
+                Komplette Tabelle öffnen →
+              </button>
+            </article>
+          </section>
+
+          <section class="dashboard-secondary-grid">
+            <article class="dashboard-panel">
+              <header class="dashboard-panel-header">
+                <div>
+                  <p class="eyebrow">Zuletzt ausgewertet</p>
+                  <h3 id="dashboardLastResultHeading">Letztes Ergebnis</h3>
+                  <span id="dashboardLastResultMeta">Noch kein Ergebnis gespeichert</span>
+                </div>
+                <button class="dashboard-text-button" type="button" data-page="results">Ergebnisse öffnen →</button>
+              </header>
+
+              <div class="dashboard-result-rows" id="dashboardLastResultRows"></div>
+            </article>
+
+            <article class="dashboard-panel">
+              <header class="dashboard-panel-header">
+                <div>
+                  <p class="eyebrow">Rennkommission</p>
+                  <h3>Offene Strafakten</h3>
+                  <span id="dashboardOpenPenaltyLabel">0 offene Fälle</span>
+                </div>
+                <button class="dashboard-text-button" type="button" data-page="penalties">Strafen öffnen →</button>
+              </header>
+
+              <div class="dashboard-penalty-rows" id="dashboardPenaltyRows"></div>
+            </article>
+          </section>
+
+          <section class="dashboard-quick-actions" aria-label="Schnellzugriffe">
+            <div>
+              <p class="eyebrow">Schnellzugriffe</p>
+              <h3>Was möchtest du als Nächstes machen?</h3>
+            </div>
+
+            <div class="dashboard-action-buttons">
+              <button type="button" data-page="drivers"><span>👥</span> Fahrer verwalten</button>
+              <button type="button" data-page="races"><span>🏎️</span> Rennen planen</button>
+              <button type="button" data-page="results"><span>🏁</span> Ergebnis erfassen</button>
+              <button type="button" data-page="export"><span>💾</span> Daten sichern</button>
+            </div>
           </section>
         </section>
 

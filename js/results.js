@@ -1,18 +1,18 @@
 "use strict";
 
-import { DEFAULT_RESULTS as PGTC_DEFAULT_RESULTS } from "../data/pgtc/results.js?v=3.7.0";
-import { DEFAULT_RESULTS as ATM_DEFAULT_RESULTS } from "../data/atm/results.js?v=3.7.0";
-import { DEFAULT_RESULTS as WHC_DEFAULT_RESULTS } from "../data/whc/results.js?v=3.7.0";
-import { DEFAULT_RESULTS as MTC_DEFAULT_RESULTS } from "../data/mtc/results.js?v=3.7.0";
-import { DEFAULT_RESULTS as GT3DL_DEFAULT_RESULTS } from "../data/gt3dl/results.js?v=3.7.0";
-import { DEFAULT_RESULTS as MOM_DEFAULT_RESULTS } from "../data/mom/results.js?v=3.7.0";
-import { DEFAULT_RESULTS as TWINGO_RUSH_DEFAULT_RESULTS } from "../data/twingo-rush/results.js?v=3.7.0";
-import { getDriversForLeague } from "./drivers.js?v=3.7.0";
-import { getRacesForLeague } from "./races.js?v=3.7.0";
+import { DEFAULT_RESULTS as PGTC_DEFAULT_RESULTS } from "../data/pgtc/results.js?v=3.8.0";
+import { DEFAULT_RESULTS as ATM_DEFAULT_RESULTS } from "../data/atm/results.js?v=3.8.0";
+import { DEFAULT_RESULTS as WHC_DEFAULT_RESULTS } from "../data/whc/results.js?v=3.8.0";
+import { DEFAULT_RESULTS as MTC_DEFAULT_RESULTS } from "../data/mtc/results.js?v=3.8.0";
+import { DEFAULT_RESULTS as GT3DL_DEFAULT_RESULTS } from "../data/gt3dl/results.js?v=3.8.0";
+import { DEFAULT_RESULTS as MOM_DEFAULT_RESULTS } from "../data/mom/results.js?v=3.8.0";
+import { DEFAULT_RESULTS as TWINGO_RUSH_DEFAULT_RESULTS } from "../data/twingo-rush/results.js?v=3.8.0";
+import { getDriversForLeague } from "./drivers.js?v=3.8.0";
+import { getRacesForLeague } from "./races.js?v=3.8.0";
 import {
   readStoredJson,
   writeStoredJson
-} from "./storage.js?v=3.7.0";
+} from "./storage.js?v=3.8.0";
 
 const RESULT_STORAGE_PREFIX = "results_";
 

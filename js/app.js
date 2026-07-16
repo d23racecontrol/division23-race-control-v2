@@ -5,46 +5,51 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=3.7.1";
+} from "./leagues.js?v=3.8.0";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=3.7.1";
+} from "./storage.js?v=3.8.0";
 import {
   initializeDriversModule,
   renderDriversForLeague,
   setDriversLeague
-} from "./drivers.js?v=3.7.1";
+} from "./drivers.js?v=3.8.0";
 import {
   initializeRacesModule,
   renderRacesForLeague,
   setRacesLeague
-} from "./races.js?v=3.7.1";
+} from "./races.js?v=3.8.0";
 import {
   initializeResultsModule,
   renderResultsForLeague,
   setResultsLeague
-} from "./results.js?v=3.7.1";
+} from "./results.js?v=3.8.0";
 import {
   initializeStandingsModule,
   renderStandingsForLeague,
   setStandingsLeague
-} from "./standings.js?v=3.7.1";
+} from "./standings.js?v=3.8.0";
 import {
   initializeStatisticsModule,
   renderStatisticsForLeague,
   setStatisticsLeague
-} from "./statistics.js?v=3.7.1";
+} from "./statistics.js?v=3.8.0";
 import {
   initializePenaltiesModule,
   renderPenaltiesForLeague,
   setPenaltiesLeague
-} from "./penalties.js?v=3.7.1";
+} from "./penalties.js?v=3.8.0";
 import {
   initializeExportModule,
   renderExportForLeague,
   setExportLeague
-} from "./export.js?v=3.7.1";
+} from "./export.js?v=3.8.0";
+import {
+  initializeDashboardModule,
+  renderDashboardForLeague,
+  setDashboardLeague
+} from "./dashboard.js?v=3.8.0";
 
 /**
  * Division 23 Race Control V2
@@ -54,12 +59,12 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "3.7.1";
+const APP_VERSION = "3.8.0";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 
 const PAGE_CONFIG = Object.freeze({
-  dashboard: { title: "Dashboard", status: "System bereit" },
+  dashboard: { title: "Dashboard", status: "Ligaübersicht aktiv" },
   calendar: { title: "Kalender", status: "Modul vorbereitet" },
   drivers: { title: "Fahrer", status: "Fahrerverwaltung aktiv" },
   races: { title: "Rennen", status: "Rennplanung aktiv" },
@@ -119,6 +124,10 @@ function renderPage(pageName) {
 
   pageTitle.textContent = pageConfig.title;
   statusText.textContent = pageConfig.status;
+
+  if (safePageName === "dashboard") {
+    renderDashboardForLeague(activeLeagueId);
+  }
 
   if (safePageName === "drivers") {
     renderDriversForLeague(activeLeagueId);
@@ -259,6 +268,7 @@ function applyLeagueTheme(leagueId, { persist = true } = {}) {
   setStatisticsLeague(league.id);
   setPenaltiesLeague(league.id);
   setExportLeague(league.id);
+  setDashboardLeague(league.id);
   updateDocumentTitle(getPageFromUrl());
 
   if (persist) {
@@ -330,6 +340,7 @@ function initializeApp() {
   initializeStatisticsModule(activeLeagueId);
   initializePenaltiesModule(activeLeagueId);
   initializeExportModule(activeLeagueId);
+  initializeDashboardModule(activeLeagueId);
   initializeNavigation();
 
   window.addEventListener("d23:backup-imported", () => {
@@ -339,7 +350,7 @@ function initializeApp() {
 
   if (loadMessage) {
     loadMessage.textContent =
-      `Navigation, Liga-, Fahrer-, Renn-, Ergebnis-, Tabellen-, Statistik-, Strafen- und Exportmodule aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
+      `Dashboard, Navigation, Liga-, Fahrer-, Renn-, Ergebnis-, Tabellen-, Statistik-, Strafen- und Exportmodule aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
   }
 
   appStatus.setAttribute("title", `${APP_NAME} v${APP_VERSION}`);
