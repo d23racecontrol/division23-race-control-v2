@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>D23 Broadcast Control</title>
+  <link rel="stylesheet" href="broadcast.css">
+</head>
+<body class="control-page">
+  <header class="control-header">
+    <div>
+      <span class="eyebrow">DIVISION 23 UNITED</span>
+      <h1>Broadcast Control</h1>
+    </div>
+    <span id="connectionState" class="status">BEREIT</span>
+  </header>
+
+  <main class="control-grid">
+    <section class="panel">
+      <h2>Sendebug</h2>
+      <label>Ligabezeichnung<input id="leagueInput" value="DIVISION 23 UNITED"></label>
+      <label>Renninformation<input id="raceInput" value="RACE CONTROL"></label>
+      <label>Akzentfarbe<input id="accentInput" type="color" value="#e31b23"></label>
+      <div class="button-row">
+        <button data-action="updateBug">Aktualisieren</button>
+        <button class="secondary" data-action="toggleBug">Ein-/Ausblenden</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Race-Control-Meldung</h2>
+      <label>Kategorie
+        <select id="messageLabelInput">
+          <option>RACE CONTROL</option>
+          <option>FASTEST LAP</option>
+          <option>STARTING GRID</option>
+          <option>RESULT</option>
+          <option>NEXT RACE</option>
+          <option>INFORMATION</option>
+        </select>
+      </label>
+      <label>Überschrift<input id="messageTitleInput" value="Willkommen im Stream"></label>
+      <label>Zusatztext<input id="messageTextInput" value="Division 23 United"></label>
+      <label>Anzeigedauer
+        <select id="durationInput">
+          <option value="0">Bis zum Ausblenden</option>
+          <option value="5000">5 Sekunden</option>
+          <option value="8000" selected>8 Sekunden</option>
+          <option value="12000">12 Sekunden</option>
+          <option value="15000">15 Sekunden</option>
+        </select>
+      </label>
+      <div class="button-row">
+        <button data-action="showMessage">Einblenden</button>
+        <button class="secondary" data-action="hideMessage">Ausblenden</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Fahrerkarte</h2>
+      <label>Position<input id="driverPositionInput" value="P1"></label>
+      <label>Fahrername<input id="driverNameInput" value="Ashes_-2-_Glory"></label>
+      <label>Team / Information<input id="driverDetailInput" value="Division 23 eSport"></label>
+      <div class="button-row">
+        <button data-action="showDriver">Einblenden</button>
+        <button class="secondary" data-action="hideDriver">Ausblenden</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Newsticker</h2>
+      <label>Kürzel<input id="tickerTagInput" value="D23 NEWS"></label>
+      <label>Text<textarea id="tickerTextInput">Willkommen bei Division 23 United.</textarea></label>
+      <div class="button-row">
+        <button data-action="showTicker">Einblenden</button>
+        <button class="secondary" data-action="hideTicker">Ausblenden</button>
+      </div>
+    </section>
+
+    <section class="panel panel-wide">
+      <h2>Schnellaktionen</h2>
+      <div class="quick-actions">
+        <button data-preset="fastest">⚡ Schnellste Runde</button>
+        <button data-preset="investigation">🔎 Untersuchung</button>
+        <button data-preset="result">🏁 Ergebnis</button>
+        <button data-preset="next">📅 Nächstes Rennen</button>
+        <button class="danger" data-action="hideAll">Alles ausblenden</button>
+      </div>
+      <p class="hint">Für die direkte Verbindung das Bedienpult als benutzerdefiniertes Browser-Dock in OBS öffnen.</p>
+    </section>
+  </main>
+
+  <script src="control.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>D23 Broadcast Overlay</title>
+  <link rel="stylesheet" href="broadcast.css">
+</head>
+<body class="overlay-page">
+  <main id="overlay" aria-live="polite">
+    <section id="bug" class="bug">
+      <div class="bug-accent"></div>
+      <div class="bug-copy">
+        <strong id="leagueName">DIVISION 23 UNITED</strong>
+        <span id="raceInfo">RACE CONTROL</span>
+      </div>
+    </section>
+
+    <section id="lowerThird" class="lower-third hidden">
+      <div class="lt-accent"></div>
+      <div class="lt-label" id="messageLabel">RACE CONTROL</div>
+      <div class="lt-main">
+        <strong id="messageTitle">Willkommen im Stream</strong>
+        <span id="messageText">Division 23 United</span>
+      </div>
+    </section>
+
+    <section id="driverCard" class="driver-card hidden">
+      <div class="driver-position" id="driverPosition">P1</div>
+      <div class="driver-copy">
+        <span id="driverLabel">FAHRER</span>
+        <strong id="driverName">Ashes_-2-_Glory</strong>
+        <small id="driverDetail">Division 23 eSport</small>
+      </div>
+    </section>
+
+    <section id="ticker" class="ticker hidden">
+      <span class="ticker-tag" id="tickerTag">D23 NEWS</span>
+      <div class="ticker-window"><span id="tickerText">Willkommen bei Division 23 United.</span></div>
+    </section>
+  </main>
+  <script src="broadcast.js"></script>
+</body>
+</html>
