@@ -1,8 +1,8 @@
 /**
  * Zentrale Liga-Konfiguration.
  *
- * In dieser Datei stehen ausschließlich die Stammdaten und Designwerte der
- * Ligen. Andere Module fragen diese Daten nur ab und verändern sie nicht.
+ * Alle auswählbaren Ligen werden ausschließlich hier gepflegt.
+ * Das Dropdown wird automatisch aus diesen Daten erzeugt.
  */
 
 export const DEFAULT_LEAGUE_ID = "pgtc";
@@ -34,7 +34,7 @@ export const LEAGUES = Object.freeze({
     logoPath: "assets/logos/atm.png",
     kicker: "Division 23 United",
     description:
-      "Die traditionsreiche ATM erhält in Race Control V2 ein eigenes Ligaprofil und später vollständig getrennte Fahrer-, Kalender- und Tabellendaten.",
+      "Die traditionsreiche ATM erhält in Race Control V2 ein eigenes Ligaprofil und vollständig getrennte Ligadaten.",
     themeLabel: "Blau · Cyan",
     colors: Object.freeze({
       primary: "#2563eb",
@@ -52,7 +52,7 @@ export const LEAGUES = Object.freeze({
     logoPath: "assets/logos/whc.png",
     kicker: "World Hypercar Championship",
     description:
-      "Das Ligaprofil der WHC ist für zwei Ligen, mehrere Hersteller und die gemeinsame Herstellerwertung vorbereitet.",
+      "Das Ligaprofil der WHC ist für zwei Ligen, mehrere Hersteller und eine gemeinsame Herstellerwertung vorbereitet.",
     themeLabel: "Türkis · Blau",
     colors: Object.freeze({
       primary: "#0891b2",
@@ -70,7 +70,7 @@ export const LEAGUES = Object.freeze({
     logoPath: "assets/logos/mtc.png",
     kicker: "Mégane Trophy Cup",
     description:
-      "Der Mégane Trophy Cup bekommt sein eigenes lila Ligadesign und später eine vollständig eigenständige Saisonverwaltung.",
+      "Der Mégane Trophy Cup bekommt sein eigenes Ligadesign und eine eigenständige Saisonverwaltung.",
     themeLabel: "Lila · Magenta",
     colors: Object.freeze({
       primary: "#8b5cf6",
@@ -80,27 +80,49 @@ export const LEAGUES = Object.freeze({
     })
   }),
 
-  gt3dl: Object.freeze({
-    id: "gt3dl",
-    name: "GT3 Derby League",
-    shortName: "GT3DL",
-    logoText: "G3",
-    logoPath: "assets/logos/gt3dl.png",
-    kicker: "GT3 Derby League",
+  mom: Object.freeze({
+    id: "mom",
+    name: "MoM",
+    shortName: "MoM",
+    logoText: "MM",
+    logoPath: "assets/logos/mom.png",
+    kicker: "Division 23 United",
     description:
-      "Die GT3 Derby League erhält ihr bekanntes mintfarbenes Profil und später eigene Fahrer-, Ergebnis- und Tabellendaten.",
-    themeLabel: "Mint · Türkis",
+      "MoM erhält in Race Control V2 ein eigenes Ligaprofil für Fahrer, Kalender, Ergebnisse und Tabellen.",
+    themeLabel: "Orange · Rot",
     colors: Object.freeze({
-      primary: "#10b981",
-      primaryRgb: "16, 185, 129",
-      accent: "#2dd4bf",
-      accentRgb: "45, 212, 191"
+      primary: "#f97316",
+      primaryRgb: "249, 115, 22",
+      accent: "#ef4444",
+      accentRgb: "239, 68, 68"
+    })
+  }),
+
+  twingoRush: Object.freeze({
+    id: "twingoRush",
+    name: "Twingo Rush",
+    shortName: "Twingo Rush",
+    logoText: "TR",
+    logoPath: "assets/logos/twingo-rush.png",
+    kicker: "Division 23 United",
+    description:
+      "Twingo Rush bekommt ein eigenes, vollständig getrenntes Ligaprofil innerhalb der Race Control V2.",
+    themeLabel: "Grün · Gelb",
+    colors: Object.freeze({
+      primary: "#22c55e",
+      primaryRgb: "34, 197, 94",
+      accent: "#facc15",
+      accentRgb: "250, 204, 21"
     })
   })
 });
 
 export function getLeague(leagueId) {
   return LEAGUES[leagueId] ?? LEAGUES[DEFAULT_LEAGUE_ID];
+}
+
+export function getAllLeagues() {
+  return Object.values(LEAGUES);
 }
 
 export function isValidLeagueId(leagueId) {

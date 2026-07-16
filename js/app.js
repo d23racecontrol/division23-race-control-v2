@@ -2,13 +2,14 @@
 
 import {
   DEFAULT_LEAGUE_ID,
+  getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=2.2.0";
+} from "./leagues.js?v=2.2.1";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=2.2.0";
+} from "./storage.js?v=2.2.1";
 
 /**
  * Division 23 Race Control V2
@@ -18,7 +19,7 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "2.2.0";
+const APP_VERSION = "2.2.1";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 
@@ -193,7 +194,31 @@ function applyLeagueTheme(leagueId, { persist = true } = {}) {
   }
 }
 
+function populateLeagueSelect() {
+  const leagueSelect = document.getElementById("leagueSelect");
+
+  if (!leagueSelect) {
+    console.error(`${APP_NAME}: Die Ligaauswahl wurde nicht gefunden.`);
+    return false;
+  }
+
+  leagueSelect.replaceChildren();
+
+  getAllLeagues().forEach((league) => {
+    const option = document.createElement("option");
+    option.value = league.id;
+    option.textContent = league.name;
+    leagueSelect.append(option);
+  });
+
+  return true;
+}
+
 function initializeLeagueSelection() {
+  if (!populateLeagueSelect()) {
+    return;
+  }
+
   const storedLeagueId = readStoredValue(
     ACTIVE_LEAGUE_STORAGE_KEY,
     DEFAULT_LEAGUE_ID
