@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=2.4.0">
-  <script type="module" src="js/app.js?v=2.4.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=2.5.0">
+  <script type="module" src="js/app.js?v=2.5.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -202,7 +202,10 @@
               <h3 id="driversTitle">Kader von <span data-active-league-name>Porsche GT Cup</span></h3>
               <p>Stammfahrer, Gaststarter und Ersatzfahrer bleiben vollständig von den anderen Ligen getrennt.</p>
             </div>
-            <div class="driver-total-pill"><strong id="driverTotalHero">0</strong><span>Fahrer</span></div>
+            <div class="drivers-hero-actions">
+              <button class="secondary-button driver-import-toggle" id="driverImportToggle" type="button" aria-expanded="false" aria-controls="driverImportPanel">📥 Kader importieren</button>
+              <div class="driver-total-pill"><strong id="driverTotalHero">0</strong><span>Fahrer</span></div>
+            </div>
           </section>
 
           <section class="driver-stats-grid" aria-label="Fahrerübersicht">
@@ -222,6 +225,90 @@
               <span>Inaktiv</span>
               <strong id="driverCountInactive">0</strong>
             </article>
+          </section>
+
+          <section class="driver-import-card" id="driverImportPanel" aria-labelledby="driverImportTitle" hidden>
+            <header class="driver-import-header">
+              <div>
+                <p class="eyebrow">Sammelimport</p>
+                <h3 id="driverImportTitle">Kompletten Kader einfügen</h3>
+                <p>Eine Zeile pro Fahrer. Nur der Name ist Pflicht; weitere Angaben sind optional.</p>
+              </div>
+              <button class="icon-button" id="driverImportClose" type="button" aria-label="Import schließen" title="Schließen">✕</button>
+            </header>
+
+            <div class="driver-import-layout">
+              <div class="driver-import-input-area">
+                <label for="driverImportText">Fahrerliste</label>
+                <textarea id="driverImportText" rows="10" spellcheck="false" placeholder="Ashes_-2-_Glory;13;Stammfahrer;Liga 1;Porsche 963;Teamchefin&#10;D23_Speedy_2912;29;Stammfahrer;Liga 1;;"></textarea>
+                <p class="field-help">Spalten mit <strong>Semikolon</strong>, <strong>Tabulator</strong> oder <strong>|</strong> trennen: Name; Startnummer; Status; Liga/Gruppe; Fahrzeug; Notiz. Eine reine Namensliste funktioniert ebenfalls.</p>
+
+                <details class="driver-import-help">
+                  <summary>Beispiele und erlaubte Statuswerte</summary>
+                  <pre>Fahrer;Startnummer;Status;Gruppe;Fahrzeug;Notiz
+Ashes_-2-_Glory;13;Stammfahrer;Liga 1;Porsche 963;
+Gastfahrer_01;;Gaststarter;;;Rennen 3
+NurEinFahrername</pre>
+                  <p>Status: Stammfahrer, Ersatzfahrer, Gaststarter oder Inaktiv.</p>
+                </details>
+              </div>
+
+              <aside class="driver-import-settings">
+                <div class="form-field">
+                  <label for="driverImportDefaultStatus">Status bei leerer Spalte</label>
+                  <select id="driverImportDefaultStatus">
+                    <option value="regular">Stammfahrer</option>
+                    <option value="reserve">Ersatzfahrer</option>
+                    <option value="guest">Gaststarter</option>
+                    <option value="inactive">Inaktiv</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="driverImportDuplicateMode">Bereits vorhandene Fahrer</label>
+                  <select id="driverImportDuplicateMode">
+                    <option value="skip">Überspringen</option>
+                    <option value="update">Mit Importdaten aktualisieren</option>
+                  </select>
+                </div>
+
+                <div class="driver-import-actions">
+                  <button class="primary-button" id="driverImportPreviewButton" type="button">Vorschau prüfen</button>
+                  <button class="secondary-button" id="driverImportClearButton" type="button">Eingabe leeren</button>
+                </div>
+              </aside>
+            </div>
+
+            <p class="form-message import-message" id="driverImportMessage" role="status" hidden></p>
+
+            <section class="driver-import-preview" id="driverImportPreview" aria-labelledby="driverImportPreviewTitle" hidden>
+              <header class="driver-import-preview-header">
+                <div>
+                  <p class="eyebrow">Prüfergebnis</p>
+                  <h4 id="driverImportPreviewTitle">Importvorschau</h4>
+                </div>
+                <div class="driver-import-summary" aria-label="Import-Zusammenfassung">
+                  <span><strong id="driverImportAddCount">0</strong> neu</span>
+                  <span><strong id="driverImportUpdateCount">0</strong> Updates</span>
+                  <span><strong id="driverImportSkippedCount">0</strong> Hinweise</span>
+                  <span><strong id="driverImportErrorCount">0</strong> Fehler</span>
+                </div>
+              </header>
+
+              <ul class="driver-import-notices" id="driverImportNotices" hidden></ul>
+
+              <div class="driver-import-preview-table">
+                <div class="driver-import-preview-head">
+                  <span>Zeile</span><span>Fahrer</span><span>Nr.</span><span>Status</span><span>Gruppe</span><span>Aktion</span>
+                </div>
+                <div id="driverImportPreviewRows"></div>
+              </div>
+
+              <div class="driver-import-commit-row">
+                <p>Erst mit diesem Klick wird der Kader wirklich gespeichert.</p>
+                <button class="primary-button" id="driverImportCommit" type="button" disabled>Fahrer übernehmen</button>
+              </div>
+            </section>
           </section>
 
           <section class="drivers-workspace">

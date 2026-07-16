@@ -1,16 +1,20 @@
 "use strict";
 
-import { DEFAULT_DRIVERS as PGTC_DEFAULT_DRIVERS } from "../data/pgtc/drivers.js?v=2.4.0";
-import { DEFAULT_DRIVERS as ATM_DEFAULT_DRIVERS } from "../data/atm/drivers.js?v=2.4.0";
-import { DEFAULT_DRIVERS as WHC_DEFAULT_DRIVERS } from "../data/whc/drivers.js?v=2.4.0";
-import { DEFAULT_DRIVERS as MTC_DEFAULT_DRIVERS } from "../data/mtc/drivers.js?v=2.4.0";
-import { DEFAULT_DRIVERS as GT3DL_DEFAULT_DRIVERS } from "../data/gt3dl/drivers.js?v=2.4.0";
-import { DEFAULT_DRIVERS as MOM_DEFAULT_DRIVERS } from "../data/mom/drivers.js?v=2.4.0";
-import { DEFAULT_DRIVERS as TWINGO_RUSH_DEFAULT_DRIVERS } from "../data/twingo-rush/drivers.js?v=2.4.0";
+import { DEFAULT_DRIVERS as PGTC_DEFAULT_DRIVERS } from "../data/pgtc/drivers.js?v=2.5.0";
+import { DEFAULT_DRIVERS as ATM_DEFAULT_DRIVERS } from "../data/atm/drivers.js?v=2.5.0";
+import { DEFAULT_DRIVERS as WHC_DEFAULT_DRIVERS } from "../data/whc/drivers.js?v=2.5.0";
+import { DEFAULT_DRIVERS as MTC_DEFAULT_DRIVERS } from "../data/mtc/drivers.js?v=2.5.0";
+import { DEFAULT_DRIVERS as GT3DL_DEFAULT_DRIVERS } from "../data/gt3dl/drivers.js?v=2.5.0";
+import { DEFAULT_DRIVERS as MOM_DEFAULT_DRIVERS } from "../data/mom/drivers.js?v=2.5.0";
+import { DEFAULT_DRIVERS as TWINGO_RUSH_DEFAULT_DRIVERS } from "../data/twingo-rush/drivers.js?v=2.5.0";
 import {
   readStoredJson,
   writeStoredJson
-} from "./storage.js?v=2.4.0";
+} from "./storage.js?v=2.5.0";
+import {
+  IMPORT_STATUS_LABELS,
+  parseDriverImportText
+} from "./driver-import.js?v=2.5.0";
 
 const DRIVER_STORAGE_PREFIX = "drivers_";
 const DEFAULT_STATUS = "regular";
@@ -35,6 +39,7 @@ const DEFAULT_DRIVERS_BY_LEAGUE = Object.freeze({
 let activeLeagueId = "pgtc";
 let editingDriverId = null;
 let initialized = false;
+let pendingImportResult = null;
 
 function createDriverId() {
   if (window.crypto && typeof window.crypto.randomUUID === "function") {
@@ -444,6 +449,247 @@ function handleDriverListClick(event) {
   }
 }
 
+
+function setImportPanelOpen(isOpen) {
+  const panel = document.getElementById("driverImportPanel");
+  const toggleButton = document.getElementById("driverImportToggle");
+
+  if (!panel || !toggleButton) return;
+
+  panel.hidden = !isOpen;
+  toggleButton.setAttribute("aria-expanded", String(isOpen));
+  toggleButton.textContent = isOpen ? "✕ Import schließen" : "📥 Kader importieren";
+
+  if (isOpen) {
+    panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("driverImportText")?.focus({ preventScroll: true });
+  }
+}
+
+function showImportMessage(message, type = "info") {
+  const element = document.getElementById("driverImportMessage");
+  if (!element) return;
+
+  element.textContent = message;
+  element.dataset.type = type;
+  element.hidden = !message;
+}
+
+function resetImportPreview({ clearText = false } = {}) {
+  pendingImportResult = null;
+
+  const preview = document.getElementById("driverImportPreview");
+  const rows = document.getElementById("driverImportPreviewRows");
+  const commitButton = document.getElementById("driverImportCommit");
+
+  if (preview) preview.hidden = true;
+  if (rows) rows.replaceChildren();
+  if (commitButton) commitButton.disabled = true;
+
+  if (clearText) {
+    const textArea = document.getElementById("driverImportText");
+    if (textArea) textArea.value = "";
+  }
+
+  showImportMessage("");
+}
+
+function createImportPreviewRow(row) {
+  const previewRow = document.createElement("div");
+  previewRow.className = "driver-import-preview-row";
+
+  const line = document.createElement("span");
+  line.className = "import-line-number";
+  line.textContent = String(row.lineNumber);
+
+  const identity = createTextCell(
+    "driver-import-identity",
+    row.driver.name,
+    row.driver.note || row.driver.vehicle || "Keine Zusatzangabe"
+  );
+
+  const number = document.createElement("span");
+  number.textContent = row.driver.number ? `#${row.driver.number}` : "—";
+
+  const status = document.createElement("span");
+  status.textContent = IMPORT_STATUS_LABELS[row.driver.status];
+
+  const group = document.createElement("span");
+  group.textContent = row.driver.group || "—";
+
+  const action = document.createElement("span");
+  action.className = `import-action import-action-${row.action}`;
+  action.textContent = row.action === "update" ? "Aktualisieren" : "Neu";
+
+  previewRow.append(line, identity, number, status, group, action);
+  return previewRow;
+}
+
+function renderImportNotices(result) {
+  const notices = [...result.errors, ...result.warnings].slice(0, 8);
+  const noticeList = document.getElementById("driverImportNotices");
+
+  if (!noticeList) return;
+
+  noticeList.replaceChildren(
+    ...notices.map((notice) => {
+      const item = document.createElement("li");
+      item.textContent = `Zeile ${notice.lineNumber}: ${notice.message}`;
+      return item;
+    })
+  );
+  noticeList.hidden = notices.length === 0;
+}
+
+function renderImportPreview(result) {
+  const preview = document.getElementById("driverImportPreview");
+  const rows = document.getElementById("driverImportPreviewRows");
+  const commitButton = document.getElementById("driverImportCommit");
+
+  if (!preview || !rows || !commitButton) return;
+
+  setText("driverImportAddCount", result.summary.add);
+  setText("driverImportUpdateCount", result.summary.update);
+  setText("driverImportSkippedCount", result.summary.skipped);
+  setText("driverImportErrorCount", result.summary.errors);
+
+  rows.replaceChildren(...result.rows.map(createImportPreviewRow));
+  renderImportNotices(result);
+
+  const importableCount = result.rows.length;
+  commitButton.disabled = importableCount === 0;
+  commitButton.textContent = importableCount === 1
+    ? "1 Fahrer übernehmen"
+    : `${importableCount} Fahrer übernehmen`;
+  preview.hidden = false;
+
+  if (importableCount === 0) {
+    showImportMessage(
+      "Es wurden noch keine importierbaren Fahrer gefunden. Prüfe die Hinweise unten.",
+      "error"
+    );
+  } else if (result.errors.length > 0 || result.warnings.length > 0) {
+    showImportMessage(
+      `${importableCount} Fahrer sind bereit. Zeilen mit Hinweisen werden nicht übernommen.`,
+      "warning"
+    );
+  } else {
+    showImportMessage(
+      `${importableCount} Fahrer wurden geprüft und sind bereit zum Import.`,
+      "success"
+    );
+  }
+}
+
+function previewDriverImport() {
+  const text = document.getElementById("driverImportText")?.value ?? "";
+  const defaultStatus = document.getElementById("driverImportDefaultStatus")?.value ?? DEFAULT_STATUS;
+  const duplicateMode = document.getElementById("driverImportDuplicateMode")?.value ?? "skip";
+
+  if (!text.trim()) {
+    resetImportPreview();
+    showImportMessage("Füge zuerst mindestens einen Fahrernamen ein.", "error");
+    document.getElementById("driverImportText")?.focus();
+    return;
+  }
+
+  pendingImportResult = parseDriverImportText(text, {
+    existingDrivers: loadDrivers(activeLeagueId),
+    defaultStatus,
+    duplicateMode
+  });
+
+  renderImportPreview(pendingImportResult);
+}
+
+function commitDriverImport() {
+  if (!pendingImportResult?.rows.length) {
+    showImportMessage("Erstelle zuerst eine Vorschau.", "error");
+    return;
+  }
+
+  const currentDrivers = loadDrivers(activeLeagueId);
+  const nextDrivers = [...currentDrivers];
+  const now = new Date().toISOString();
+  let addedCount = 0;
+  let updatedCount = 0;
+
+  pendingImportResult.rows.forEach((row) => {
+    const existingIndex = nextDrivers.findIndex(
+      (driver) => driver.name.localeCompare(row.driver.name, "de", {
+        sensitivity: "base"
+      }) === 0
+    );
+
+    if (existingIndex >= 0 && row.action === "update") {
+      nextDrivers[existingIndex] = {
+        ...nextDrivers[existingIndex],
+        ...row.driver,
+        updatedAt: now
+      };
+      updatedCount += 1;
+      return;
+    }
+
+    if (existingIndex < 0) {
+      nextDrivers.push({
+        id: createDriverId(),
+        ...row.driver,
+        createdAt: now,
+        updatedAt: now
+      });
+      addedCount += 1;
+    }
+  });
+
+  if (!saveDrivers(activeLeagueId, nextDrivers)) {
+    showImportMessage("Der Kader konnte nicht gespeichert werden.", "error");
+    return;
+  }
+
+  resetImportPreview({ clearText: true });
+  setImportPanelOpen(false);
+  renderDriversForLeague(activeLeagueId);
+
+  const parts = [];
+  if (addedCount) parts.push(`${addedCount} neu`);
+  if (updatedCount) parts.push(`${updatedCount} aktualisiert`);
+  showFormMessage(`Sammelimport abgeschlossen: ${parts.join(", ")}.`, "success");
+}
+
+function initializeDriverImport() {
+  const toggleButton = document.getElementById("driverImportToggle");
+  const closeButton = document.getElementById("driverImportClose");
+  const previewButton = document.getElementById("driverImportPreviewButton");
+  const clearButton = document.getElementById("driverImportClearButton");
+  const commitButton = document.getElementById("driverImportCommit");
+  const textArea = document.getElementById("driverImportText");
+  const defaultStatus = document.getElementById("driverImportDefaultStatus");
+  const duplicateMode = document.getElementById("driverImportDuplicateMode");
+
+  if (
+    !toggleButton || !closeButton || !previewButton || !clearButton ||
+    !commitButton || !textArea || !defaultStatus || !duplicateMode
+  ) {
+    console.error("Race Control V2: Der Fahrer-Sammelimport konnte nicht initialisiert werden.");
+    return;
+  }
+
+  toggleButton.addEventListener("click", () => {
+    const panel = document.getElementById("driverImportPanel");
+    setImportPanelOpen(panel?.hidden ?? true);
+  });
+  closeButton.addEventListener("click", () => setImportPanelOpen(false));
+  previewButton.addEventListener("click", previewDriverImport);
+  clearButton.addEventListener("click", () => resetImportPreview({ clearText: true }));
+  commitButton.addEventListener("click", commitDriverImport);
+
+  [textArea, defaultStatus, duplicateMode].forEach((element) => {
+    element.addEventListener("input", () => resetImportPreview());
+    element.addEventListener("change", () => resetImportPreview());
+  });
+}
+
 function resetDriverFilters() {
   const searchInput = document.getElementById("driverSearch");
   const statusFilter = document.getElementById("driverStatusFilter");
@@ -465,6 +711,8 @@ export function setDriversLeague(leagueId) {
   if (leagueChanged) {
     resetDriverForm();
     resetDriverFilters();
+    resetImportPreview({ clearText: true });
+    setImportPanelOpen(false);
   }
 
   renderDriversForLeague(activeLeagueId);
@@ -494,6 +742,7 @@ export function initializeDriversModule(initialLeagueId) {
   searchInput.addEventListener("input", () => renderDriversForLeague(activeLeagueId));
   statusFilter.addEventListener("change", () => renderDriversForLeague(activeLeagueId));
   cancelButton.addEventListener("click", () => resetDriverForm());
+  initializeDriverImport();
 
   initialized = true;
   resetDriverForm();

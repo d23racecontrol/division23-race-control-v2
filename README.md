@@ -1,46 +1,26 @@
-# Division 23 Race Control V2 – Schritt 5: Fahrerverwaltung
+# Division 23 Race Control V2 – Schritt 6: Fahrer-Sammelimport
 
-Neu in Version 2.4.0:
+Version: 2.5.0
 
-- Eigener Fahrerkader für jede Liga
-- Fahrer hinzufügen, bearbeiten und entfernen
-- Status: Stammfahrer, Ersatzfahrer, Gaststarter oder Inaktiv
-- Startnummer, Liga/Gruppe, Fahrzeug/Hersteller und Notiz
-- Suche und Statusfilter
-- Automatische Fahrerstatistik
-- Doppelte PSN-IDs innerhalb einer Liga werden verhindert
-- Speicherung erfolgt pro Liga getrennt im Browser
+Neu:
+- Komplette Fahrerkader gesammelt einfügen
+- Reine Namenslisten oder Spalten mit Semikolon, Tabulator oder `|`
+- Optionale Kopfzeile
+- Vorschau vor dem Speichern
+- Prüfung von Fahrername, Startnummer und Status
+- Duplikate überspringen oder vorhandene Fahrer aktualisieren
+- Fehlerhafte Zeilen werden nicht importiert
+- Weiterhin vollständig getrennte Kader pro Liga
 
-## Datenstruktur
+Reihenfolge ohne Kopfzeile:
+`Name; Startnummer; Status; Liga/Gruppe; Fahrzeug/Hersteller; Notiz`
 
-Jede Liga besitzt eine eigene Ausgangsdatei:
-
-- `data/pgtc/drivers.js`
-- `data/atm/drivers.js`
-- `data/whc/drivers.js`
-- `data/mtc/drivers.js`
-- `data/gt3dl/drivers.js`
-- `data/mom/drivers.js`
-- `data/twingo-rush/drivers.js`
-
-Die Bedienlogik liegt ausschließlich in `js/drivers.js`.
-`js/app.js` verbindet das Modul nur mit Navigation und Ligaauswahl.
-
-## Wichtig
-
-Die eingegebenen Fahrer werden aktuell lokal im Browser auf diesem Gerät
-abgelegt. Synchronisierung, Sicherung und Import/Export folgen später.
-
-## GitHub-Upload
-
-Hochladen:
-
-- `data`
-- `css`
-- `js`
-- `index.html`
-- `README.md`
+Zum Hochladen bei GitHub:
+- data
+- css
+- js
+- index.html
+- README.md
 
 Commit-Nachricht:
-
-`Schritt 5 Fahrerverwaltung hinzugefügt`
+`Schritt 6 Fahrer-Sammelimport hinzugefügt`

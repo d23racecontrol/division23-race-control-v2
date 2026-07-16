@@ -5,16 +5,16 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=2.4.0";
+} from "./leagues.js?v=2.5.0";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=2.4.0";
+} from "./storage.js?v=2.5.0";
 import {
   initializeDriversModule,
   renderDriversForLeague,
   setDriversLeague
-} from "./drivers.js?v=2.4.0";
+} from "./drivers.js?v=2.5.0";
 
 /**
  * Division 23 Race Control V2
@@ -24,7 +24,7 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "2.4.0";
+const APP_VERSION = "2.5.0";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 

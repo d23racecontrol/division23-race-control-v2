@@ -1204,3 +1204,324 @@ select {
     padding: 20px;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Schritt 6: Fahrer-Sammelimport
+   -------------------------------------------------------------------------- */
+
+.drivers-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.driver-import-toggle {
+  white-space: nowrap;
+}
+
+.driver-import-card {
+  padding: 26px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.28);
+  border-radius: 20px;
+  background:
+    linear-gradient(145deg, rgba(var(--color-primary-rgb), 0.075), transparent 42%),
+    var(--color-surface);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.22);
+}
+
+.driver-import-header,
+.driver-import-preview-header,
+.driver-import-commit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.driver-import-header h3,
+.driver-import-preview-header h4 {
+  margin: 4px 0 0;
+}
+
+.driver-import-header > div > p:last-child {
+  max-width: 720px;
+  margin: 8px 0 0;
+  color: var(--color-muted);
+}
+
+.driver-import-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.driver-import-input-area > label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.driver-import-input-area textarea {
+  width: 100%;
+  min-height: 235px;
+  resize: vertical;
+  padding: 15px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  outline: none;
+  background: rgba(4, 5, 10, 0.58);
+  color: var(--color-text);
+  font: 0.86rem/1.55 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.driver-import-input-area textarea:focus {
+  border-color: rgba(var(--color-primary-rgb), 0.72);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.13);
+}
+
+.field-help {
+  margin: 9px 0 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.driver-import-help {
+  margin-top: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.driver-import-help summary {
+  padding: 13px 15px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.driver-import-help pre {
+  overflow-x: auto;
+  margin: 0 15px 10px;
+  padding: 13px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.26);
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.driver-import-help p {
+  margin: 0 15px 14px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+
+.driver-import-settings {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.13);
+}
+
+.driver-import-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.import-message[data-type="warning"] {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.1);
+  color: #fde68a;
+}
+
+.driver-import-preview {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-border);
+}
+
+.driver-import-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.driver-import-summary span {
+  padding: 7px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+.driver-import-summary strong {
+  color: var(--color-text);
+}
+
+.driver-import-notices {
+  display: grid;
+  gap: 7px;
+  max-height: 180px;
+  overflow: auto;
+  margin: 16px 0;
+  padding: 13px 16px 13px 34px;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  border-radius: 13px;
+  background: rgba(245, 158, 11, 0.075);
+  color: #fde68a;
+  font-size: 0.78rem;
+}
+
+.driver-import-preview-table {
+  overflow-x: auto;
+  margin-top: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+}
+
+.driver-import-preview-head,
+.driver-import-preview-row {
+  display: grid;
+  grid-template-columns: 56px minmax(180px, 1.5fr) 70px 120px minmax(120px, 1fr) 110px;
+  align-items: center;
+  gap: 12px;
+  min-width: 780px;
+  padding: 12px 14px;
+}
+
+.driver-import-preview-head {
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.driver-import-preview-row + .driver-import-preview-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.driver-import-preview-row {
+  font-size: 0.82rem;
+}
+
+.import-line-number {
+  color: var(--color-muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.driver-import-identity {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.driver-import-identity strong,
+.driver-import-identity span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.driver-import-identity span {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+}
+
+.import-action {
+  width: fit-content;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 850;
+}
+
+.import-action-add {
+  background: rgba(55, 214, 122, 0.11);
+  color: #b9f6d2;
+}
+
+.import-action-update {
+  background: rgba(59, 130, 246, 0.12);
+  color: #bfdbfe;
+}
+
+.driver-import-commit-row {
+  margin-top: 18px;
+}
+
+.driver-import-commit-row p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  .drivers-hero-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .driver-import-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .driver-import-settings {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .driver-import-actions {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .driver-import-card {
+    padding: 20px;
+  }
+
+  .driver-import-header,
+  .driver-import-preview-header,
+  .driver-import-commit-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .driver-import-header .icon-button {
+    position: absolute;
+    right: 22px;
+  }
+
+  .driver-import-settings,
+  .driver-import-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .driver-import-summary {
+    justify-content: flex-start;
+  }
+
+  .driver-import-commit-row .primary-button {
+    width: 100%;
+  }
+}
