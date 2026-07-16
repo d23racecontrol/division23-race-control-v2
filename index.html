@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=2.3.0">
-  <script type="module" src="js/app.js?v=2.3.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=2.4.0">
+  <script type="module" src="js/app.js?v=2.4.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -165,12 +165,21 @@
                 <span>Name, echte Liga-Logos und Farben wechseln dynamisch.</span>
               </div>
             </article>
+
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
+              <div>
+                <p>Schritt 4</p>
+                <h3>Fahrerverwaltung</h3>
+                <span>Fahrerkader werden pro Liga getrennt gespeichert.</span>
+              </div>
+            </article>
           </section>
 
           <section class="system-check" aria-labelledby="systemCheckTitle">
             <div>
               <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Ligaauswahl erfolgreich geladen</h3>
+              <h3 id="systemCheckTitle">Fahrerverwaltung erfolgreich geladen</h3>
             </div>
             <p id="loadMessage">JavaScript wird geprüft …</p>
           </section>
@@ -186,14 +195,141 @@
           </article>
         </section>
 
-        <section class="page-view" data-page-content="drivers" aria-labelledby="driversTitle" hidden>
-          <article class="module-placeholder">
-            <div class="module-icon" aria-hidden="true">👥</div>
-            <p class="eyebrow">Modul vorbereitet</p>
-            <h3 id="driversTitle">Fahrer</h3>
-            <p>Hier entstehen später Fahrerkader, Stammfahrer, Gaststarter und Fahrerprofile für <strong data-active-league-name>Porsche GT Cup</strong>.</p>
-            <span class="development-badge">Als Nächstes</span>
-          </article>
+        <section class="page-view drivers-page" data-page-content="drivers" aria-labelledby="driversTitle" hidden>
+          <section class="drivers-hero">
+            <div>
+              <p class="eyebrow">Fahrerverwaltung</p>
+              <h3 id="driversTitle">Kader von <span data-active-league-name>Porsche GT Cup</span></h3>
+              <p>Stammfahrer, Gaststarter und Ersatzfahrer bleiben vollständig von den anderen Ligen getrennt.</p>
+            </div>
+            <div class="driver-total-pill"><strong id="driverTotalHero">0</strong><span>Fahrer</span></div>
+          </section>
+
+          <section class="driver-stats-grid" aria-label="Fahrerübersicht">
+            <article class="driver-stat-card">
+              <span>Gesamt</span>
+              <strong id="driverCountTotal">0</strong>
+            </article>
+            <article class="driver-stat-card">
+              <span>Stammfahrer</span>
+              <strong id="driverCountRegular">0</strong>
+            </article>
+            <article class="driver-stat-card">
+              <span>Gaststarter</span>
+              <strong id="driverCountGuest">0</strong>
+            </article>
+            <article class="driver-stat-card">
+              <span>Inaktiv</span>
+              <strong id="driverCountInactive">0</strong>
+            </article>
+          </section>
+
+          <section class="drivers-workspace">
+            <article class="driver-form-card" id="driverFormCard">
+              <header class="section-heading">
+                <div>
+                  <p class="eyebrow">Kader bearbeiten</p>
+                  <h3 id="driverFormTitle">Fahrer hinzufügen</h3>
+                </div>
+              </header>
+
+              <form id="driverForm" novalidate>
+                <div class="form-field form-field-full">
+                  <label for="driverName">PSN-ID / Fahrername *</label>
+                  <input id="driverName" name="driverName" type="text" maxlength="60" autocomplete="off" placeholder="z. B. Ashes_-2-_Glory" required>
+                </div>
+
+                <div class="driver-form-grid">
+                  <div class="form-field">
+                    <label for="driverNumber">Startnummer</label>
+                    <input id="driverNumber" name="driverNumber" type="text" maxlength="4" inputmode="numeric" pattern="[0-9]{1,4}" placeholder="z. B. 13">
+                  </div>
+
+                  <div class="form-field">
+                    <label for="driverStatus">Status</label>
+                    <select id="driverStatus" name="driverStatus">
+                      <option value="regular">Stammfahrer</option>
+                      <option value="reserve">Ersatzfahrer</option>
+                      <option value="guest">Gaststarter</option>
+                      <option value="inactive">Inaktiv</option>
+                    </select>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="driverGroup">Liga / Gruppe</label>
+                    <input id="driverGroup" name="driverGroup" type="text" maxlength="40" placeholder="z. B. Liga 1">
+                  </div>
+
+                  <div class="form-field">
+                    <label for="driverVehicle">Fahrzeug / Hersteller</label>
+                    <input id="driverVehicle" name="driverVehicle" type="text" maxlength="80" placeholder="z. B. Porsche 963">
+                  </div>
+                </div>
+
+                <div class="form-field form-field-full">
+                  <label for="driverNote">Notiz</label>
+                  <textarea id="driverNote" name="driverNote" maxlength="240" rows="3" placeholder="Optionaler Hinweis zum Fahrer"></textarea>
+                </div>
+
+                <p class="form-message" id="driverFormMessage" role="status" hidden></p>
+
+                <div class="form-actions">
+                  <button class="primary-button" id="driverSubmitButton" type="submit">Fahrer hinzufügen</button>
+                  <button class="secondary-button" id="driverCancelEdit" type="button" hidden>Bearbeitung abbrechen</button>
+                </div>
+              </form>
+            </article>
+
+            <article class="driver-list-card">
+              <header class="driver-list-header">
+                <div>
+                  <p class="eyebrow">Aktiver Kader</p>
+                  <h3>Fahrerliste</h3>
+                  <span id="driverResultCount">0 von 0 angezeigt</span>
+                </div>
+
+                <div class="driver-toolbar">
+                  <label class="search-field" for="driverSearch">
+                    <span aria-hidden="true">🔎</span>
+                    <input id="driverSearch" type="search" placeholder="Fahrer suchen" autocomplete="off">
+                  </label>
+
+                  <label class="filter-field" for="driverStatusFilter">
+                    <span>Status</span>
+                    <select id="driverStatusFilter">
+                      <option value="all">Alle</option>
+                      <option value="regular">Stammfahrer</option>
+                      <option value="reserve">Ersatzfahrer</option>
+                      <option value="guest">Gaststarter</option>
+                      <option value="inactive">Inaktiv</option>
+                    </select>
+                  </label>
+                </div>
+              </header>
+
+              <div class="driver-table" role="table" aria-label="Fahrerliste">
+                <div class="driver-table-head" role="row">
+                  <span>Fahrer</span>
+                  <span>Nr.</span>
+                  <span>Status</span>
+                  <span>Zuordnung</span>
+                  <span>Aktionen</span>
+                </div>
+                <div id="driverRows" class="driver-rows" role="rowgroup"></div>
+              </div>
+
+              <div class="drivers-empty-state" id="driversEmptyState" hidden>
+                <span aria-hidden="true">👥</span>
+                <h4>Noch keine passenden Fahrer</h4>
+                <p>Lege links den ersten Fahrer an oder passe Suche und Filter an.</p>
+              </div>
+            </article>
+          </section>
+
+          <aside class="local-data-note">
+            <span aria-hidden="true">💾</span>
+            <p><strong>Lokal gespeichert:</strong> Die Fahrerdaten bleiben in diesem Browser auf diesem Gerät. Eine Datensicherung und Übertragung bauen wir später im Export-Modul.</p>
+          </aside>
         </section>
 
         <section class="page-view" data-page-content="standings" aria-labelledby="standingsTitle" hidden>
