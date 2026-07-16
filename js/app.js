@@ -5,16 +5,21 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=2.5.0";
+} from "./leagues.js?v=2.6.0";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=2.5.0";
+} from "./storage.js?v=2.6.0";
 import {
   initializeDriversModule,
   renderDriversForLeague,
   setDriversLeague
-} from "./drivers.js?v=2.5.0";
+} from "./drivers.js?v=2.6.0";
+import {
+  initializeRacesModule,
+  renderRacesForLeague,
+  setRacesLeague
+} from "./races.js?v=2.6.0";
 
 /**
  * Division 23 Race Control V2
@@ -24,7 +29,7 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "2.5.0";
+const APP_VERSION = "2.6.0";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 
@@ -32,6 +37,7 @@ const PAGE_CONFIG = Object.freeze({
   dashboard: { title: "Dashboard", status: "System bereit" },
   calendar: { title: "Kalender", status: "Modul vorbereitet" },
   drivers: { title: "Fahrer", status: "Fahrerverwaltung aktiv" },
+  races: { title: "Rennen", status: "Rennerfassung aktiv" },
   standings: { title: "Tabellen", status: "Modul vorbereitet" },
   statistics: { title: "Statistiken", status: "Modul vorbereitet" },
   penalties: { title: "Strafen", status: "Modul vorbereitet" },
@@ -91,6 +97,10 @@ function renderPage(pageName) {
 
   if (safePageName === "drivers") {
     renderDriversForLeague(activeLeagueId);
+  }
+
+  if (safePageName === "races") {
+    renderRacesForLeague(activeLeagueId);
   }
 
   updateDocumentTitle(safePageName);
@@ -198,6 +208,7 @@ function applyLeagueTheme(leagueId, { persist = true } = {}) {
 
   updateLeagueLogo(league);
   setDriversLeague(league.id);
+  setRacesLeague(league.id);
   updateDocumentTitle(getPageFromUrl());
 
   if (persist) {
@@ -263,11 +274,12 @@ function initializeApp() {
 
   initializeLeagueSelection();
   initializeDriversModule(activeLeagueId);
+  initializeRacesModule(activeLeagueId);
   initializeNavigation();
 
   if (loadMessage) {
     loadMessage.textContent =
-      `Navigation, Ligaauswahl und Fahrerverwaltung aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
+      `Navigation, Ligaauswahl, Fahrer- und Rennerfassung aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
   }
 
   appStatus.setAttribute("title", `${APP_NAME} v${APP_VERSION}`);

@@ -1,20 +1,20 @@
 "use strict";
 
-import { DEFAULT_DRIVERS as PGTC_DEFAULT_DRIVERS } from "../data/pgtc/drivers.js?v=2.5.0";
-import { DEFAULT_DRIVERS as ATM_DEFAULT_DRIVERS } from "../data/atm/drivers.js?v=2.5.0";
-import { DEFAULT_DRIVERS as WHC_DEFAULT_DRIVERS } from "../data/whc/drivers.js?v=2.5.0";
-import { DEFAULT_DRIVERS as MTC_DEFAULT_DRIVERS } from "../data/mtc/drivers.js?v=2.5.0";
-import { DEFAULT_DRIVERS as GT3DL_DEFAULT_DRIVERS } from "../data/gt3dl/drivers.js?v=2.5.0";
-import { DEFAULT_DRIVERS as MOM_DEFAULT_DRIVERS } from "../data/mom/drivers.js?v=2.5.0";
-import { DEFAULT_DRIVERS as TWINGO_RUSH_DEFAULT_DRIVERS } from "../data/twingo-rush/drivers.js?v=2.5.0";
+import { DEFAULT_DRIVERS as PGTC_DEFAULT_DRIVERS } from "../data/pgtc/drivers.js?v=2.6.0";
+import { DEFAULT_DRIVERS as ATM_DEFAULT_DRIVERS } from "../data/atm/drivers.js?v=2.6.0";
+import { DEFAULT_DRIVERS as WHC_DEFAULT_DRIVERS } from "../data/whc/drivers.js?v=2.6.0";
+import { DEFAULT_DRIVERS as MTC_DEFAULT_DRIVERS } from "../data/mtc/drivers.js?v=2.6.0";
+import { DEFAULT_DRIVERS as GT3DL_DEFAULT_DRIVERS } from "../data/gt3dl/drivers.js?v=2.6.0";
+import { DEFAULT_DRIVERS as MOM_DEFAULT_DRIVERS } from "../data/mom/drivers.js?v=2.6.0";
+import { DEFAULT_DRIVERS as TWINGO_RUSH_DEFAULT_DRIVERS } from "../data/twingo-rush/drivers.js?v=2.6.0";
 import {
   readStoredJson,
   writeStoredJson
-} from "./storage.js?v=2.5.0";
+} from "./storage.js?v=2.6.0";
 import {
   IMPORT_STATUS_LABELS,
   parseDriverImportText
-} from "./driver-import.js?v=2.5.0";
+} from "./driver-import.js?v=2.6.0";
 
 const DRIVER_STORAGE_PREFIX = "drivers_";
 const DEFAULT_STATUS = "regular";
@@ -99,10 +99,20 @@ function loadDrivers(leagueId) {
 }
 
 function saveDrivers(leagueId, drivers) {
-  return writeStoredJson(
+  const saved = writeStoredJson(
     getStorageKey(leagueId),
     drivers.map((driver) => normalizeDriver(driver))
   );
+
+  if (saved) {
+    window.dispatchEvent(
+      new CustomEvent("d23:drivers-updated", {
+        detail: { leagueId }
+      })
+    );
+  }
+
+  return saved;
 }
 
 function sortDrivers(drivers) {
@@ -695,6 +705,10 @@ function resetDriverFilters() {
   const statusFilter = document.getElementById("driverStatusFilter");
   if (searchInput) searchInput.value = "";
   if (statusFilter) statusFilter.value = "all";
+}
+
+export function getDriversForLeague(leagueId = activeLeagueId) {
+  return loadDrivers(leagueId).map((driver) => ({ ...driver }));
 }
 
 export function renderDriversForLeague(leagueId = activeLeagueId) {

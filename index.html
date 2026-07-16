@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=2.5.0">
-  <script type="module" src="js/app.js?v=2.5.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=2.6.0">
+  <script type="module" src="js/app.js?v=2.6.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -59,6 +59,11 @@
         <button class="nav-item" type="button" data-page="drivers">
           <span aria-hidden="true">👥</span>
           <span>Fahrer</span>
+        </button>
+
+        <button class="nav-item" type="button" data-page="races">
+          <span aria-hidden="true">🏎️</span>
+          <span>Rennen</span>
         </button>
 
         <button class="nav-item" type="button" data-page="standings">
@@ -174,12 +179,21 @@
                 <span>Fahrerkader werden pro Liga getrennt gespeichert.</span>
               </div>
             </article>
+
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
+              <div>
+                <p>Phase 3</p>
+                <h3>Rennerfassung</h3>
+                <span>Rennen, Termine und Starterfelder werden pro Liga verwaltet.</span>
+              </div>
+            </article>
           </section>
 
           <section class="system-check" aria-labelledby="systemCheckTitle">
             <div>
               <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Fahrerverwaltung erfolgreich geladen</h3>
+              <h3 id="systemCheckTitle">Fahrer- und Rennerfassung erfolgreich geladen</h3>
             </div>
             <p id="loadMessage">JavaScript wird geprüft …</p>
           </section>
@@ -416,6 +430,150 @@ NurEinFahrername</pre>
           <aside class="local-data-note">
             <span aria-hidden="true">💾</span>
             <p><strong>Lokal gespeichert:</strong> Die Fahrerdaten bleiben in diesem Browser auf diesem Gerät. Eine Datensicherung und Übertragung bauen wir später im Export-Modul.</p>
+          </aside>
+        </section>
+
+        <section class="page-view races-page" data-page-content="races" aria-labelledby="racesTitle" hidden>
+          <section class="races-hero">
+            <div>
+              <p class="eyebrow">Rennerfassung</p>
+              <h3 id="racesTitle">Rennen von <span data-active-league-name>Porsche GT Cup</span></h3>
+              <p>Lege Renntermine an und wähle die Starter direkt aus dem Kader der aktiven Liga aus.</p>
+            </div>
+            <div class="race-total-pill">
+              <strong id="raceTotalHero">0</strong>
+              <span>Rennen</span>
+            </div>
+          </section>
+
+          <section class="race-stats-grid" aria-label="Rennübersicht">
+            <article class="race-stat-card">
+              <span>Rennen gesamt</span>
+              <strong id="raceCountTotal">0</strong>
+            </article>
+
+            <article class="race-stat-card race-stat-card-wide">
+              <span>Nächstes Rennen</span>
+              <strong id="raceNextDate">—</strong>
+              <small id="raceNextTrack">Noch kein Rennen</small>
+            </article>
+
+            <article class="race-stat-card">
+              <span>Starter nächstes Rennen</span>
+              <strong id="raceNextStarters">0</strong>
+            </article>
+          </section>
+
+          <section class="races-workspace">
+            <article class="race-form-card" id="raceFormCard">
+              <header class="section-heading">
+                <div>
+                  <p class="eyebrow">Rennplanung</p>
+                  <h3 id="raceFormTitle">Rennen anlegen</h3>
+                </div>
+              </header>
+
+              <form id="raceForm" novalidate>
+                <div class="race-form-grid">
+                  <div class="form-field">
+                    <label for="raceNumber">Rennnummer *</label>
+                    <input id="raceNumber" type="number" min="1" max="999" inputmode="numeric" required>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="raceGroup">Liga / Gruppe</label>
+                    <input id="raceGroup" type="text" maxlength="40" placeholder="z. B. Liga 1">
+                  </div>
+
+                  <div class="form-field form-field-full">
+                    <label for="raceName">Bezeichnung</label>
+                    <input id="raceName" type="text" maxlength="80" placeholder="z. B. Rennen 1 oder Saisonfinale">
+                  </div>
+
+                  <div class="form-field form-field-full">
+                    <label for="raceTrack">Strecke *</label>
+                    <input id="raceTrack" type="text" maxlength="100" placeholder="z. B. Watkins Glen" required>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="raceDate">Datum *</label>
+                    <input id="raceDate" type="date" required>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="raceTime">Startzeit</label>
+                    <input id="raceTime" type="time">
+                  </div>
+
+                  <div class="form-field form-field-full">
+                    <label for="raceNote">Notiz</label>
+                    <textarea id="raceNote" maxlength="300" rows="3" placeholder="Optionaler Hinweis zum Rennen"></textarea>
+                  </div>
+                </div>
+
+                <section class="race-starter-selector" aria-labelledby="raceStarterTitle">
+                  <header class="race-starter-selector-header">
+                    <div>
+                      <p class="eyebrow">Starterfeld</p>
+                      <h4 id="raceStarterTitle">Fahrer auswählen</h4>
+                      <span id="raceStarterSelectionCount">0 Starter ausgewählt</span>
+                    </div>
+
+                    <div class="race-starter-buttons">
+                      <button class="secondary-button compact-button" id="raceSelectAllStarters" type="button">Alle auswählen</button>
+                      <button class="secondary-button compact-button" id="raceClearStarters" type="button">Leeren</button>
+                    </div>
+                  </header>
+
+                  <label class="search-field race-starter-search" for="raceStarterSearch">
+                    <span aria-hidden="true">🔎</span>
+                    <input id="raceStarterSearch" type="search" placeholder="Starter suchen" autocomplete="off">
+                  </label>
+
+                  <div class="race-starter-list" id="raceStarterList"></div>
+
+                  <div class="race-starter-empty" id="raceStarterEmpty" hidden>
+                    <span aria-hidden="true">👥</span>
+                    <p>In dieser Liga gibt es noch keine verfügbaren Fahrer. Lege sie zuerst im Reiter <strong>Fahrer</strong> an.</p>
+                  </div>
+                </section>
+
+                <p class="form-message" id="raceFormMessage" role="status" hidden></p>
+
+                <div class="form-actions">
+                  <button class="primary-button" id="raceSubmitButton" type="submit">Rennen speichern</button>
+                  <button class="secondary-button" id="raceCancelEdit" type="button" hidden>Bearbeitung abbrechen</button>
+                </div>
+              </form>
+            </article>
+
+            <article class="race-list-card">
+              <header class="race-list-header">
+                <div>
+                  <p class="eyebrow">Saisonplanung</p>
+                  <h3>Gespeicherte Rennen</h3>
+                  <span id="raceResultCount">0 von 0 angezeigt</span>
+                </div>
+
+                <label class="search-field" for="raceSearch">
+                  <span aria-hidden="true">🔎</span>
+                  <input id="raceSearch" type="search" placeholder="Rennen suchen" autocomplete="off">
+                </label>
+              </header>
+
+              <div class="race-rows" id="raceRows"></div>
+
+              <div class="races-empty-state" id="racesEmptyState">
+                <span aria-hidden="true">🏎️</span>
+                <h4>Noch kein Rennen angelegt</h4>
+                <p>Trage links Strecke und Datum ein und stelle anschließend das Starterfeld zusammen.</p>
+              </div>
+            </article>
+          </section>
+
+          <aside class="local-data-note">
+            <span aria-hidden="true">💾</span>
+            <p><strong>Pro Liga getrennt:</strong> Renntermine und Starterfelder werden nur für die aktuell ausgewählte Liga in diesem Browser gespeichert.</p>
           </aside>
         </section>
 
