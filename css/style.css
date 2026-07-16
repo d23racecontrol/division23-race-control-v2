@@ -79,19 +79,24 @@ select {
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  width: 48px;
-  height: 48px;
+  width: 68px;
+  height: 56px;
+  padding: 4px;
   overflow: hidden;
-  border-radius: 15px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  border: 1px solid rgba(var(--color-primary-rgb), 0.38);
+  border-radius: 14px;
+  background: #0b0b12;
   color: white;
   font-weight: 900;
   letter-spacing: -0.08em;
-  box-shadow: 0 12px 32px rgba(var(--color-primary-rgb), 0.35);
-  transition: background 180ms ease, box-shadow 180ms ease;
+  box-shadow: 0 12px 32px rgba(var(--color-primary-rgb), 0.30);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .brand-mark img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;

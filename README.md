@@ -1,38 +1,26 @@
-# Division 23 Race Control V2
-
-## Stand: Schritt 3 – Ligaauswahl
+# Division 23 Race Control V2 – Schritt 4: echte Liga-Logos
 
 Enthalten:
+- PGTC
+- ATM
+- WHC
+- MTC
+- GT3DL
+- MoM
+- Twingo Rush
 
-- Grundgerüst
-- Navigation ohne Neuladen
-- Ligaauswahl für PGTC, ATM, WHC, MTC und GT3DL
-- dynamischer Wechsel von Name, Kurzname, Logo-Platzhalter und Farben
-- Speicherung der zuletzt gewählten Liga im Browser
-- getrennte Module für Liga-Konfiguration und Speicherung
+Die Logos liegen unter:
+assets/logos/
 
-## Neue Dateien
+Die App wurde auf Version 2.3.0 erhöht, damit Browser und GitHub Pages
+keine alten Platzhalter oder zuvor fehlgeschlagenen Logo-Aufrufe cachen.
 
-```text
-js/leagues.js
-js/storage.js
-```
+Zum Hochladen bei GitHub:
+- assets
+- css
+- js
+- index.html
+- README.md
 
-`app.js` startet die Anwendung. Die Liga-Stammdaten liegen ausschließlich in
-`leagues.js`. Zugriffe auf den Browser-Speicher laufen ausschließlich über
-`storage.js`.
-
-## Eigene Logos ergänzen
-
-Die Anwendung sucht später automatisch nach diesen Dateien:
-
-```text
-assets/logos/pgtc.png
-assets/logos/atm.png
-assets/logos/whc.png
-assets/logos/mtc.png
-assets/logos/gt3dl.png
-```
-
-Solange ein Logo fehlt, wird automatisch der jeweilige Buchstaben-Platzhalter
-angezeigt. Ein fehlendes Bild verursacht keinen Funktionsfehler.
+Commit-Nachricht:
+Schritt 4 echte Liga-Logos eingebaut

@@ -35,12 +35,12 @@ export const LEAGUES = Object.freeze({
     kicker: "Division 23 United",
     description:
       "Die traditionsreiche ATM erhält in Race Control V2 ein eigenes Ligaprofil und vollständig getrennte Ligadaten.",
-    themeLabel: "Blau · Cyan",
+    themeLabel: "Rot · Silber",
     colors: Object.freeze({
-      primary: "#2563eb",
-      primaryRgb: "37, 99, 235",
-      accent: "#06b6d4",
-      accentRgb: "6, 182, 212"
+      primary: "#b51235",
+      primaryRgb: "181, 18, 53",
+      accent: "#d9dde5",
+      accentRgb: "217, 221, 229"
     })
   }),
 
@@ -53,12 +53,12 @@ export const LEAGUES = Object.freeze({
     kicker: "World Hypercar Championship",
     description:
       "Das Ligaprofil der WHC ist für zwei Ligen, mehrere Hersteller und eine gemeinsame Herstellerwertung vorbereitet.",
-    themeLabel: "Türkis · Blau",
+    themeLabel: "Gold · Silber",
     colors: Object.freeze({
-      primary: "#0891b2",
-      primaryRgb: "8, 145, 178",
-      accent: "#3b82f6",
-      accentRgb: "59, 130, 246"
+      primary: "#d3a62f",
+      primaryRgb: "211, 166, 47",
+      accent: "#d8dbe2",
+      accentRgb: "216, 219, 226"
     })
   }),
 
@@ -108,12 +108,12 @@ export const LEAGUES = Object.freeze({
     kicker: "Division 23 United",
     description:
       "MoM erhält in Race Control V2 ein eigenes Ligaprofil für Fahrer, Kalender, Ergebnisse und Tabellen.",
-    themeLabel: "Orange · Rot",
+    themeLabel: "Blau · Silber",
     colors: Object.freeze({
-      primary: "#f97316",
-      primaryRgb: "249, 115, 22",
-      accent: "#ef4444",
-      accentRgb: "239, 68, 68"
+      primary: "#174a9c",
+      primaryRgb: "23, 74, 156",
+      accent: "#cbd5e1",
+      accentRgb: "203, 213, 225"
     })
   }),
 
@@ -126,12 +126,12 @@ export const LEAGUES = Object.freeze({
     kicker: "Division 23 United",
     description:
       "Twingo Rush bekommt ein eigenes, vollständig getrenntes Ligaprofil innerhalb der Race Control V2.",
-    themeLabel: "Grün · Gelb",
+    themeLabel: "Lila · Creme",
     colors: Object.freeze({
-      primary: "#22c55e",
-      primaryRgb: "34, 197, 94",
-      accent: "#facc15",
-      accentRgb: "250, 204, 21"
+      primary: "#7b3fa0",
+      primaryRgb: "123, 63, 160",
+      accent: "#e9dfca",
+      accentRgb: "233, 223, 202"
     })
   })
 });
