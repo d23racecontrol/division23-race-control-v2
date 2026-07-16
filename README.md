@@ -1,76 +1,114 @@
-# Division 23 Race Control V2 – Schritt 26: Exportbereich strukturiert
+# Division 23 Race Control V2 – Schritt 27: Zuschauerbereich & öffentlicher Datenstand V1
 
-Version: 4.5.0
+Version: 4.6.0
 
-Dieser Schritt verändert ausschließlich die Bedienung und Struktur des
-bestehenden Reiters **Export**. Die fünf Grafikexporte und die Datensicherung
-bleiben funktional unverändert.
+## Zwei getrennte Links
 
-## Neue Exportzentrale
+### Verwaltung
 
-Am Anfang des Exportbereichs befindet sich jetzt eine klare Werkzeugauswahl:
+`index.html`
 
-- Tabellenposter
-- Ergebnisposter
-- Starterliste
-- Strafengrafik
-- Statistikposter
-- Daten & Backup
+Hier bleiben alle Bearbeitungsfunktionen:
 
-Es ist immer nur der ausgewählte Arbeitsbereich sichtbar. Dadurch stehen nicht
-mehr alle umfangreichen Vorschauen untereinander.
+- Fahrer verwalten
+- Rennen planen
+- Ergebnisse erfassen
+- Tabellen und Statistiken
+- Strafen verwalten
+- Exporte und Backups
 
-## Bedienung
+### Zuschaueransicht
 
-- Werkzeug per Klick auswählen
-- aktive Auswahl wird deutlich hervorgehoben
-- Bezeichnung und Kurzbeschreibung des aktiven Werkzeugs werden angezeigt
-- Auswahl bleibt nach einem Neuladen gespeichert
-- Tastatursteuerung innerhalb der Werkzeugauswahl:
-  - Pfeiltasten
-  - Pos1 / Home
-  - Ende / End
+`viewer.html`
 
-## Interne Verbesserung
+Die Zuschaueransicht enthält ausschließlich Lesefunktionen:
 
-Beim Ligawechsel und bei Datenänderungen wird nur noch das aktive
-Grafikwerkzeug neu aufgebaut. Versteckte Poster müssen nicht mehr unnötig
-komplett neu gerendert werden.
+- Dashboard
+- Kalender
+- Fahrer
+- Ergebnisse
+- Tabellen
+- Statistiken
+- Strafakten
 
-## Unverändert enthalten
+Es gibt dort keine Formulare, Löschbuttons, Importe oder Bearbeitungsfunktionen.
 
-- Tabellenposter
-- Ergebnisposter
-- Starterlistenposter
-- Strafengrafik
-- Statistikposter
-- 4:5 und 16:9
-- PNG-Download
-- Liga-Logos und Liga-Farben
-- CSV-Export
-- Liga-Backup
-- Gesamtsicherung
-- Backup-Wiederherstellung
+## Öffentlichen Datenstand erstellen
+
+1. In Race Control **Export** öffnen.
+2. **Daten & Backup** auswählen.
+3. Auf **Öffentlichen Datenstand herunterladen** klicken.
+4. Die erzeugte Datei heißt exakt `public-data.json`.
+5. Diese Datei bei GitHub hochladen und die vorhandene `public-data.json` ersetzen.
+6. Danach den Link zu `viewer.html` verschicken.
+
+Der Viewer zeigt immer den zuletzt bei GitHub veröffentlichten Datenstand.
+
+## Wichtig: getrennte Browserdaten
+
+Die Zuschaueransicht verwendet einen eigenen internen Speicherbereich.
+Selbst wenn die Verwaltung und der Viewer im gleichen Browser geöffnet werden,
+kann der Viewer die Verwaltungsdaten nicht überschreiben.
+
+## Zuschauerlink
+
+Liegt die Verwaltung beispielsweise hier:
+
+`https://NAME.github.io/PROJEKT/`
+
+lautet der Zuschauerlink:
+
+`https://NAME.github.io/PROJEKT/viewer.html`
+
+In **Daten & Backup** stehen dafür zusätzlich bereit:
+
+- Zuschauerlink kopieren
+- Zuschaueransicht öffnen
+
+## Öffentliche Datendatei
+
+`public-data.json` enthält für alle sieben Ligen:
+
+- Fahrer
+- Rennen
+- Ergebnisse
+- Strafakten
+
+Die Datei enthält keine Verwaltungsoberfläche und keine Möglichkeit, Daten auf
+GitHub oder in Verenas Browser zu verändern.
+
+## Aktualisierung nach einem Rennen
+
+1. Ergebnis in der Verwaltung speichern.
+2. Neuen öffentlichen Datenstand herunterladen.
+3. `public-data.json` bei GitHub ersetzen.
+4. GitHub Pages kurz aktualisieren lassen.
+5. Zuschauer öffnen den Viewer neu oder klicken dort auf **Aktualisieren**.
 
 ## GitHub-Upload
 
-Hochladen:
+Beim ersten Upload alle neuen und geänderten Dateien hochladen:
+
 - `css`
 - `js`
 - `index.html`
+- `viewer.html`
+- `public-data.json`
 - `README.md`
 
 Commit:
-`Schritt 26 Exportbereich strukturiert`
+
+`Schritt 27 Zuschauerbereich und öffentlicher Datenstand V1`
 
 ## Test
 
-1. Export öffnen.
-2. Standardmäßig muss nur das Tabellenposter sichtbar sein.
-3. Nacheinander alle sechs Werkzeugbuttons öffnen.
-4. Es darf immer nur der gewählte Bereich sichtbar sein.
-5. Bei **Daten & Backup** müssen Sicherung, CSV und Wiederherstellung erscheinen.
-6. Seite neu laden: Das zuletzt gewählte Werkzeug muss erhalten bleiben.
-7. Liga wechseln: Das aktive Poster muss die neue Liga anzeigen.
-8. Jeden PNG-Export einmal testen.
-9. Backup, CSV und Wiederherstellung müssen weiterhin funktionieren.
+1. Verwaltung öffnen.
+2. Export → Daten & Backup öffnen.
+3. `public-data.json` herunterladen.
+4. Die heruntergeladene Datei im Projekt bei GitHub ersetzen.
+5. `viewer.html` öffnen.
+6. Alle sieben Ligen durchschalten.
+7. Dashboard, Kalender, Fahrer, Ergebnisse, Tabellen, Statistiken und Strafen prüfen.
+8. Im Viewer dürfen keinerlei Bearbeitungsfunktionen erscheinen.
+9. Verwaltung und Viewer im gleichen Browser öffnen.
+10. Viewer darf die Verwaltungsdaten nicht verändern.

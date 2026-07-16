@@ -4,44 +4,46 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=4.5.0";
-import { getDriversForLeague } from "./drivers.js?v=4.5.0";
-import { getRacesForLeague } from "./races.js?v=4.5.0";
-import { getResultsForLeague } from "./results.js?v=4.5.0";
-import { getPenaltiesForLeague } from "./penalties.js?v=4.5.0";
+} from "./leagues.js?v=4.6.0";
+import { getDriversForLeague } from "./drivers.js?v=4.6.0";
+import { getRacesForLeague } from "./races.js?v=4.6.0";
+import { getResultsForLeague } from "./results.js?v=4.6.0";
+import { getPenaltiesForLeague } from "./penalties.js?v=4.6.0";
 import {
   getStandingsExportSnapshot,
   getStandingsExportViews
-} from "./standings.js?v=4.5.0";
+} from "./standings.js?v=4.6.0";
 import {
   initializeTablePosterModule,
   renderTablePosterForLeague
-} from "./table-poster.js?v=4.5.0";
+} from "./table-poster.js?v=4.6.0";
 import {
   initializeResultPosterModule,
   renderResultPosterForLeague
-} from "./result-poster.js?v=4.5.0";
+} from "./result-poster.js?v=4.6.0";
 import {
   initializeStarterPosterModule,
   renderStarterPosterForLeague
-} from "./starter-poster.js?v=4.5.0";
+} from "./starter-poster.js?v=4.6.0";
 import {
   initializePenaltyPosterModule,
   renderPenaltyPosterForLeague
-} from "./penalty-poster.js?v=4.5.0";
+} from "./penalty-poster.js?v=4.6.0";
 import {
   initializeStatisticsPosterModule,
   renderStatisticsPosterForLeague
-} from "./statistics-poster.js?v=4.5.0";
+} from "./statistics-poster.js?v=4.6.0";
 import {
   getActiveExportTool,
   initializeExportWorkspace
-} from "./export-workspace.js?v=4.5.0";
-import { writeStoredJson } from "./storage.js?v=4.5.0";
+} from "./export-workspace.js?v=4.6.0";
+import { writeStoredJson } from "./storage.js?v=4.6.0";
 
 const BACKUP_SCHEMA = "division23-race-control-v2-backup";
 const BACKUP_SCHEMA_VERSION = 1;
-const APP_VERSION = "4.5.0";
+const PUBLIC_DATA_SCHEMA = "division23-race-control-v2-public";
+const PUBLIC_DATA_SCHEMA_VERSION = 1;
+const APP_VERSION = "4.6.0";
 const MAX_BACKUP_FILE_SIZE = 25 * 1024 * 1024;
 
 let activeLeagueId = "pgtc";
@@ -115,6 +117,77 @@ function createBackup(leagueIds, scope) {
     activeLeagueId,
     leagues
   };
+}
+
+function createPublicDataPayload() {
+  const leagues = {};
+
+  getAllLeagues().forEach((league) => {
+    leagues[league.id] = {
+      id: league.id,
+      name: league.name,
+      shortName: league.shortName,
+      data: getLeagueData(league.id)
+    };
+  });
+
+  return {
+    schema: PUBLIC_DATA_SCHEMA,
+    schemaVersion: PUBLIC_DATA_SCHEMA_VERSION,
+    appVersion: APP_VERSION,
+    publishedAt: new Date().toISOString(),
+    publisher: "Division 23 Race Control V2",
+    leagues
+  };
+}
+
+function exportPublicData() {
+  const payload = createPublicDataPayload();
+  downloadJson(payload, "public-data.json");
+
+  showMessage(
+    "Der öffentliche Datenstand wurde als public-data.json heruntergeladen. Ersetze damit die gleichnamige Datei bei GitHub."
+  );
+
+  const dateElement = document.getElementById("publicDataExportDate");
+  if (dateElement) {
+    dateElement.textContent = new Date(payload.publishedAt).toLocaleString("de-DE");
+  }
+}
+
+function getViewerUrl() {
+  return new URL("viewer.html", window.location.href).href;
+}
+
+function openViewer() {
+  window.open(getViewerUrl(), "_blank", "noopener,noreferrer");
+}
+
+async function copyViewerLink() {
+  const viewerUrl = getViewerUrl();
+
+  try {
+    await navigator.clipboard.writeText(viewerUrl);
+    showMessage("Der Zuschauerlink wurde in die Zwischenablage kopiert.");
+  } catch (error) {
+    const temporaryInput = document.createElement("textarea");
+    temporaryInput.value = viewerUrl;
+    temporaryInput.setAttribute("readonly", "");
+    temporaryInput.style.position = "fixed";
+    temporaryInput.style.opacity = "0";
+    document.body.append(temporaryInput);
+    temporaryInput.select();
+
+    const copied = document.execCommand("copy");
+    temporaryInput.remove();
+
+    showMessage(
+      copied
+        ? "Der Zuschauerlink wurde in die Zwischenablage kopiert."
+        : `Zuschauerlink: ${viewerUrl}`,
+      copied ? "success" : "error"
+    );
+  }
 }
 
 function downloadBlob(blob, fileName) {
@@ -664,6 +737,12 @@ export function initializeExportModule(initialLeagueId) {
     document.getElementById("exportAllBackupButton");
   const csvButton =
     document.getElementById("exportStandingsCsvButton");
+  const publicDataButton =
+    document.getElementById("exportPublicDataButton");
+  const copyViewerLinkButton =
+    document.getElementById("copyViewerLinkButton");
+  const openViewerButton =
+    document.getElementById("openViewerButton");
   const importFile =
     document.getElementById("importBackupFile");
   const importButton =
@@ -675,6 +754,9 @@ export function initializeExportModule(initialLeagueId) {
     !leagueBackupButton ||
     !allBackupButton ||
     !csvButton ||
+    !publicDataButton ||
+    !copyViewerLinkButton ||
+    !openViewerButton ||
     !importFile ||
     !importButton ||
     !cancelImportButton
@@ -686,6 +768,9 @@ export function initializeExportModule(initialLeagueId) {
   leagueBackupButton.addEventListener("click", exportCurrentLeagueBackup);
   allBackupButton.addEventListener("click", exportAllLeaguesBackup);
   csvButton.addEventListener("click", exportStandingsCsv);
+  publicDataButton.addEventListener("click", exportPublicData);
+  copyViewerLinkButton.addEventListener("click", copyViewerLink);
+  openViewerButton.addEventListener("click", openViewer);
   importFile.addEventListener("change", handleImportFile);
   importButton.addEventListener("click", applyPendingBackup);
   cancelImportButton.addEventListener("click", () => {

@@ -6,8 +6,9 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=4.5.0">
-  <script type="module" src="js/app.js?v=4.5.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=4.6.0">
+  <link rel="stylesheet" href="css/viewer.css?v=4.6.0">
+  <script type="module" src="js/app.js?v=4.6.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -111,7 +112,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.5.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.6.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -226,10 +227,10 @@
 
         <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
           <section class="calendar-hero">
-            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.5.0" alt="">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.6.0" alt="">
 
             <div class="calendar-hero-logo">
-              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.5.0" alt="" hidden>
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.6.0" alt="" hidden>
               <span id="calendarLeagueLogoFallback">PG</span>
             </div>
 
@@ -1243,7 +1244,7 @@ NurEinFahrername</pre>
         <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
           <section class="export-hero">
             <div>
-              <p class="eyebrow">Schritt 26 · Exportzentrale</p>
+              <p class="eyebrow">Schritt 27 · Exportzentrale & Zuschauerbereich</p>
               <h3 id="exportTitle">Export & Backup für <span id="exportActiveLeagueName">Porsche GT Cup</span></h3>
               <p>Wähle genau das Werkzeug, das du gerade brauchst. Nur der aktive Arbeitsbereich bleibt geöffnet.</p>
             </div>
@@ -1342,6 +1343,37 @@ NurEinFahrername</pre>
 
           <div class="export-tool-panel export-data-panel" data-export-panel="data" aria-label="Daten und Backups" hidden>
           <section class="export-card-grid">
+
+<article class="export-card public-viewer-card">
+  <div class="export-card-icon" aria-hidden="true">👀</div>
+  <p class="eyebrow">Zuschauerbereich</p>
+  <h3>Öffentlichen Datenstand veröffentlichen</h3>
+  <p>Erstellt die Datei <strong>public-data.json</strong> mit allen sieben Ligen. Lade sie anschließend bei GitHub hoch und ersetze dort die bisherige Datei.</p>
+
+  <ol class="public-viewer-steps">
+    <li>Datenstand herunterladen</li>
+    <li><code>public-data.json</code> bei GitHub ersetzen</li>
+    <li>Zuschauerlink verschicken</li>
+  </ol>
+
+  <div class="public-viewer-actions">
+    <button class="primary-button" id="exportPublicDataButton" type="button">
+      Öffentlichen Datenstand herunterladen
+    </button>
+    <button class="secondary-button" id="copyViewerLinkButton" type="button">
+      Zuschauerlink kopieren
+    </button>
+    <button class="secondary-button" id="openViewerButton" type="button">
+      Zuschaueransicht öffnen
+    </button>
+  </div>
+
+  <small class="public-viewer-date">
+    Zuletzt in diesem Browser exportiert:
+    <strong id="publicDataExportDate">noch nicht</strong>
+  </small>
+</article>
+
             <article class="export-card">
               <div class="export-card-icon" aria-hidden="true">🏁</div>
               <p class="eyebrow">Einzelne Liga</p>
@@ -1382,7 +1414,7 @@ NurEinFahrername</pre>
           <p class="form-message export-message" id="exportMessage" role="status" hidden></p>
           </div>
 
-          <section class="table-poster-studio export-tool-panel" data-export-panel="table" aria-label="Tabellenposter"> aria-labelledby="tablePosterTitle">
+          <section class="table-poster-studio export-tool-panel" data-export-panel="table" aria-label="Tabellenposter" aria-labelledby="tablePosterTitle">
             <header class="table-poster-header">
               <div>
                 <p class="eyebrow">Grafikexport V1</p>

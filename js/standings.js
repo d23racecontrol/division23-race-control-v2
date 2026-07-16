@@ -1,18 +1,18 @@
 "use strict";
 
-import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=4.5.0";
-import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=4.5.0";
-import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=4.5.0";
-import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=4.5.0";
-import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=4.5.0";
-import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=4.5.0";
-import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=4.5.0";
-import { getDriversForLeague } from "./drivers.js?v=4.5.0";
-import { getRacesForLeague } from "./races.js?v=4.5.0";
-import { getResultsForLeague } from "./results.js?v=4.5.0";
+import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=4.6.0";
+import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=4.6.0";
+import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=4.6.0";
+import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=4.6.0";
+import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=4.6.0";
+import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=4.6.0";
+import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=4.6.0";
+import { getDriversForLeague } from "./drivers.js?v=4.6.0";
+import { getRacesForLeague } from "./races.js?v=4.6.0";
+import { getResultsForLeague } from "./results.js?v=4.6.0";
 import {
   getPenaltyDeductionsForLeague
-} from "./penalties.js?v=4.5.0";
+} from "./penalties.js?v=4.6.0";
 
 const ALL_GROUPS = "__all__";
 const MANUFACTURERS_VIEW = "__manufacturers__";

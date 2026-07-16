@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Division 23 Race Control – öffentliche Zuschaueransicht">
+  <title>Zuschaueransicht | Division 23 Race Control</title>
+
+  <link rel="stylesheet" href="css/style.css?v=4.6.0">
+  <link rel="stylesheet" href="css/viewer.css?v=4.6.0">
+
+  <script>
+    window.__D23_STORAGE_NAMESPACE__ = "viewer";
+  </script>
+  <script type="module" src="js/viewer.js?v=4.6.0"></script>
+</head>
+<body class="viewer-body">
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Zuschauernavigation">
+      <div class="brand">
+        <div class="brand-mark" id="viewerLeagueLogo" aria-label="Aktives Liga-Logo">
+          <img id="viewerLeagueLogoImage" alt="" hidden>
+          <span id="viewerLeagueLogoFallback" aria-hidden="true">PG</span>
+        </div>
+        <div>
+          <p class="brand-kicker" id="viewerLeagueKicker">Division 23 United</p>
+          <h1 id="viewerLeagueBrandTitle">Race Control <span>Viewer</span></h1>
+        </div>
+      </div>
+
+      <section class="league-switcher" aria-labelledby="viewerLeagueSwitcherTitle">
+        <label class="league-switcher-label" id="viewerLeagueSwitcherTitle" for="viewerLeagueSelect">
+          Liga ansehen
+        </label>
+        <div class="league-select-shell">
+          <span class="league-select-badge" id="viewerLeagueSelectBadge" aria-hidden="true">PG</span>
+          <div class="league-select-copy">
+            <strong id="viewerActiveLeagueShortName">PGTC</strong>
+            <select id="viewerLeagueSelect" aria-label="Liga auswählen"></select>
+          </div>
+          <span class="league-select-chevron" aria-hidden="true">⌄</span>
+        </div>
+      </section>
+
+      <div class="viewer-readonly-badge">
+        <span aria-hidden="true">👀</span>
+        <span>
+          <strong>Nur Zuschaueransicht</strong>
+          <small>Keine Bearbeitung möglich</small>
+        </span>
+      </div>
+
+      <nav class="main-nav" aria-label="Öffentliche Bereiche">
+        <button class="nav-item is-active" type="button" data-viewer-page="dashboard" aria-current="page">
+          <span aria-hidden="true">🏁</span>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" type="button" data-viewer-page="calendar">
+          <span aria-hidden="true">📅</span>
+          <span>Kalender</span>
+        </button>
+        <button class="nav-item" type="button" data-viewer-page="drivers">
+          <span aria-hidden="true">👥</span>
+          <span>Fahrer</span>
+        </button>
+        <button class="nav-item" type="button" data-viewer-page="results">
+          <span aria-hidden="true">🧾</span>
+          <span>Ergebnisse</span>
+        </button>
+        <button class="nav-item" type="button" data-viewer-page="standings">
+          <span aria-hidden="true">🏆</span>
+          <span>Tabellen</span>
+        </button>
+        <button class="nav-item" type="button" data-viewer-page="statistics">
+          <span aria-hidden="true">📈</span>
+          <span>Statistiken</span>
+        </button>
+        <button class="nav-item" type="button" data-viewer-page="penalties">
+          <span aria-hidden="true">⚖️</span>
+          <span>Strafen</span>
+        </button>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="viewerPageEyebrow">Öffentlicher Datenstand</p>
+          <h2 id="viewerPageTitle">Dashboard</h2>
+        </div>
+
+        <div class="viewer-publication">
+          <span>Veröffentlicht</span>
+          <strong id="viewerPublishedAt">wird geladen …</strong>
+          <small id="viewerDataStatus">Öffentliche Daten werden abgerufen.</small>
+          <button class="viewer-refresh-button" id="viewerRefreshButton" type="button">
+            Aktualisieren
+          </button>
+        </div>
+      </header>
+
+      <section class="viewer-load-panel" id="viewerLoadingPanel">
+        <div>
+          <span aria-hidden="true">🏁</span>
+          <h3>Race-Control-Daten werden geladen</h3>
+          <p>Der öffentliche Datenstand wird aus <code>public-data.json</code> eingelesen.</p>
+        </div>
+      </section>
+
+      <section class="viewer-load-panel" id="viewerErrorPanel" hidden>
+        <div>
+          <span aria-hidden="true">🛠️</span>
+          <h3 id="viewerErrorTitle">Noch kein Datenstand veröffentlicht</h3>
+          <p id="viewerErrorText">Die Datei public-data.json wurde noch nicht durch einen exportierten Datenstand ersetzt.</p>
+        </div>
+      </section>
+
+      <div id="viewerContent" hidden>
+        <section class="viewer-page" data-viewer-page-content="dashboard">
+          <section class="viewer-hero">
+            <div class="viewer-hero-copy">
+              <p class="eyebrow">Öffentliche Ligaübersicht</p>
+              <h3 id="viewerDashboardLeagueName">Porsche GT Cup</h3>
+              <p id="viewerDashboardLeagueDescription">Aktuelle Daten aus Division 23 Race Control.</p>
+            </div>
+            <div class="viewer-hero-logo">
+              <img id="viewerHeroLogoImage" alt="" hidden>
+              <span id="viewerHeroLogoFallback">PG</span>
+            </div>
+          </section>
+
+          <section class="viewer-stat-grid" aria-label="Ligastatus">
+            <article>
+              <span>Aktive Fahrer</span>
+              <strong id="viewerDashboardDriverCount">0</strong>
+              <small id="viewerDashboardDriverDetail">0 Stammfahrer</small>
+            </article>
+            <article>
+              <span>Renntermine</span>
+              <strong id="viewerDashboardRaceCount">0</strong>
+              <small id="viewerDashboardRaceDetail">0 ausgewertet</small>
+            </article>
+            <article>
+              <span>Ergebnisbögen</span>
+              <strong id="viewerDashboardResultCount">0</strong>
+              <small id="viewerDashboardResultDetail">0 Sessions</small>
+            </article>
+            <article>
+              <span>Offene Strafen</span>
+              <strong id="viewerDashboardPenaltyCount">0</strong>
+              <small id="viewerDashboardPenaltyDetail">0 offene Fälle</small>
+            </article>
+          </section>
+
+          <section class="viewer-grid-two">
+            <article class="viewer-card">
+              <header class="viewer-card-header">
+                <div>
+                  <p class="eyebrow">Als Nächstes</p>
+                  <h3>Nächstes Rennen</h3>
+                </div>
+              </header>
+              <div id="viewerNextRace"></div>
+            </article>
+
+            <article class="viewer-card">
+              <header class="viewer-card-header">
+                <div>
+                  <p class="eyebrow">Meisterschaft</p>
+                  <h3>Aktuelle Top 5</h3>
+                </div>
+              </header>
+              <div class="viewer-list" id="viewerDashboardStandings"></div>
+            </article>
+          </section>
+
+          <section class="viewer-grid-two">
+            <article class="viewer-card">
+              <header class="viewer-card-header">
+                <div>
+                  <p class="eyebrow">Zuletzt ausgewertet</p>
+                  <h3 id="viewerLastResultTitle">Letztes Ergebnis</h3>
+                </div>
+              </header>
+              <div class="viewer-list" id="viewerLastResult"></div>
+            </article>
+
+            <article class="viewer-card">
+              <header class="viewer-card-header">
+                <div>
+                  <p class="eyebrow">Rennkommission</p>
+                  <h3>Offene Strafakten</h3>
+                </div>
+              </header>
+              <div class="viewer-list" id="viewerOpenPenalties"></div>
+            </article>
+          </section>
+        </section>
+
+        <section class="viewer-page" data-viewer-page-content="calendar" hidden>
+          <section class="viewer-section-heading">
+            <div>
+              <p class="eyebrow">Saisonübersicht</p>
+              <h3>Rennkalender</h3>
+              <p>Alle veröffentlichten Renntermine der aktiven Liga.</p>
+            </div>
+          </section>
+          <div class="viewer-calendar-grid" id="viewerCalendarGrid"></div>
+        </section>
+
+        <section class="viewer-page" data-viewer-page-content="drivers" hidden>
+          <section class="viewer-section-heading">
+            <div>
+              <p class="eyebrow">Teilnehmerfeld</p>
+              <h3>Fahrer</h3>
+              <p>Stammfahrer, Ersatzfahrer und veröffentlichte Gaststarter.</p>
+            </div>
+          </section>
+          <div class="viewer-driver-grid" id="viewerDriverGrid"></div>
+        </section>
+
+        <section class="viewer-page" data-viewer-page-content="results" hidden>
+          <section class="viewer-result-toolbar">
+            <div class="viewer-result-meta">
+              <strong id="viewerResultTitle">Rennergebnis</strong>
+              <span id="viewerResultSubtitle">Wähle ein veröffentlichtes Ergebnis.</span>
+            </div>
+            <label class="viewer-filter" for="viewerResultSelect">
+              <span>Rennen & Session</span>
+              <select id="viewerResultSelect"></select>
+            </label>
+          </section>
+
+          <div class="viewer-table-shell">
+            <table class="viewer-table">
+              <thead>
+                <tr>
+                  <th>Pos.</th>
+                  <th>#</th>
+                  <th>Fahrer</th>
+                  <th>Fahrzeug</th>
+                  <th>Status</th>
+                  <th>Info</th>
+                </tr>
+              </thead>
+              <tbody id="viewerResultRows"></tbody>
+            </table>
+          </div>
+          <div class="viewer-empty" id="viewerResultsEmpty" hidden>Noch keine Ergebnisse veröffentlicht.</div>
+        </section>
+
+        <section class="viewer-page" data-viewer-page-content="standings" hidden>
+          <section class="viewer-table-toolbar">
+            <div class="viewer-result-meta">
+              <strong id="viewerStandingsTitle">Meisterschaftstabelle</strong>
+              <span id="viewerStandingsSubtitle">Aktueller veröffentlichter Tabellenstand.</span>
+            </div>
+            <label class="viewer-filter" for="viewerStandingsView">
+              <span>Wertung</span>
+              <select id="viewerStandingsView"></select>
+            </label>
+          </section>
+
+          <div class="viewer-table-shell">
+            <table class="viewer-table">
+              <thead id="viewerStandingsHead"></thead>
+              <tbody id="viewerStandingsRows"></tbody>
+            </table>
+          </div>
+          <div class="viewer-empty" id="viewerStandingsEmpty" hidden>Noch keine Tabelle verfügbar.</div>
+        </section>
+
+        <section class="viewer-page" data-viewer-page-content="statistics" hidden>
+          <section class="viewer-table-toolbar">
+            <div class="viewer-result-meta">
+              <strong id="viewerStatisticsTitle">Statistik-Topliste</strong>
+              <span id="viewerStatisticsSubtitle">Live aus den veröffentlichten Ergebnissen.</span>
+            </div>
+
+            <div class="viewer-grid-two">
+              <label class="viewer-filter" for="viewerStatisticsView">
+                <span>Wertung</span>
+                <select id="viewerStatisticsView"></select>
+              </label>
+              <label class="viewer-filter" for="viewerStatisticsMetric">
+                <span>Statistik</span>
+                <select id="viewerStatisticsMetric">
+                  <option value="points">Punkte</option>
+                  <option value="wins">Siege</option>
+                  <option value="podiums">Podien</option>
+                  <option value="poles">Pole Positions</option>
+                  <option value="fastestLaps">Schnellste Runden</option>
+                  <option value="starts">Starts</option>
+                  <option value="absences">Abwesenheiten</option>
+                  <option value="disconnects">Disconnects</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <div class="viewer-list" id="viewerStatisticsRows"></div>
+          <div class="viewer-empty" id="viewerStatisticsEmpty" hidden>Noch keine Statistikdaten verfügbar.</div>
+        </section>
+
+        <section class="viewer-page" data-viewer-page-content="penalties" hidden>
+          <section class="viewer-section-heading">
+            <div>
+              <p class="eyebrow">Rennkommission</p>
+              <h3>Strafakten</h3>
+              <p>Veröffentlichte Vorfälle, Maßnahmen und Entscheidungen.</p>
+            </div>
+          </section>
+          <div class="viewer-penalty-grid" id="viewerPenaltyGrid"></div>
+          <div class="viewer-empty" id="viewerPenaltiesEmpty" hidden>Noch keine Strafakten veröffentlicht.</div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

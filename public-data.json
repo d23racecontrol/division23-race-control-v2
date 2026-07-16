@@ -1,0 +1,86 @@
+{
+  "schema": "division23-race-control-v2-public",
+  "schemaVersion": 1,
+  "appVersion": "4.6.0",
+  "publishedAt": null,
+  "publisher": "Division 23 Race Control V2",
+  "leagues": {
+    "pgtc": {
+      "id": "pgtc",
+      "name": "Porsche GT Cup",
+      "shortName": "PGTC",
+      "data": {
+        "drivers": [],
+        "races": [],
+        "results": [],
+        "penalties": []
+      }
+    },
+    "atm": {
+      "id": "atm",
+      "name": "ATM",
+      "shortName": "ATM",
+      "data": {
+        "drivers": [],
+        "races": [],
+        "results": [],
+        "penalties": []
+      }
+    },
+    "whc": {
+      "id": "whc",
+      "name": "World Hypercar Championship",
+      "shortName": "WHC",
+      "data": {
+        "drivers": [],
+        "races": [],
+        "results": [],
+        "penalties": []
+      }
+    },
+    "mtc": {
+      "id": "mtc",
+      "name": "Mégane Trophy Cup",
+      "shortName": "MTC",
+      "data": {
+        "drivers": [],
+        "races": [],
+        "results": [],
+        "penalties": []
+      }
+    },
+    "gt3dl": {
+      "id": "gt3dl",
+      "name": "GT3 Derby League",
+      "shortName": "GT3DL",
+      "data": {
+        "drivers": [],
+        "races": [],
+        "results": [],
+        "penalties": []
+      }
+    },
+    "mom": {
+      "id": "mom",
+      "name": "MoM",
+      "shortName": "MoM",
+      "data": {
+        "drivers": [],
+        "races": [],
+        "results": [],
+        "penalties": []
+      }
+    },
+    "twingoRush": {
+      "id": "twingoRush",
+      "name": "Twingo Rush",
+      "shortName": "Twingo Rush",
+      "data": {
+        "drivers": [],
+        "races": [],
+        "results": [],
+        "penalties": []
+      }
+    }
+  }
+}

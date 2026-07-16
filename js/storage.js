@@ -7,8 +7,17 @@
 
 const STORAGE_PREFIX = "d23_race_control_v2_";
 
+function getStorageNamespace() {
+  const namespace = String(window.__D23_STORAGE_NAMESPACE__ ?? "")
+    .trim()
+    .replace(/[^a-z0-9_-]/gi, "")
+    .slice(0, 40);
+
+  return namespace ? `${namespace}_` : "";
+}
+
 function buildStorageKey(key) {
-  return `${STORAGE_PREFIX}${key}`;
+  return `${STORAGE_PREFIX}${getStorageNamespace()}${key}`;
 }
 
 export function readStoredValue(key, fallbackValue = null) {

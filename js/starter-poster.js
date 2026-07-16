@@ -1,15 +1,15 @@
 "use strict";
 
-import { CALENDAR_CONFIG as PGTC_CALENDAR } from "../data/pgtc/calendar.js?v=4.5.0";
-import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.5.0";
-import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.5.0";
-import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.5.0";
-import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.5.0";
-import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.5.0";
-import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.5.0";
-import { getLeague } from "./leagues.js?v=4.5.0";
-import { getDriversForLeague } from "./drivers.js?v=4.5.0";
-import { getRacesForLeague } from "./races.js?v=4.5.0";
+import { CALENDAR_CONFIG as PGTC_CALENDAR } from "../data/pgtc/calendar.js?v=4.6.0";
+import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.6.0";
+import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.6.0";
+import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.6.0";
+import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.6.0";
+import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.6.0";
+import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.6.0";
+import { getLeague } from "./leagues.js?v=4.6.0";
+import { getDriversForLeague } from "./drivers.js?v=4.6.0";
+import { getRacesForLeague } from "./races.js?v=4.6.0";
 
 const POSTER_FORMATS = Object.freeze({
   portrait: Object.freeze({
@@ -223,7 +223,7 @@ function loadLogo(src) {
     const image = new Image();
     image.onload = () => resolve(image);
     image.onerror = () => resolve(null);
-    image.src = `${src}?v=4.5.0`;
+    image.src = `${src}?v=4.6.0`;
   });
 
   logoCache.set(src, promise);
