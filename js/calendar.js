@@ -1,15 +1,18 @@
 "use strict";
 
-import { CALENDAR_CONFIG as PGTC_CALENDAR } from "../data/pgtc/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.6.0";
-import { getLeague } from "./leagues.js?v=4.6.0";
-import { getRacesForLeague } from "./races.js?v=4.6.0";
-import { getResultsForLeague } from "./results.js?v=4.6.0";
+import { CALENDAR_CONFIG as PGTC_CALENDAR } from "../data/pgtc/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.7.0";
+import { getLeague } from "./leagues.js?v=4.7.0";
+import { getRacesForLeague } from "./races.js?v=4.7.0";
+import { getResultsForLeague } from "./results.js?v=4.7.0";
+import {
+  getSeasonStateForLeague
+} from "./season-state.js?v=4.7.0";
 
 const CALENDARS = Object.freeze({
   pgtc: PGTC_CALENDAR,
@@ -40,6 +43,41 @@ function setText(elementId, value) {
 
 function getCalendar(leagueId = activeLeagueId) {
   return CALENDARS[leagueId] ?? PGTC_CALENDAR;
+}
+
+function getEffectiveCalendar(leagueId, races) {
+  const league = getLeague(leagueId);
+  const baseCalendar = getCalendar(leagueId);
+  const seasonState = getSeasonStateForLeague(leagueId);
+
+  if (seasonState.label === baseCalendar.season) {
+    return {
+      ...baseCalendar,
+      season: seasonState.label
+    };
+  }
+
+  const groups = [...new Set(
+    races.map((race) => race.group).filter(Boolean)
+  )];
+
+  return {
+    season: seasonState.label,
+    headline: league.name,
+    subtitle: races.length
+      ? "Aktueller Saisonplan aus der Rennplanung."
+      : "Für die neue Saison wurden noch keine Rennen geplant.",
+    defaultTime: "",
+    groups,
+    entries: races.map((race) => ({
+      round: race.number,
+      group: race.group,
+      date: race.date,
+      track: race.track,
+      time: race.time,
+      tag: race.note
+    }))
+  };
 }
 
 function getTodayValue() {
@@ -220,11 +258,11 @@ function updateHero(league, calendar, entries) {
       fallback.hidden = false;
     };
 
-    logo.src = `${league.logoPath}?v=4.6.0`;
+    logo.src = `${league.logoPath}?v=4.7.0`;
   }
 
   if (watermark) {
-    watermark.src = `${league.logoPath}?v=4.6.0`;
+    watermark.src = `${league.logoPath}?v=4.7.0`;
     watermark.alt = "";
   }
 }
@@ -449,9 +487,9 @@ export function renderCalendarForLeague(leagueId = activeLeagueId) {
   activeLeagueId = leagueId;
 
   const league = getLeague(activeLeagueId);
-  const calendar = getCalendar(activeLeagueId);
-  const entries = getVisibleEntries(calendar);
   const races = getRacesForLeague(activeLeagueId);
+  const calendar = getEffectiveCalendar(activeLeagueId, races);
+  const entries = getVisibleEntries(calendar);
   const results = getResultsForLeague(activeLeagueId);
   const resultRaceIds = new Set(results.map((result) => result.raceId));
   const nextEntryKey = getNextEntryKey(entries);
@@ -513,7 +551,7 @@ export function initializeCalendarModule(initialLeagueId) {
     }
   });
 
-  ["d23:races-updated", "d23:results-updated"].forEach((eventName) => {
+  ["d23:races-updated", "d23:results-updated", "d23:season-changed"].forEach((eventName) => {
     window.addEventListener(eventName, (event) => {
       if (event.detail?.leagueId === activeLeagueId) {
         renderCalendarForLeague(activeLeagueId);

@@ -6,13 +6,13 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=4.6.0";
-import { writeStoredJson } from "./storage.js?v=4.6.0";
+} from "./leagues.js?v=4.7.0";
+import { writeStoredJson } from "./storage.js?v=4.7.0";
 import {
   getDriverStandingsSnapshot,
   getStandingsExportSnapshot,
   getStandingsExportViews
-} from "./standings.js?v=4.6.0";
+} from "./standings.js?v=4.7.0";
 
 const PUBLIC_DATA_SCHEMA = "division23-race-control-v2-public";
 const ACTIVE_LEAGUE_KEY = "d23_viewer_active_league";
@@ -23,7 +23,8 @@ const PAGE_CONFIG = Object.freeze({
   results: "Ergebnisse",
   standings: "Tabellen",
   statistics: "Statistiken",
-  penalties: "Strafen"
+  penalties: "Strafen",
+  seasons: "Saisons"
 });
 
 const SESSION_CONFIG = Object.freeze({
@@ -73,6 +74,8 @@ let selectedResultId = "";
 let selectedStandingsView = "";
 let selectedStatisticsView = "";
 let selectedStatisticsMetric = "points";
+let selectedSeasonArchiveId = "";
+let selectedSeasonArchiveView = "";
 
 function setText(elementId, value) {
   const element = document.getElementById(elementId);
@@ -110,7 +113,14 @@ function getLeagueData(leagueId = activeLeagueId) {
     drivers: Array.isArray(data.drivers) ? data.drivers : [],
     races: Array.isArray(data.races) ? data.races : [],
     results: Array.isArray(data.results) ? data.results : [],
-    penalties: Array.isArray(data.penalties) ? data.penalties : []
+    penalties: Array.isArray(data.penalties) ? data.penalties : [],
+    seasonState:
+      data.seasonState && typeof data.seasonState === "object"
+        ? data.seasonState
+        : { label: "Aktuelle Saison" },
+    seasonArchives: Array.isArray(data.seasonArchives)
+      ? data.seasonArchives
+      : []
   };
 }
 
@@ -214,6 +224,16 @@ function hydrateViewerStorage(payload) {
     writeStoredJson(`races_${league.id}`, Array.isArray(data.races) ? data.races : []);
     writeStoredJson(`results_${league.id}`, Array.isArray(data.results) ? data.results : []);
     writeStoredJson(`penalties_${league.id}`, Array.isArray(data.penalties) ? data.penalties : []);
+    writeStoredJson(
+      `season_state_${league.id}`,
+      data.seasonState && typeof data.seasonState === "object"
+        ? data.seasonState
+        : { label: "Aktuelle Saison" }
+    );
+    writeStoredJson(
+      `season_archives_${league.id}`,
+      Array.isArray(data.seasonArchives) ? data.seasonArchives : []
+    );
   });
 }
 
@@ -267,7 +287,7 @@ function loadImageWithFallback(image, fallback, src, alt) {
     fallback.hidden = false;
   };
 
-  image.src = `${src}?v=4.6.0`;
+  image.src = `${src}?v=4.7.0`;
 }
 
 function applyLeagueTheme(leagueId) {
@@ -288,7 +308,11 @@ function applyLeagueTheme(leagueId) {
   setText("viewerLeagueLogoFallback", league.logoText);
   setText("viewerHeroLogoFallback", league.logoText);
   setText("viewerDashboardLeagueName", league.name);
-  setText("viewerDashboardLeagueDescription", league.description);
+  const seasonState = getLeagueData(league.id).seasonState;
+  setText(
+    "viewerDashboardLeagueDescription",
+    `${seasonState.label || "Aktuelle Saison"} · ${league.description}`
+  );
   setText("viewerPageEyebrow", `${league.shortName} · Öffentlicher Datenstand`);
 
   const brandTitle = document.getElementById("viewerLeagueBrandTitle");
@@ -313,6 +337,8 @@ function applyLeagueTheme(leagueId) {
   selectedResultId = "";
   selectedStandingsView = "";
   selectedStatisticsView = "";
+  selectedSeasonArchiveId = "";
+  selectedSeasonArchiveView = "";
   renderAllPages();
   updateDocumentTitle();
 }
@@ -963,6 +989,154 @@ function renderPenalties() {
   empty.hidden = true;
 }
 
+
+function renderSeasonArchive() {
+  const data = getLeagueData();
+  const archiveSelect = document.getElementById("viewerSeasonArchiveSelect");
+  const viewSelect = document.getElementById("viewerSeasonArchiveView");
+  const head = clearElement("viewerSeasonArchiveHead");
+  const rows = clearElement("viewerSeasonArchiveRows");
+  const empty = document.getElementById("viewerSeasonArchiveEmpty");
+  const tableShell = document.getElementById("viewerSeasonArchiveTableShell");
+  const stats = document.getElementById("viewerSeasonArchiveStats");
+
+  if (!archiveSelect || !viewSelect || !head || !rows || !empty || !tableShell || !stats) {
+    return;
+  }
+
+  const archives = [...data.seasonArchives].sort((first, second) =>
+    (second.archivedAt || "").localeCompare(first.archivedAt || "")
+  );
+
+  archiveSelect.replaceChildren(
+    ...archives.map((archive) => {
+      const option = document.createElement("option");
+      option.value = archive.id;
+      option.textContent = archive.seasonLabel;
+      return option;
+    })
+  );
+
+  if (!archives.some((archive) => archive.id === selectedSeasonArchiveId)) {
+    selectedSeasonArchiveId = archives[0]?.id ?? "";
+    selectedSeasonArchiveView = "";
+  }
+
+  if (archives.length === 0) {
+    archiveSelect.disabled = true;
+    viewSelect.disabled = true;
+    tableShell.hidden = true;
+    stats.hidden = true;
+    empty.hidden = false;
+    setText("viewerSeasonArchiveTitle", "Saisonarchiv");
+    setText("viewerSeasonArchiveSubtitle", `${data.seasonState.label || "Aktuelle Saison"} ist die aktive Saison.`);
+    return;
+  }
+
+  archiveSelect.disabled = archives.length <= 1;
+  archiveSelect.value = selectedSeasonArchiveId;
+
+  const archive = archives.find((item) => item.id === selectedSeasonArchiveId) ?? archives[0];
+  const views = Array.isArray(archive.standingsViews) ? archive.standingsViews : [];
+
+  viewSelect.replaceChildren(
+    ...views.map((view) => {
+      const option = document.createElement("option");
+      option.value = view.view;
+      option.textContent = view.label;
+      return option;
+    })
+  );
+
+  if (!views.some((view) => view.view === selectedSeasonArchiveView)) {
+    selectedSeasonArchiveView = views[0]?.view ?? "";
+  }
+
+  viewSelect.disabled = views.length <= 1;
+  viewSelect.value = selectedSeasonArchiveView;
+
+  setText("viewerSeasonArchiveTitle", archive.seasonLabel);
+  setText(
+    "viewerSeasonArchiveSubtitle",
+    `Archiviert am ${formatPublishedAt(archive.archivedAt)}`
+  );
+  setText("viewerArchiveChampion", archive.summary?.champion || "—");
+  setText(
+    "viewerArchiveChampionPoints",
+    archive.summary?.championPoints === null ||
+      archive.summary?.championPoints === undefined
+      ? "—"
+      : `${archive.summary.championPoints} Punkte`
+  );
+  setText("viewerArchiveDrivers", archive.summary?.drivers ?? 0);
+  setText("viewerArchiveRaces", archive.summary?.scoredRaces ?? 0);
+  setText("viewerArchivePenalties", archive.summary?.penalties ?? 0);
+
+  const snapshot =
+    views.find((view) => view.view === selectedSeasonArchiveView) ??
+    views[0] ??
+    null;
+
+  if (!snapshot || !snapshot.standings?.length) {
+    head.replaceChildren();
+    rows.replaceChildren();
+    tableShell.hidden = true;
+    stats.hidden = false;
+    empty.hidden = false;
+    empty.textContent = "Für diese Saison wurde keine Endtabelle veröffentlicht.";
+    return;
+  }
+
+  const headerRow = document.createElement("tr");
+  const headers = snapshot.type === "manufacturers"
+    ? ["Pos.", "Hersteller", "Fahrer", "Siege", "Podien", "Punkte"]
+    : ["Pos.", "#", "Fahrer", "Gruppe", "Starts", "Siege", "Podien", "FL", "Pole", "Punkte"];
+
+  headerRow.append(...headers.map((label) => createElement("th", "", label)));
+  head.append(headerRow);
+
+  rows.append(
+    ...snapshot.standings.map((standing) => {
+      const row = document.createElement("tr");
+      const values = snapshot.type === "manufacturers"
+        ? [
+            standing.rank,
+            standing.name,
+            standing.contributors,
+            standing.wins,
+            standing.podiums,
+            standing.points
+          ]
+        : [
+            standing.rank,
+            standing.number ? `#${standing.number}` : "—",
+            standing.name,
+            standing.group || snapshot.label,
+            standing.starts,
+            standing.wins,
+            standing.podiums,
+            standing.fastestLaps,
+            standing.poles,
+            standing.points
+          ];
+
+      values.forEach((value, index) => {
+        const cell = document.createElement("td");
+        cell.textContent = String(value);
+        if (index === 0) cell.className = "viewer-table-rank";
+        if (index === values.length - 1) cell.className = "viewer-table-points";
+        row.append(cell);
+      });
+
+      return row;
+    })
+  );
+
+  tableShell.hidden = false;
+  stats.hidden = false;
+  empty.hidden = true;
+}
+
 function renderAllPages() {
   renderDashboard();
   renderCalendar();
@@ -971,6 +1145,7 @@ function renderAllPages() {
   renderStandings();
   renderStatistics();
   renderPenalties();
+  renderSeasonArchive();
 }
 
 function showViewerContent() {
@@ -1065,6 +1240,10 @@ function initializeViewer() {
   const statisticsView = document.getElementById("viewerStatisticsView");
   const statisticsMetric = document.getElementById("viewerStatisticsMetric");
   const refreshButton = document.getElementById("viewerRefreshButton");
+  const seasonArchiveSelect =
+    document.getElementById("viewerSeasonArchiveSelect");
+  const seasonArchiveView =
+    document.getElementById("viewerSeasonArchiveView");
 
   leagueSelect?.addEventListener("change", (event) => {
     applyLeagueTheme(event.target.value);
@@ -1090,6 +1269,17 @@ function initializeViewer() {
       ? event.target.value
       : "points";
     renderStatistics();
+  });
+
+  seasonArchiveSelect?.addEventListener("change", (event) => {
+    selectedSeasonArchiveId = event.target.value;
+    selectedSeasonArchiveView = "";
+    renderSeasonArchive();
+  });
+
+  seasonArchiveView?.addEventListener("change", (event) => {
+    selectedSeasonArchiveView = event.target.value;
+    renderSeasonArchive();
   });
 
   refreshButton?.addEventListener("click", loadPublicData);

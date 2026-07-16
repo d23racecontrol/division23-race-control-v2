@@ -1,15 +1,18 @@
 "use strict";
 
-import { CALENDAR_CONFIG as PGTC_CALENDAR } from "../data/pgtc/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.6.0";
-import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.6.0";
-import { getLeague } from "./leagues.js?v=4.6.0";
-import { getDriversForLeague } from "./drivers.js?v=4.6.0";
-import { getRacesForLeague } from "./races.js?v=4.6.0";
+import { CALENDAR_CONFIG as PGTC_CALENDAR } from "../data/pgtc/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.7.0";
+import { getLeague } from "./leagues.js?v=4.7.0";
+import {
+  getSeasonLabelForLeague
+} from "./season-state.js?v=4.7.0";
+import { getDriversForLeague } from "./drivers.js?v=4.7.0";
+import { getRacesForLeague } from "./races.js?v=4.7.0";
 
 const POSTER_FORMATS = Object.freeze({
   portrait: Object.freeze({
@@ -223,7 +226,7 @@ function loadLogo(src) {
     const image = new Image();
     image.onload = () => resolve(image);
     image.onerror = () => resolve(null);
-    image.src = `${src}?v=4.6.0`;
+    image.src = `${src}?v=4.7.0`;
   });
 
   logoCache.set(src, promise);
@@ -487,7 +490,7 @@ function drawHeader(context, layout, league, calendar, race, logo) {
     maxWidth: width - margin * 2 - logoSize - margin * 0.6
   });
 
-  drawText(context, `${league.name} · ${calendar?.season ?? "Aktuelle Saison"}`, margin, margin + titleSize * 1.28 + subtitleSize * 1.42, {
+  drawText(context, `${league.name} · ${getSeasonLabelForLeague(activeLeagueId, calendar?.season)}`, margin, margin + titleSize * 1.28 + subtitleSize * 1.42, {
     font: `800 ${subtitleSize}px Arial, sans-serif`,
     color: mixColors(primary, "#ffffff", 0.25),
     maxWidth: width - margin * 2 - logoSize - margin * 0.6
@@ -683,7 +686,7 @@ function drawFooter(context, layout, league, calendar, starters, displayedRows) 
     letterSpacing: Math.max(1.3, footerSize * 0.09)
   });
 
-  drawText(context, `POWERED BY DIVISION 23 · ${calendar?.season ?? "AKTUELLE SAISON"}`, width - margin, footerY, {
+  drawText(context, `POWERED BY DIVISION 23 · ${getSeasonLabelForLeague(activeLeagueId, calendar?.season).toLocaleUpperCase("de")}`, width - margin, footerY, {
     font: `800 ${footerSize}px Arial, sans-serif`,
     color: rgba("#ffffff", 0.5),
     align: "right",

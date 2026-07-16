@@ -5,56 +5,64 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=4.6.0";
+} from "./leagues.js?v=4.7.0";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=4.6.0";
+} from "./storage.js?v=4.7.0";
 import {
   initializeDriversModule,
   renderDriversForLeague,
   setDriversLeague
-} from "./drivers.js?v=4.6.0";
+} from "./drivers.js?v=4.7.0";
 import {
   initializeRacesModule,
   renderRacesForLeague,
   setRacesLeague
-} from "./races.js?v=4.6.0";
+} from "./races.js?v=4.7.0";
 import {
   initializeResultsModule,
   renderResultsForLeague,
   setResultsLeague
-} from "./results.js?v=4.6.0";
+} from "./results.js?v=4.7.0";
 import {
   initializeStandingsModule,
   renderStandingsForLeague,
   setStandingsLeague
-} from "./standings.js?v=4.6.0";
+} from "./standings.js?v=4.7.0";
 import {
   initializeStatisticsModule,
   renderStatisticsForLeague,
   setStatisticsLeague
-} from "./statistics.js?v=4.6.0";
+} from "./statistics.js?v=4.7.0";
 import {
   initializePenaltiesModule,
   renderPenaltiesForLeague,
   setPenaltiesLeague
-} from "./penalties.js?v=4.6.0";
+} from "./penalties.js?v=4.7.0";
 import {
   initializeExportModule,
   renderExportForLeague,
   setExportLeague
-} from "./export.js?v=4.6.0";
+} from "./export.js?v=4.7.0";
 import {
   initializeDashboardModule,
   renderDashboardForLeague,
   setDashboardLeague
-} from "./dashboard.js?v=4.6.0";
+} from "./dashboard.js?v=4.7.0";
 import {
   initializeCalendarModule,
   renderCalendarForLeague,
   setCalendarLeague
-} from "./calendar.js?v=4.6.0";
+} from "./calendar.js?v=4.7.0";
+import {
+  initializeSeasonArchiveModule,
+  renderSeasonArchiveForLeague,
+  setSeasonArchiveLeague
+} from "./season-archive.js?v=4.7.0";
+import {
+  getSeasonLabelForLeague
+} from "./season-state.js?v=4.7.0";
 
 /**
  * Division 23 Race Control V2
@@ -64,7 +72,7 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "4.6.0";
+const APP_VERSION = "4.7.0";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 
@@ -77,6 +85,7 @@ const PAGE_CONFIG = Object.freeze({
   standings: { title: "Tabellen", status: "Meisterschaftstabelle aktiv" },
   statistics: { title: "Statistiken", status: "Statistikmodul aktiv" },
   penalties: { title: "Strafen", status: "Strafenverwaltung aktiv" },
+  seasons: { title: "Saisons", status: "Saisonarchiv und Saisonwechsel aktiv" },
   export: { title: "Export", status: "Datensicherung und Export aktiv" }
 });
 
@@ -160,6 +169,10 @@ function renderPage(pageName) {
 
   if (safePageName === "penalties") {
     renderPenaltiesForLeague(activeLeagueId);
+  }
+
+  if (safePageName === "seasons") {
+    renderSeasonArchiveForLeague(activeLeagueId);
   }
 
   if (safePageName === "export") {
@@ -251,6 +264,7 @@ function applyLeagueTheme(leagueId, { persist = true } = {}) {
   const leagueSummaryName = document.getElementById("leagueSummaryName");
   const leagueSummaryKicker = document.getElementById("leagueSummaryKicker");
   const themeLabel = document.getElementById("themeLabel");
+  const activeSeasonLabel = document.getElementById("activeSeasonLabel");
 
   if (leagueSelect) leagueSelect.value = league.id;
   if (leagueSelectBadge) leagueSelectBadge.textContent = league.logoText;
@@ -264,6 +278,9 @@ function applyLeagueTheme(leagueId, { persist = true } = {}) {
   if (leagueSummaryName) leagueSummaryName.textContent = league.name;
   if (leagueSummaryKicker) leagueSummaryKicker.textContent = league.kicker;
   if (themeLabel) themeLabel.textContent = league.themeLabel;
+  if (activeSeasonLabel) {
+    activeSeasonLabel.textContent = getSeasonLabelForLeague(league.id);
+  }
 
   document.querySelectorAll("[data-active-league-name]").forEach((element) => {
     element.textContent = league.name;
@@ -279,6 +296,7 @@ function applyLeagueTheme(leagueId, { persist = true } = {}) {
   setExportLeague(league.id);
   setDashboardLeague(league.id);
   setCalendarLeague(league.id);
+  setSeasonArchiveLeague(league.id);
   updateDocumentTitle(getPageFromUrl());
 
   if (persist) {
@@ -352,6 +370,7 @@ function initializeApp() {
   initializeExportModule(activeLeagueId);
   initializeDashboardModule(activeLeagueId);
   initializeCalendarModule(activeLeagueId);
+  initializeSeasonArchiveModule(activeLeagueId);
   initializeNavigation();
 
   window.addEventListener("d23:backup-imported", () => {
@@ -359,9 +378,19 @@ function initializeApp() {
     renderPage(getPageFromUrl());
   });
 
+  window.addEventListener("d23:season-changed", (event) => {
+    if (event.detail?.leagueId === activeLeagueId) {
+      const activeSeasonLabel = document.getElementById("activeSeasonLabel");
+      if (activeSeasonLabel) {
+        activeSeasonLabel.textContent = getSeasonLabelForLeague(activeLeagueId);
+      }
+      renderPage(getPageFromUrl());
+    }
+  });
+
   if (loadMessage) {
     loadMessage.textContent =
-      `Dashboard, Kalender, Navigation, Liga-, Fahrer-, Renn-, Ergebnis-, Tabellen-, Statistik-, Strafen- und Exportmodule aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
+      `Dashboard, Kalender, Navigation, Liga-, Fahrer-, Renn-, Ergebnis-, Tabellen-, Statistik-, Strafen-, Saisonarchiv- und Exportmodule aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
   }
 
   appStatus.setAttribute("title", `${APP_NAME} v${APP_VERSION}`);

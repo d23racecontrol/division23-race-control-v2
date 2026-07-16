@@ -6712,3 +6712,531 @@ select {
     min-height: 62px;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Schritt 28: Saisonarchiv & Saisonwechsel V1
+   -------------------------------------------------------------------------- */
+
+.topbar-status-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.season-context-badge {
+  display: grid;
+  gap: 2px;
+  min-width: 120px;
+  padding: 8px 11px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.28);
+  border-radius: 11px;
+  background: rgba(var(--color-primary-rgb), 0.07);
+}
+
+.season-context-badge span {
+  color: var(--color-muted);
+  font-size: 0.56rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.season-context-badge strong {
+  overflow: hidden;
+  color: var(--color-accent);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seasons-page {
+  display: grid;
+  gap: 20px;
+}
+
+.seasons-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 27px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  background:
+    radial-gradient(circle at 92% 15%, rgba(var(--color-primary-rgb), 0.22), transparent 35%),
+    linear-gradient(145deg, rgba(30, 30, 44, 0.98), rgba(17, 17, 27, 0.98));
+  box-shadow: var(--shadow-card);
+}
+
+.seasons-hero h3 {
+  margin: 0;
+  font-size: 1.55rem;
+}
+
+.seasons-hero p:not(.eyebrow) {
+  max-width: 760px;
+  margin: 10px 0 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.seasons-hero-badge {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 210px;
+  padding: 15px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.34);
+  border-radius: 15px;
+  background: rgba(var(--color-primary-rgb), 0.09);
+}
+
+.seasons-hero-badge > span:first-child {
+  font-size: 1.7rem;
+}
+
+.seasons-hero-badge small,
+.seasons-hero-badge strong {
+  display: block;
+}
+
+.seasons-hero-badge small {
+  color: var(--color-muted);
+  font-size: 0.6rem;
+}
+
+.seasons-hero-badge strong {
+  margin-top: 3px;
+  color: var(--color-accent);
+  font-size: 0.84rem;
+}
+
+.season-current-summary {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.season-current-summary article {
+  display: grid;
+  gap: 5px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.season-current-summary span,
+.season-archive-stats span,
+.season-champion-grid span {
+  color: var(--color-muted);
+  font-size: 0.59rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.season-current-summary strong {
+  font-size: 1.25rem;
+}
+
+.season-current-meta {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 15px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.22);
+  border-radius: 13px;
+  background: rgba(var(--color-primary-rgb), 0.05);
+}
+
+.season-current-meta p {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+}
+
+.season-current-meta strong {
+  font-size: 0.73rem;
+}
+
+.season-current-meta small {
+  color: var(--color-muted);
+  font-size: 0.62rem;
+}
+
+.season-archive-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.5fr);
+  align-items: start;
+  gap: 18px;
+}
+
+.season-archive-browser,
+.season-archive-detail-card,
+.season-change-card {
+  padding: 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  background: rgba(255, 255, 255, 0.024);
+  box-shadow: var(--shadow-card);
+}
+
+.season-section-header,
+.season-archive-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.season-section-header h3,
+.season-archive-detail-header h3 {
+  margin: 0;
+  font-size: 1.08rem;
+}
+
+.season-section-header p:not(.eyebrow) {
+  max-width: 760px;
+  margin: 7px 0 0;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  line-height: 1.55;
+}
+
+.season-archive-detail-header small {
+  display: block;
+  margin-top: 5px;
+  color: var(--color-muted);
+  font-size: 0.62rem;
+}
+
+.season-archive-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 17px;
+}
+
+.season-archive-list-item {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.season-archive-list-item:hover,
+.season-archive-list-item.is-active {
+  border-color: rgba(var(--color-primary-rgb), 0.46);
+  background: rgba(var(--color-primary-rgb), 0.08);
+}
+
+.season-archive-list-item > span:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.season-archive-list-item strong {
+  font-size: 0.74rem;
+}
+
+.season-archive-list-item small,
+.season-archive-list-summary {
+  color: var(--color-muted);
+  font-size: 0.6rem;
+}
+
+.season-archive-list-item.is-active strong,
+.season-archive-list-item.is-active .season-archive-list-summary {
+  color: var(--color-accent);
+}
+
+.season-archive-empty,
+.season-archive-detail-empty {
+  display: grid;
+  place-items: center;
+  min-height: 230px;
+  padding: 25px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.season-archive-empty span,
+.season-archive-detail-empty span {
+  font-size: 2rem;
+}
+
+.season-archive-empty h4,
+.season-archive-detail-empty h4 {
+  margin: 10px 0 5px;
+  color: var(--color-text);
+}
+
+.season-archive-empty p,
+.season-archive-detail-empty p {
+  max-width: 430px;
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1.55;
+}
+
+.season-champion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+  margin-top: 18px;
+}
+
+.season-champion-grid article {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 13px;
+  background: rgba(var(--color-primary-rgb), 0.07);
+}
+
+.season-champion-grid strong {
+  overflow: hidden;
+  font-size: 0.86rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.season-champion-grid small {
+  color: var(--color-accent);
+  font-size: 0.64rem;
+}
+
+.season-archive-stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.season-archive-stats div {
+  display: grid;
+  gap: 4px;
+  padding: 11px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.season-archive-stats strong {
+  font-size: 0.82rem;
+}
+
+.season-archive-view-field {
+  display: grid;
+  gap: 6px;
+  margin-top: 17px;
+}
+
+.season-archive-view-field span {
+  color: var(--color-muted);
+  font-size: 0.62rem;
+  font-weight: 850;
+}
+
+.season-archive-table-shell {
+  margin-top: 12px;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 13px;
+}
+
+.season-archive-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+}
+
+.season-archive-table th,
+.season-archive-table td {
+  padding: 10px 11px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+  font-size: 0.64rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.season-archive-table th {
+  color: var(--color-muted);
+  font-size: 0.56rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.season-archive-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.season-archive-rank,
+.season-archive-points {
+  color: var(--color-accent);
+  font-weight: 950;
+}
+
+.season-archive-table-empty {
+  padding: 24px;
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  text-align: center;
+}
+
+.season-change-card {
+  background:
+    radial-gradient(circle at 96% 10%, rgba(248, 113, 113, 0.1), transparent 38%),
+    rgba(255, 255, 255, 0.024);
+}
+
+.season-danger-badge {
+  padding: 7px 10px;
+  border: 1px solid rgba(248, 113, 113, 0.32);
+  border-radius: 999px;
+  background: rgba(248, 113, 113, 0.08);
+  color: #fca5a5;
+  font-size: 0.59rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.season-change-card form {
+  display: grid;
+  gap: 16px;
+  margin-top: 19px;
+}
+
+.season-change-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.season-keep-drivers {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.026);
+}
+
+.season-keep-drivers input {
+  margin-top: 2px;
+}
+
+.season-keep-drivers strong,
+.season-keep-drivers small {
+  display: block;
+}
+
+.season-keep-drivers strong {
+  font-size: 0.7rem;
+}
+
+.season-keep-drivers small {
+  margin-top: 3px;
+  color: var(--color-muted);
+  font-size: 0.61rem;
+}
+
+.season-change-warning {
+  display: flex;
+  gap: 11px;
+  padding: 13px 14px;
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  border-radius: 12px;
+  background: rgba(251, 191, 36, 0.065);
+}
+
+.season-change-warning p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.67rem;
+  line-height: 1.55;
+}
+
+.season-confirmation-field strong {
+  color: #fca5a5;
+}
+
+.danger-button {
+  padding: 11px 16px;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 11px;
+  background: rgba(220, 38, 38, 0.18);
+  color: #fecaca;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+.danger-button:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.27);
+}
+
+.danger-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.season-change-button {
+  justify-self: start;
+}
+
+@media (max-width: 1120px) {
+  .season-current-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .season-archive-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .topbar-status-group,
+  .seasons-hero,
+  .season-section-header,
+  .season-archive-detail-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .season-context-badge {
+    min-width: 0;
+  }
+
+  .season-current-summary,
+  .season-archive-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .season-change-grid,
+  .season-champion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .season-danger-badge {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 460px) {
+  .season-current-summary,
+  .season-archive-stats {
+    grid-template-columns: 1fr;
+  }
+}

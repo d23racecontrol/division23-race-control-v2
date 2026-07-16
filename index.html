@@ -6,9 +6,9 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=4.6.0">
-  <link rel="stylesheet" href="css/viewer.css?v=4.6.0">
-  <script type="module" src="js/app.js?v=4.6.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=4.7.0">
+  <link rel="stylesheet" href="css/viewer.css?v=4.7.0">
+  <script type="module" src="js/app.js?v=4.7.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -87,6 +87,11 @@
           <span>Strafen</span>
         </button>
 
+        <button class="nav-item" type="button" data-page="seasons">
+          <span aria-hidden="true">📦</span>
+          <span>Saisons</span>
+        </button>
+
         <button class="nav-item" type="button" data-page="export">
           <span aria-hidden="true">📤</span>
           <span>Export</span>
@@ -102,9 +107,16 @@
           <h2 id="pageTitle">Dashboard</h2>
         </div>
 
-        <div class="status-badge" id="appStatus" role="status">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span id="statusText">System bereit</span>
+        <div class="topbar-status-group">
+          <div class="season-context-badge">
+            <span>Saison</span>
+            <strong id="activeSeasonLabel">Saison 1</strong>
+          </div>
+
+          <div class="status-badge" id="appStatus" role="status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="statusText">System bereit</span>
+          </div>
         </div>
       </header>
 
@@ -112,7 +124,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.6.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.7.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -227,10 +239,10 @@
 
         <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
           <section class="calendar-hero">
-            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.6.0" alt="">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.7.0" alt="">
 
             <div class="calendar-hero-logo">
-              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.6.0" alt="" hidden>
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.7.0" alt="" hidden>
               <span id="calendarLeagueLogoFallback">PG</span>
             </div>
 
@@ -1240,6 +1252,182 @@ NurEinFahrername</pre>
             <p><strong>Pro Liga getrennt:</strong> Strafakten werden lokal im Browser gespeichert und bleiben auch nach dem Neuladen erhalten.</p>
           </aside>
         </section>
+
+
+<section class="page-view seasons-page" data-page-content="seasons" aria-labelledby="seasonsTitle" hidden>
+  <section class="seasons-hero">
+    <div>
+      <p class="eyebrow">Schritt 28 · Saisonverwaltung</p>
+      <h3 id="seasonsTitle">Saisonarchiv für <span id="seasonArchiveLeagueName">Porsche GT Cup</span></h3>
+      <p>Schließe eine Saison sauber ab, bewahre alle Ergebnisse und Endtabellen auf und starte anschließend mit einem frischen Arbeitsbereich.</p>
+    </div>
+
+    <div class="seasons-hero-badge">
+      <span aria-hidden="true">📦</span>
+      <span>
+        <small>Aktuelle Saison</small>
+        <strong id="currentSeasonLabel">Saison 1</strong>
+      </span>
+    </div>
+  </section>
+
+  <section class="season-current-summary">
+    <article>
+      <span>Fahrer</span>
+      <strong id="currentSeasonDriverCount">0</strong>
+    </article>
+    <article>
+      <span>Geplante Rennen</span>
+      <strong id="currentSeasonRaceCount">0</strong>
+    </article>
+    <article>
+      <span>Gewertete Rennen</span>
+      <strong id="currentSeasonScoredRaceCount">0</strong>
+    </article>
+    <article>
+      <span>Strafakten</span>
+      <strong id="currentSeasonPenaltyCount">0</strong>
+    </article>
+    <article>
+      <span>Archive</span>
+      <strong id="seasonArchiveCount">0</strong>
+    </article>
+  </section>
+
+  <section class="season-current-meta">
+    <span aria-hidden="true">🏁</span>
+    <p>
+      <strong id="currentSeasonLabelInline">Aktiver Arbeitsbereich</strong>
+      <small id="currentSeasonStartedAt">Startzeit nicht hinterlegt</small>
+    </p>
+  </section>
+
+  <section class="season-archive-layout">
+    <article class="season-archive-browser">
+      <header class="season-section-header">
+        <div>
+          <p class="eyebrow">Gespeicherte Historie</p>
+          <h3>Archivierte Saisons</h3>
+        </div>
+      </header>
+
+      <div class="season-archive-list" id="seasonArchiveList"></div>
+
+      <div class="season-archive-empty" id="seasonArchiveEmpty">
+        <span aria-hidden="true">🗄️</span>
+        <h4>Noch keine Saison archiviert</h4>
+        <p>Der erste abgeschlossene Saisonwechsel legt hier automatisch die vollständige Historie an.</p>
+      </div>
+    </article>
+
+    <article class="season-archive-detail-card">
+      <div class="season-archive-detail-empty" id="seasonArchiveDetailEmpty">
+        <span aria-hidden="true">🏆</span>
+        <h4>Archiv auswählen</h4>
+        <p>Nach dem ersten Saisonwechsel erscheinen hier Champion, Endtabellen und Saisonkennzahlen.</p>
+      </div>
+
+      <div id="seasonArchiveDetail" hidden>
+        <header class="season-archive-detail-header">
+          <div>
+            <p class="eyebrow">Saisonabschluss</p>
+            <h3 id="archiveDetailSeasonLabel">Archivierte Saison</h3>
+            <small id="archiveDetailDate">Zeitpunkt unbekannt</small>
+          </div>
+
+          <button class="secondary-button compact-button" id="downloadSeasonArchiveButton" type="button" disabled>
+            Archiv herunterladen
+          </button>
+        </header>
+
+        <section class="season-champion-grid">
+          <article>
+            <span>Champion</span>
+            <strong id="archiveDetailChampion">Noch kein Champion</strong>
+            <small id="archiveDetailChampionPoints">—</small>
+          </article>
+          <article>
+            <span>Hersteller-Champion</span>
+            <strong id="archiveDetailManufacturerChampion">Keine Herstellerwertung</strong>
+          </article>
+        </section>
+
+        <section class="season-archive-stats">
+          <div><span>Fahrer</span><strong id="archiveDetailDriverCount">0</strong></div>
+          <div><span>Rennen</span><strong id="archiveDetailRaceCount">0</strong></div>
+          <div><span>Gewertet</span><strong id="archiveDetailScoredRaceCount">0</strong></div>
+          <div><span>Ergebnisbögen</span><strong id="archiveDetailResultCount">0</strong></div>
+          <div><span>Strafen</span><strong id="archiveDetailPenaltyCount">0</strong></div>
+        </section>
+
+        <label class="season-archive-view-field" id="archiveStandingsViewField" for="archiveStandingsView">
+          <span>Endtabelle auswählen</span>
+          <select id="archiveStandingsView"></select>
+        </label>
+
+        <div class="season-archive-table-shell">
+          <table class="season-archive-table">
+            <thead id="archiveStandingsHead"></thead>
+            <tbody id="archiveStandingsRows"></tbody>
+          </table>
+        </div>
+
+        <div class="season-archive-table-empty" id="archiveStandingsEmpty" hidden>
+          Für diese Saison wurde keine Endtabelle archiviert.
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="season-change-card">
+    <header class="season-section-header">
+      <div>
+        <p class="eyebrow">Abschluss & Neustart</p>
+        <h3>Saisonwechsel durchführen</h3>
+        <p>Race Control archiviert zuerst alle aktuellen Daten und Endtabellen. Danach werden Rennen, Ergebnisse und Strafakten für die neue Saison geleert.</p>
+      </div>
+      <span class="season-danger-badge">Sicherheitsbestätigung erforderlich</span>
+    </header>
+
+    <form id="seasonChangeForm">
+      <div class="season-change-grid">
+        <label class="form-field">
+          <span>Name der abzuschließenden Saison</span>
+          <input id="archiveSeasonLabel" type="text" maxlength="80" required>
+        </label>
+
+        <label class="form-field">
+          <span>Name der neuen Saison</span>
+          <input id="newSeasonLabel" type="text" maxlength="80" placeholder="z. B. Saison 2" required>
+        </label>
+      </div>
+
+      <label class="season-keep-drivers">
+        <input id="keepDriversForNewSeason" type="checkbox" checked>
+        <span>
+          <strong>Fahrerliste in die neue Saison übernehmen</strong>
+          <small>Rennen, Ergebnisse und Strafakten werden trotzdem geleert.</small>
+        </span>
+      </label>
+
+      <aside class="season-change-warning">
+        <span aria-hidden="true">⚠️</span>
+        <p><strong>Nichts geht verloren:</strong> Der komplette alte Datenstand wird vorher im Saisonarchiv gespeichert. Für zusätzliche Sicherheit bleibt ein Gesamtbackup vor dem Wechsel trotzdem sinnvoll.</p>
+      </aside>
+
+      <label class="form-field season-confirmation-field">
+        <span>Zur Bestätigung exakt <strong>SAISONWECHSEL</strong> eingeben</span>
+        <input id="seasonChangeConfirmation" type="text" autocomplete="off" placeholder="SAISONWECHSEL">
+      </label>
+
+      <button class="danger-button season-change-button" id="completeSeasonChangeButton" type="submit" disabled>
+        Saison archivieren und neue Saison starten
+      </button>
+    </form>
+
+    <p class="form-message" id="seasonArchiveMessage" role="status" hidden></p>
+  </section>
+</section>
 
         <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
           <section class="export-hero">

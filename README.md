@@ -1,93 +1,82 @@
-# Division 23 Race Control V2 – Schritt 27: Zuschauerbereich & öffentlicher Datenstand V1
+# Division 23 Race Control V2 – Schritt 28: Saisonarchiv & Saisonwechsel V1
 
-Version: 4.6.0
+Version: 4.7.0
 
-## Zwei getrennte Links
+## Neues Modul: Saisons
 
-### Verwaltung
+In der Navigation gibt es jetzt den Bereich **Saisons**.
 
-`index.html`
+Dort zeigt Race Control:
 
-Hier bleiben alle Bearbeitungsfunktionen:
+- aktuelle Saisonbezeichnung
+- Fahrerzahl
+- geplante Rennen
+- gewertete Rennen
+- Strafakten
+- Anzahl der vorhandenen Saisonarchive
 
-- Fahrer verwalten
-- Rennen planen
-- Ergebnisse erfassen
-- Tabellen und Statistiken
-- Strafen verwalten
-- Exporte und Backups
+## Saisonwechsel
 
-### Zuschaueransicht
+Beim Saisonwechsel passiert die Reihenfolge automatisch:
 
-`viewer.html`
+1. aktueller Datenstand wird vollständig gelesen
+2. Endtabellen aller vorhandenen Wertungen werden gespeichert
+3. Champion und – falls vorhanden – Hersteller-Champion werden festgehalten
+4. Fahrer, Rennen, Ergebnisse und Strafakten werden im Archiv gesichert
+5. neue Saisonbezeichnung wird aktiviert
+6. Rennen, Ergebnisse und Strafakten werden geleert
+7. Fahrerliste kann optional übernommen werden
 
-Die Zuschaueransicht enthält ausschließlich Lesefunktionen:
+Zur Sicherheit muss vor dem Wechsel exakt `SAISONWECHSEL` eingegeben und eine
+zusätzliche Browserbestätigung bestätigt werden.
 
-- Dashboard
+## Saisonarchiv
+
+Jedes Archiv enthält:
+
+- Saisonname
+- Archivzeitpunkt
+- komplette Fahrerliste
+- alle Rennen
+- alle Ergebnisbögen
+- alle Strafakten
+- Endtabellen
+- Champion
+- Hersteller-Champion, sofern vorhanden
+- Saisonkennzahlen
+
+Ein ausgewähltes Archiv kann zusätzlich als eigene JSON-Datei heruntergeladen
+werden.
+
+## Dynamische Saisonbezeichnung
+
+Die aktive Saisonbezeichnung wird jetzt verwendet in:
+
+- Topbar
 - Kalender
-- Fahrer
-- Ergebnisse
-- Tabellen
-- Statistiken
-- Strafakten
+- Tabellenposter
+- Ergebnisposter
+- Starterlistenposter
+- Strafengrafik
+- Statistikposter
 
-Es gibt dort keine Formulare, Löschbuttons, Importe oder Bearbeitungsfunktionen.
+Nach einem Saisonwechsel baut der Kalender seinen Plan aus den neu angelegten
+Rennen auf. Solange noch keine Rennen geplant wurden, zeigt er einen leeren
+neuen Saisonplan statt des alten Kalenders.
 
-## Öffentlichen Datenstand erstellen
+## Backups und Zuschauerbereich
 
-1. In Race Control **Export** öffnen.
-2. **Daten & Backup** auswählen.
-3. Auf **Öffentlichen Datenstand herunterladen** klicken.
-4. Die erzeugte Datei heißt exakt `public-data.json`.
-5. Diese Datei bei GitHub hochladen und die vorhandene `public-data.json` ersetzen.
-6. Danach den Link zu `viewer.html` verschicken.
+Liga-Backups, Gesamtsicherungen und `public-data.json` enthalten jetzt auch:
 
-Der Viewer zeigt immer den zuletzt bei GitHub veröffentlichten Datenstand.
+- aktuelle Saisonbezeichnung
+- sämtliche Saisonarchive
 
-## Wichtig: getrennte Browserdaten
-
-Die Zuschaueransicht verwendet einen eigenen internen Speicherbereich.
-Selbst wenn die Verwaltung und der Viewer im gleichen Browser geöffnet werden,
-kann der Viewer die Verwaltungsdaten nicht überschreiben.
-
-## Zuschauerlink
-
-Liegt die Verwaltung beispielsweise hier:
-
-`https://NAME.github.io/PROJEKT/`
-
-lautet der Zuschauerlink:
-
-`https://NAME.github.io/PROJEKT/viewer.html`
-
-In **Daten & Backup** stehen dafür zusätzlich bereit:
-
-- Zuschauerlink kopieren
-- Zuschaueransicht öffnen
-
-## Öffentliche Datendatei
-
-`public-data.json` enthält für alle sieben Ligen:
-
-- Fahrer
-- Rennen
-- Ergebnisse
-- Strafakten
-
-Die Datei enthält keine Verwaltungsoberfläche und keine Möglichkeit, Daten auf
-GitHub oder in Verenas Browser zu verändern.
-
-## Aktualisierung nach einem Rennen
-
-1. Ergebnis in der Verwaltung speichern.
-2. Neuen öffentlichen Datenstand herunterladen.
-3. `public-data.json` bei GitHub ersetzen.
-4. GitHub Pages kurz aktualisieren lassen.
-5. Zuschauer öffnen den Viewer neu oder klicken dort auf **Aktualisieren**.
+Im Zuschauerbereich gibt es den neuen öffentlichen Menüpunkt **Saisons**.
+Dort können veröffentlichte alte Saisons und ihre Endtabellen angesehen werden.
 
 ## GitHub-Upload
 
-Beim ersten Upload alle neuen und geänderten Dateien hochladen:
+Hochladen:
 
 - `css`
 - `js`
@@ -98,17 +87,24 @@ Beim ersten Upload alle neuen und geänderten Dateien hochladen:
 
 Commit:
 
-`Schritt 27 Zuschauerbereich und öffentlicher Datenstand V1`
+`Schritt 28 Saisonarchiv und Saisonwechsel V1`
 
-## Test
+## Test ohne echte Saison zu zerstören
 
-1. Verwaltung öffnen.
-2. Export → Daten & Backup öffnen.
-3. `public-data.json` herunterladen.
-4. Die heruntergeladene Datei im Projekt bei GitHub ersetzen.
-5. `viewer.html` öffnen.
-6. Alle sieben Ligen durchschalten.
-7. Dashboard, Kalender, Fahrer, Ergebnisse, Tabellen, Statistiken und Strafen prüfen.
-8. Im Viewer dürfen keinerlei Bearbeitungsfunktionen erscheinen.
-9. Verwaltung und Viewer im gleichen Browser öffnen.
-10. Viewer darf die Verwaltungsdaten nicht verändern.
+Vor dem Test unbedingt zuerst eine Gesamtsicherung herunterladen.
+
+1. Eine Testliga auswählen.
+2. **Saisons** öffnen.
+3. Neue Saison z. B. `Testsaison 2` eintragen.
+4. Fahrerliste übernehmen aktiviert lassen.
+5. `SAISONWECHSEL` eingeben.
+6. Wechsel bestätigen.
+7. Prüfen:
+   - alte Saison erscheint im Archiv
+   - Endtabelle ist sichtbar
+   - Fahrer sind noch vorhanden
+   - Rennen, Ergebnisse und Strafen sind leer
+   - Topbar zeigt die neue Saison
+8. Neues Gesamtbackup erstellen.
+9. Neue `public-data.json` veröffentlichen.
+10. Im Viewer den Menüpunkt **Saisons** prüfen.
