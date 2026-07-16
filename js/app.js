@@ -5,46 +5,46 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=3.7.0";
+} from "./leagues.js?v=3.7.1";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=3.7.0";
+} from "./storage.js?v=3.7.1";
 import {
   initializeDriversModule,
   renderDriversForLeague,
   setDriversLeague
-} from "./drivers.js?v=3.7.0";
+} from "./drivers.js?v=3.7.1";
 import {
   initializeRacesModule,
   renderRacesForLeague,
   setRacesLeague
-} from "./races.js?v=3.7.0";
+} from "./races.js?v=3.7.1";
 import {
   initializeResultsModule,
   renderResultsForLeague,
   setResultsLeague
-} from "./results.js?v=3.7.0";
+} from "./results.js?v=3.7.1";
 import {
   initializeStandingsModule,
   renderStandingsForLeague,
   setStandingsLeague
-} from "./standings.js?v=3.7.0";
+} from "./standings.js?v=3.7.1";
 import {
   initializeStatisticsModule,
   renderStatisticsForLeague,
   setStatisticsLeague
-} from "./statistics.js?v=3.7.0";
+} from "./statistics.js?v=3.7.1";
 import {
   initializePenaltiesModule,
   renderPenaltiesForLeague,
   setPenaltiesLeague
-} from "./penalties.js?v=3.7.0";
+} from "./penalties.js?v=3.7.1";
 import {
   initializeExportModule,
   renderExportForLeague,
   setExportLeague
-} from "./export.js?v=3.7.0";
+} from "./export.js?v=3.7.1";
 
 /**
  * Division 23 Race Control V2
@@ -54,7 +54,7 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "3.7.0";
+const APP_VERSION = "3.7.1";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 
@@ -67,8 +67,7 @@ const PAGE_CONFIG = Object.freeze({
   standings: { title: "Tabellen", status: "Meisterschaftstabelle aktiv" },
   statistics: { title: "Statistiken", status: "Statistikmodul aktiv" },
   penalties: { title: "Strafen", status: "Strafenverwaltung aktiv" },
-  export: { title: "Export", status: "Datensicherung und Export aktiv" },
-  settings: { title: "Einstellungen", status: "Modul vorbereitet" }
+  export: { title: "Export", status: "Datensicherung und Export aktiv" }
 });
 
 let activeLeagueId = DEFAULT_LEAGUE_ID;
