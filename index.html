@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=3.8.0">
-  <script type="module" src="js/app.js?v=3.8.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=3.9.0">
+  <script type="module" src="js/app.js?v=3.9.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -111,7 +111,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=3.8.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=3.9.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -224,14 +224,90 @@
           </section>
         </section>
 
-        <section class="page-view" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
-          <article class="module-placeholder">
-            <div class="module-icon" aria-hidden="true">📅</div>
-            <p class="eyebrow">Modul vorbereitet</p>
-            <h3 id="calendarTitle">Kalender</h3>
-            <p>Hier verwalten wir später Renntermine, Strecken, Startzeiten und Saisonpläne für <strong data-active-league-name>Porsche GT Cup</strong>.</p>
-            <span class="development-badge">In Vorbereitung</span>
-          </article>
+        <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
+          <section class="calendar-hero">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=3.9.0" alt="">
+
+            <div class="calendar-hero-logo">
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=3.9.0" alt="" hidden>
+              <span id="calendarLeagueLogoFallback">PG</span>
+            </div>
+
+            <div class="calendar-hero-content">
+              <p class="eyebrow">Offizieller Rennkalender · <span id="calendarSeason">Saison 1</span></p>
+              <h3 id="calendarTitle"><span id="calendarHeadline">Porsche GT Cup</span></h3>
+              <p id="calendarSubtitle">Fairness vor Ergebnis.</p>
+
+              <div class="calendar-hero-meta">
+                <span><strong id="calendarRaceTotal">0</strong> Rennen</span>
+                <span id="calendarDateRange">Keine Termine</span>
+                <span id="calendarLeagueName">Porsche GT Cup</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="calendar-control-bar">
+            <div class="calendar-segmented-control" id="calendarGroupSelector" aria-label="Liga auswählen" hidden></div>
+
+            <div class="calendar-filter-buttons" aria-label="Kalender filtern">
+              <button class="is-active" type="button" data-calendar-filter="all" aria-pressed="true">Alle</button>
+              <button type="button" data-calendar-filter="upcoming" aria-pressed="false">Kommend</button>
+              <button type="button" data-calendar-filter="past" aria-pressed="false">Vergangen</button>
+              <button type="button" data-calendar-filter="completed" aria-pressed="false">Ausgewertet</button>
+            </div>
+
+            <button class="secondary-button compact-button" type="button" data-page="races">
+              Rennplanung öffnen
+            </button>
+          </section>
+
+          <div class="calendar-meta-strip" id="calendarMeta" hidden></div>
+
+          <section class="calendar-summary-grid" aria-label="Saisonübersicht">
+            <article>
+              <span>Termine</span>
+              <strong id="calendarSummaryTotal">0</strong>
+            </article>
+            <article>
+              <span>Ausgewertet</span>
+              <strong id="calendarSummaryCompleted">0</strong>
+            </article>
+            <article>
+              <span>Vergangen ohne Ergebnis</span>
+              <strong id="calendarSummaryPast">0</strong>
+            </article>
+            <article>
+              <span>Kommend</span>
+              <strong id="calendarSummaryUpcoming">0</strong>
+            </article>
+            <article class="calendar-next-summary">
+              <span>Nächster Termin</span>
+              <strong id="calendarSummaryNext">—</strong>
+            </article>
+          </section>
+
+          <section class="calendar-list-card">
+            <header class="calendar-list-header">
+              <div>
+                <p class="eyebrow">Saisonplan</p>
+                <h3>Alle Renntermine</h3>
+              </div>
+              <span id="calendarVisibleCount">0 Termine angezeigt</span>
+            </header>
+
+            <div class="calendar-race-list" id="calendarRaceList"></div>
+
+            <div class="calendar-empty-state" id="calendarEmptyState" hidden>
+              <span aria-hidden="true">📅</span>
+              <h4>Keine Termine in diesem Filter</h4>
+              <p>Wähle einen anderen Status oder eine andere WHC-Liga aus.</p>
+            </div>
+          </section>
+
+          <aside class="local-data-note">
+            <span aria-hidden="true">🏁</span>
+            <p><strong>Offizieller Saisonplan:</strong> Der Kalender zeigt die festgelegten Termine der jeweiligen Liga. Als „ausgewertet“ gilt ein Termin, sobald das passende Rennen in Race Control ein gespeichertes Ergebnis besitzt.</p>
+          </aside>
         </section>
 
         <section class="page-view drivers-page" data-page-content="drivers" aria-labelledby="driversTitle" hidden>
