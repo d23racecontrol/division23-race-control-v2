@@ -5,31 +5,36 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=3.4.0";
+} from "./leagues.js?v=3.5.0";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=3.4.0";
+} from "./storage.js?v=3.5.0";
 import {
   initializeDriversModule,
   renderDriversForLeague,
   setDriversLeague
-} from "./drivers.js?v=3.4.0";
+} from "./drivers.js?v=3.5.0";
 import {
   initializeRacesModule,
   renderRacesForLeague,
   setRacesLeague
-} from "./races.js?v=3.4.0";
+} from "./races.js?v=3.5.0";
 import {
   initializeResultsModule,
   renderResultsForLeague,
   setResultsLeague
-} from "./results.js?v=3.4.0";
+} from "./results.js?v=3.5.0";
 import {
   initializeStandingsModule,
   renderStandingsForLeague,
   setStandingsLeague
-} from "./standings.js?v=3.4.0";
+} from "./standings.js?v=3.5.0";
+import {
+  initializeStatisticsModule,
+  renderStatisticsForLeague,
+  setStatisticsLeague
+} from "./statistics.js?v=3.5.0";
 
 /**
  * Division 23 Race Control V2
@@ -39,7 +44,7 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "3.4.0";
+const APP_VERSION = "3.5.0";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 
@@ -50,7 +55,7 @@ const PAGE_CONFIG = Object.freeze({
   races: { title: "Rennen", status: "Rennplanung aktiv" },
   results: { title: "Ergebnisse", status: "Ergebniserfassung aktiv" },
   standings: { title: "Tabellen", status: "Meisterschaftstabelle aktiv" },
-  statistics: { title: "Statistiken", status: "Modul vorbereitet" },
+  statistics: { title: "Statistiken", status: "Statistikmodul aktiv" },
   penalties: { title: "Strafen", status: "Modul vorbereitet" },
   export: { title: "Export", status: "Modul vorbereitet" },
   settings: { title: "Einstellungen", status: "Modul vorbereitet" }
@@ -120,6 +125,10 @@ function renderPage(pageName) {
 
   if (safePageName === "standings") {
     renderStandingsForLeague(activeLeagueId);
+  }
+
+  if (safePageName === "statistics") {
+    renderStatisticsForLeague(activeLeagueId);
   }
 
   updateDocumentTitle(safePageName);
@@ -230,6 +239,7 @@ function applyLeagueTheme(leagueId, { persist = true } = {}) {
   setRacesLeague(league.id);
   setResultsLeague(league.id);
   setStandingsLeague(league.id);
+  setStatisticsLeague(league.id);
   updateDocumentTitle(getPageFromUrl());
 
   if (persist) {
@@ -298,11 +308,12 @@ function initializeApp() {
   initializeRacesModule(activeLeagueId);
   initializeResultsModule(activeLeagueId);
   initializeStandingsModule(activeLeagueId);
+  initializeStatisticsModule(activeLeagueId);
   initializeNavigation();
 
   if (loadMessage) {
     loadMessage.textContent =
-      `Navigation, Liga-, Fahrer-, Renn-, Ergebnis- und Tabellenmodule aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
+      `Navigation, Liga-, Fahrer-, Renn-, Ergebnis-, Tabellen- und Statistikmodule aktiv – ${APP_NAME} v${APP_VERSION} ist gestartet.`;
   }
 
   appStatus.setAttribute("title", `${APP_NAME} v${APP_VERSION}`);

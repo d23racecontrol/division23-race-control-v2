@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=3.4.0">
-  <script type="module" src="js/app.js?v=3.4.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=3.5.0">
+  <script type="module" src="js/app.js?v=3.5.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -229,12 +229,21 @@
                 <span>Liga 1, Liga 2 und gemeinsame Herstellerwertung sind eingerichtet.</span>
               </div>
             </article>
+
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
+              <div>
+                <p>Schritt 16</p>
+                <h3>Statistiken</h3>
+                <span>Siege, Podien, Pole, FL, Starts, Ausfälle und Punkte werden automatisch ausgewertet.</span>
+              </div>
+            </article>
           </section>
 
           <section class="system-check" aria-labelledby="systemCheckTitle">
             <div>
               <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Fahrer-, Renn-, Ergebnis- und Tabellenmodule erfolgreich geladen</h3>
+              <h3 id="systemCheckTitle">Fahrer-, Renn-, Ergebnis-, Tabellen- und Statistikmodule erfolgreich geladen</h3>
             </div>
             <p id="loadMessage">JavaScript wird geprüft …</p>
           </section>
@@ -877,14 +886,141 @@ NurEinFahrername</pre>
           </div>
         </section>
 
-        <section class="page-view" data-page-content="statistics" aria-labelledby="statisticsTitle" hidden>
-          <article class="module-placeholder">
-            <div class="module-icon" aria-hidden="true">📈</div>
-            <p class="eyebrow">Modul vorbereitet</p>
-            <h3 id="statisticsTitle">Statistiken</h3>
-            <p>Hier erscheinen später Siege, Podien, schnellste Runden und Saisonvergleiche für <strong data-active-league-name>Porsche GT Cup</strong>.</p>
-            <span class="development-badge">In Vorbereitung</span>
-          </article>
+        <section class="page-view statistics-page" data-page-content="statistics" aria-labelledby="statisticsTitle" hidden>
+          <section class="statistics-hero">
+            <div>
+              <p class="eyebrow">Leistungsdaten</p>
+              <h3 id="statisticsTitle">Statistiken von <span data-active-league-name>Porsche GT Cup</span></h3>
+              <p>Siege, Podien, Pole Positions, schnellste Runden, Starts, Ausfälle und Punkte werden automatisch aus den gespeicherten Ergebnissen berechnet.</p>
+            </div>
+            <div class="statistics-status-badge" id="statisticsStatusBadge">Wird berechnet</div>
+          </section>
+
+          <section class="statistics-unconfigured" id="statisticsUnconfigured" hidden>
+            <span aria-hidden="true">📊</span>
+            <h4>Statistiken noch nicht verfügbar</h4>
+            <p id="statisticsUnconfiguredText">Für diese Liga wurde noch kein Punktesystem hinterlegt.</p>
+          </section>
+
+          <div id="statisticsConfigured">
+            <section class="statistics-toolbar">
+              <label class="statistics-view-field" id="statisticsViewField" for="statisticsViewSelect">
+                <span>Wertung</span>
+                <select id="statisticsViewSelect">
+                  <option value="__all__">Gesamtwertung</option>
+                </select>
+              </label>
+
+              <label class="statistics-sort-field" for="statisticsSort">
+                <span>Sortieren nach</span>
+                <select id="statisticsSort">
+                  <option value="points">Punkten</option>
+                  <option value="wins">Siegen</option>
+                  <option value="podiums">Podien</option>
+                  <option value="fastestLaps">Schnellsten Runden</option>
+                  <option value="poles">Pole Positions</option>
+                  <option value="starts">Starts</option>
+                  <option value="outages">Ausfällen</option>
+                  <option value="averageFinish">Ø Zieleinlauf</option>
+                  <option value="name">Fahrername</option>
+                </select>
+              </label>
+
+              <label class="search-field statistics-search" for="statisticsSearch">
+                <span aria-hidden="true">🔎</span>
+                <input id="statisticsSearch" type="search" placeholder="Fahrer suchen" autocomplete="off">
+              </label>
+
+              <p class="statistics-current-view">Angezeigt: <strong id="statisticsViewLabel">Gesamtwertung</strong></p>
+            </section>
+
+            <section class="statistics-summary-grid" aria-label="Statistische Übersicht">
+              <article><span>Gewertete Fahrer</span><strong id="statisticsDriverCount">0</strong></article>
+              <article><span>Starts</span><strong id="statisticsStartCount">0</strong></article>
+              <article><span>Siege</span><strong id="statisticsWinCount">0</strong></article>
+              <article><span>Podien</span><strong id="statisticsPodiumCount">0</strong></article>
+              <article><span>Schnellste Runden</span><strong id="statisticsFastestLapCount">0</strong></article>
+              <article><span>Ausfälle</span><strong id="statisticsOutageCount">0</strong></article>
+            </section>
+
+            <section class="statistics-leaderboards" aria-label="Statistikführende">
+              <article>
+                <p class="eyebrow">Top 5</p>
+                <h3>Punkte</h3>
+                <ol id="statisticsPointsLeaders"></ol>
+              </article>
+              <article>
+                <p class="eyebrow">Top 5</p>
+                <h3>Siege</h3>
+                <ol id="statisticsWinLeaders"></ol>
+              </article>
+              <article>
+                <p class="eyebrow">Top 5</p>
+                <h3>Podien</h3>
+                <ol id="statisticsPodiumLeaders"></ol>
+              </article>
+              <article>
+                <p class="eyebrow">Top 5</p>
+                <h3>Schnellste Runden</h3>
+                <ol id="statisticsFastestLapLeaders"></ol>
+              </article>
+              <article>
+                <p class="eyebrow">Top 5</p>
+                <h3>Pole Positions</h3>
+                <ol id="statisticsPoleLeaders"></ol>
+              </article>
+            </section>
+
+            <section class="statistics-table-card">
+              <header class="statistics-table-header">
+                <div>
+                  <p class="eyebrow">Fahrerdetails</p>
+                  <h3>Komplette Statistik</h3>
+                  <span id="statisticsResultCount">0 von 0 Fahrern angezeigt</span>
+                </div>
+                <div class="statistics-race-count">
+                  <strong id="statisticsScoredRaces">0</strong>
+                  <span>Rennen mit Ergebnis</span>
+                </div>
+              </header>
+
+              <div class="statistics-table-scroll">
+                <div class="statistics-table">
+                  <div class="statistics-row statistics-row-head" aria-hidden="true">
+                    <div>Fahrer</div>
+                    <div>Punkte</div>
+                    <div>Starts</div>
+                    <div>Siege</div>
+                    <div>Podien</div>
+                    <div>Pole</div>
+                    <div>FL</div>
+                    <div>Ausfälle</div>
+                    <div>DNF</div>
+                    <div>DNS</div>
+                    <div>DC</div>
+                    <div>DSQ</div>
+                    <div>Abw.</div>
+                    <div>Bestes</div>
+                    <div>Ø Ziel</div>
+                    <div>Pkt./Start</div>
+                    <div>Siegquote</div>
+                  </div>
+                  <div id="statisticsRows"></div>
+                </div>
+              </div>
+
+              <div class="statistics-empty" id="statisticsEmpty">
+                <span aria-hidden="true">📈</span>
+                <h4>Noch keine Statistikdaten</h4>
+                <p>Sobald Ergebnisse gespeichert sind, erscheinen hier automatisch die Leistungsdaten der Fahrer.</p>
+              </div>
+            </section>
+
+            <aside class="statistics-note">
+              <span aria-hidden="true">ℹ️</span>
+              <p><strong>Ausfälle</strong> zählen DNF, technischen Disconnect und Disqualifikation. DNS und Abwesenheiten werden separat ausgewiesen. Gaststarter fließen nicht in die Statistik ein.</p>
+            </aside>
+          </div>
         </section>
 
         <section class="page-view" data-page-content="penalties" aria-labelledby="penaltiesTitle" hidden>
