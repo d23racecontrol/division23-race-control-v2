@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=3.6.0">
-  <script type="module" src="js/app.js?v=3.6.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=3.7.0">
+  <script type="module" src="js/app.js?v=3.7.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -243,7 +243,7 @@
           <section class="system-check" aria-labelledby="systemCheckTitle">
             <div>
               <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Fahrer-, Renn-, Ergebnis-, Tabellen-, Statistik- und Strafenmodule erfolgreich geladen</h3>
+              <h3 id="systemCheckTitle">Fahrer-, Renn-, Ergebnis-, Tabellen-, Statistik-, Strafen- und Exportmodule erfolgreich geladen</h3>
             </div>
             <p id="loadMessage">JavaScript wird geprüft …</p>
           </section>
@@ -1189,14 +1189,145 @@ NurEinFahrername</pre>
           </aside>
         </section>
 
-        <section class="page-view" data-page-content="export" aria-labelledby="exportTitle" hidden>
-          <article class="module-placeholder">
-            <div class="module-icon" aria-hidden="true">📤</div>
-            <p class="eyebrow">Modul vorbereitet</p>
-            <h3 id="exportTitle">Export</h3>
-            <p>Hier werden später Tabellen, Ergebnislisten und fertige Grafiken für <strong data-active-league-name>Porsche GT Cup</strong> exportiert.</p>
-            <span class="development-badge">In Vorbereitung</span>
-          </article>
+        <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
+          <section class="export-hero">
+            <div>
+              <p class="eyebrow">Schritt 18 · Datensicherheit</p>
+              <h3 id="exportTitle">Export & Backup für <span id="exportActiveLeagueName">Porsche GT Cup</span></h3>
+              <p>Sichere deine Race-Control-Daten außerhalb des Browsers, stelle Backups wieder her oder exportiere die aktuelle Meisterschaftstabelle als CSV.</p>
+            </div>
+
+            <div class="export-hero-badge">
+              <span aria-hidden="true">💾</span>
+              <strong id="exportActiveLeagueShortName">PGTC</strong>
+              <small>lokale Daten sichern</small>
+            </div>
+          </section>
+
+          <section class="export-data-summary" aria-label="Aktueller Datenbestand">
+            <article>
+              <span>Fahrer</span>
+              <strong id="exportDriverCount">0</strong>
+            </article>
+            <article>
+              <span>Rennen</span>
+              <strong id="exportRaceCount">0</strong>
+            </article>
+            <article>
+              <span>Ergebnisbögen</span>
+              <strong id="exportResultCount">0</strong>
+            </article>
+            <article>
+              <span>Strafakten</span>
+              <strong id="exportPenaltyCount">0</strong>
+            </article>
+          </section>
+
+          <section class="export-card-grid">
+            <article class="export-card">
+              <div class="export-card-icon" aria-hidden="true">🏁</div>
+              <p class="eyebrow">Einzelne Liga</p>
+              <h3>Aktive Liga sichern</h3>
+              <p>Erstellt eine JSON-Sicherungsdatei mit Fahrern, Rennen, Ergebnissen und Strafen der aktuell ausgewählten Liga.</p>
+              <button class="primary-button" id="exportLeagueBackupButton" type="button">
+                Liga-Backup herunterladen
+              </button>
+            </article>
+
+            <article class="export-card">
+              <div class="export-card-icon" aria-hidden="true">🗄️</div>
+              <p class="eyebrow">Komplettsicherung</p>
+              <h3>Alle sieben Ligen sichern</h3>
+              <p>Packt den vollständigen Datenbestand aller Ligen in eine gemeinsame Sicherungsdatei.</p>
+              <button class="primary-button" id="exportAllBackupButton" type="button">
+                Gesamtsicherung herunterladen
+              </button>
+            </article>
+
+            <article class="export-card">
+              <div class="export-card-icon" aria-hidden="true">📊</div>
+              <p class="eyebrow">Tabellenexport</p>
+              <h3>Meisterschaft als CSV</h3>
+              <p>Exportiert die gewählte Fahrer- oder Herstellerwertung als Excel-freundliche CSV-Datei.</p>
+
+              <label class="export-view-field" id="exportStandingsViewField" for="exportStandingsView">
+                <span>Wertung auswählen</span>
+                <select id="exportStandingsView"></select>
+              </label>
+
+              <button class="primary-button" id="exportStandingsCsvButton" type="button">
+                Tabelle als CSV herunterladen
+              </button>
+            </article>
+          </section>
+
+          <p class="form-message export-message" id="exportMessage" role="status" hidden></p>
+
+          <section class="import-card">
+            <header class="import-card-header">
+              <div>
+                <p class="eyebrow">Wiederherstellung</p>
+                <h3>Sicherungsdatei einlesen</h3>
+                <p>Die Datei wird zuerst geprüft. Erst nach deiner Bestätigung werden die enthaltenen Ligadaten ersetzt.</p>
+              </div>
+              <span aria-hidden="true">📥</span>
+            </header>
+
+            <div class="import-file-row">
+              <label class="file-picker" for="importBackupFile">
+                <span>Datei auswählen</span>
+                <input id="importBackupFile" type="file" accept=".json,application/json">
+              </label>
+              <small>Erlaubt sind Race-Control-V2-Backups bis 25 MB.</small>
+            </div>
+
+            <p class="form-message" id="importMessage" role="status" hidden></p>
+
+            <section class="import-preview" id="importPreview" hidden>
+              <div class="import-preview-meta">
+                <div>
+                  <span>Datei</span>
+                  <strong id="importPreviewFileName">—</strong>
+                </div>
+                <div>
+                  <span>Umfang</span>
+                  <strong id="importPreviewScope">—</strong>
+                </div>
+                <div>
+                  <span>App-Version</span>
+                  <strong id="importPreviewVersion">—</strong>
+                </div>
+                <div>
+                  <span>Erstellt</span>
+                  <strong id="importPreviewDate">—</strong>
+                </div>
+              </div>
+
+              <div class="import-preview-content">
+                <h4>Enthaltene Daten</h4>
+                <ul id="importPreviewLeagues"></ul>
+              </div>
+
+              <aside class="import-warning">
+                <span aria-hidden="true">⚠️</span>
+                <p>Beim Import werden nur die in der Sicherung enthaltenen Ligen ersetzt. Andere Ligen bleiben unverändert.</p>
+              </aside>
+
+              <div class="form-actions">
+                <button class="primary-button" id="importApplyButton" type="button" disabled>
+                  Sicherung jetzt einspielen
+                </button>
+                <button class="secondary-button" id="importCancelButton" type="button">
+                  Abbrechen
+                </button>
+              </div>
+            </section>
+          </section>
+
+          <aside class="local-data-note">
+            <span aria-hidden="true">🔐</span>
+            <p><strong>Wichtig:</strong> JSON-Backups enthalten deine Race-Control-Daten im Klartext. Bewahre sie sicher auf und teile sie nur mit Personen, die Zugriff auf die Ligaverwaltung haben sollen.</p>
+          </aside>
         </section>
 
         <section class="page-view" data-page-content="settings" aria-labelledby="settingsTitle" hidden>

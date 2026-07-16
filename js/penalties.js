@@ -1,18 +1,18 @@
 "use strict";
 
-import { DEFAULT_PENALTIES as PGTC_DEFAULT_PENALTIES } from "../data/pgtc/penalties.js?v=3.6.0";
-import { DEFAULT_PENALTIES as ATM_DEFAULT_PENALTIES } from "../data/atm/penalties.js?v=3.6.0";
-import { DEFAULT_PENALTIES as WHC_DEFAULT_PENALTIES } from "../data/whc/penalties.js?v=3.6.0";
-import { DEFAULT_PENALTIES as MTC_DEFAULT_PENALTIES } from "../data/mtc/penalties.js?v=3.6.0";
-import { DEFAULT_PENALTIES as GT3DL_DEFAULT_PENALTIES } from "../data/gt3dl/penalties.js?v=3.6.0";
-import { DEFAULT_PENALTIES as MOM_DEFAULT_PENALTIES } from "../data/mom/penalties.js?v=3.6.0";
-import { DEFAULT_PENALTIES as TWINGO_RUSH_DEFAULT_PENALTIES } from "../data/twingo-rush/penalties.js?v=3.6.0";
-import { getDriversForLeague } from "./drivers.js?v=3.6.0";
-import { getRacesForLeague } from "./races.js?v=3.6.0";
+import { DEFAULT_PENALTIES as PGTC_DEFAULT_PENALTIES } from "../data/pgtc/penalties.js?v=3.7.0";
+import { DEFAULT_PENALTIES as ATM_DEFAULT_PENALTIES } from "../data/atm/penalties.js?v=3.7.0";
+import { DEFAULT_PENALTIES as WHC_DEFAULT_PENALTIES } from "../data/whc/penalties.js?v=3.7.0";
+import { DEFAULT_PENALTIES as MTC_DEFAULT_PENALTIES } from "../data/mtc/penalties.js?v=3.7.0";
+import { DEFAULT_PENALTIES as GT3DL_DEFAULT_PENALTIES } from "../data/gt3dl/penalties.js?v=3.7.0";
+import { DEFAULT_PENALTIES as MOM_DEFAULT_PENALTIES } from "../data/mom/penalties.js?v=3.7.0";
+import { DEFAULT_PENALTIES as TWINGO_RUSH_DEFAULT_PENALTIES } from "../data/twingo-rush/penalties.js?v=3.7.0";
+import { getDriversForLeague } from "./drivers.js?v=3.7.0";
+import { getRacesForLeague } from "./races.js?v=3.7.0";
 import {
   readStoredJson,
   writeStoredJson
-} from "./storage.js?v=3.6.0";
+} from "./storage.js?v=3.7.0";
 
 const PENALTY_STORAGE_PREFIX = "penalties_";
 const ALL_FILTER_VALUE = "__all__";

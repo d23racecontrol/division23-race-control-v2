@@ -1,18 +1,18 @@
 "use strict";
 
-import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=3.6.0";
-import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=3.6.0";
-import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=3.6.0";
-import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=3.6.0";
-import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=3.6.0";
-import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=3.6.0";
-import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=3.6.0";
-import { getDriversForLeague } from "./drivers.js?v=3.6.0";
-import { getRacesForLeague } from "./races.js?v=3.6.0";
-import { getResultsForLeague } from "./results.js?v=3.6.0";
+import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=3.7.0";
+import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=3.7.0";
+import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=3.7.0";
+import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=3.7.0";
+import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=3.7.0";
+import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=3.7.0";
+import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=3.7.0";
+import { getDriversForLeague } from "./drivers.js?v=3.7.0";
+import { getRacesForLeague } from "./races.js?v=3.7.0";
+import { getResultsForLeague } from "./results.js?v=3.7.0";
 import {
   getPenaltyDeductionsForLeague
-} from "./penalties.js?v=3.6.0";
+} from "./penalties.js?v=3.7.0";
 
 const ALL_GROUPS = "__all__";
 const MANUFACTURERS_VIEW = "__manufacturers__";
@@ -956,6 +956,159 @@ function renderConfigured(config) {
     "standingsGroupLabel",
     selectedView === ALL_GROUPS ? "Gesamtwertung" : selectedView
   );
+}
+
+
+export function getStandingsExportViews(leagueId = activeLeagueId) {
+  const previousLeagueId = activeLeagueId;
+  const previousView = selectedView;
+
+  try {
+    activeLeagueId = leagueId;
+    const config = getPointsConfig();
+
+    if (!config.configured) return [];
+
+    const races = getSortedRaces();
+    const groups = config.useGroups === false ? [] : getGroups(races);
+    const views = [];
+
+    groups.forEach((group) => {
+      views.push({
+        id: group,
+        label: group,
+        type: "drivers"
+      });
+    });
+
+    if (config.useGroups !== false && config.allowCombinedDriverView !== false) {
+      views.push({
+        id: ALL_GROUPS,
+        label: "Alle Gruppen zusammen",
+        type: "drivers"
+      });
+    }
+
+    if (config.manufacturer?.enabled) {
+      views.push({
+        id: MANUFACTURERS_VIEW,
+        label: config.manufacturer.label || "Herstellerwertung",
+        type: "manufacturers"
+      });
+    }
+
+    if (views.length === 0) {
+      views.push({
+        id: ALL_GROUPS,
+        label: "Gesamtwertung",
+        type: "drivers"
+      });
+    }
+
+    return views;
+  } finally {
+    activeLeagueId = previousLeagueId;
+    selectedView = previousView;
+  }
+}
+
+export function getStandingsExportSnapshot(
+  leagueId = activeLeagueId,
+  requestedView = ALL_GROUPS
+) {
+  const previousLeagueId = activeLeagueId;
+  const previousView = selectedView;
+
+  try {
+    activeLeagueId = leagueId;
+    const config = getPointsConfig();
+
+    if (!config.configured) {
+      return {
+        configured: false,
+        type: "drivers",
+        view: ALL_GROUPS,
+        label: "Gesamtwertung",
+        standings: [],
+        scoredRaceCount: 0
+      };
+    }
+
+    const views = getStandingsExportViews(leagueId);
+    const resolvedView = views.some((view) => view.id === requestedView)
+      ? requestedView
+      : views[0]?.id ?? ALL_GROUPS;
+    const viewMeta = views.find((view) => view.id === resolvedView) ?? {
+      id: ALL_GROUPS,
+      label: "Gesamtwertung",
+      type: "drivers"
+    };
+    const allRaces = getSortedRaces();
+    const allResults = getResultsForLeague(activeLeagueId);
+
+    if (resolvedView === MANUFACTURERS_VIEW) {
+      const calculation = calculateManufacturerStandings(
+        config,
+        allRaces,
+        allResults
+      );
+
+      return {
+        configured: true,
+        type: "manufacturers",
+        view: resolvedView,
+        label: viewMeta.label,
+        standings: calculation.standings.map((standing) => ({
+          rank: standing.rank,
+          id: standing.id,
+          name: standing.name,
+          contributors: standing.contributorIds.size,
+          countedContributions: standing.countedContributions,
+          wins: standing.wins,
+          podiums: standing.podiums,
+          bestFinish: standing.bestFinish,
+          points: standing.points
+        })),
+        scoredRaceCount: calculation.scoredRounds,
+        unassignedDrivers: calculation.unassignedDrivers
+      };
+    }
+
+    selectedView = resolvedView;
+    const races = allRaces.filter(raceMatchesSelectedView);
+    const raceIds = new Set(races.map((race) => race.id));
+    const results = allResults.filter((result) => raceIds.has(result.raceId));
+    const ranked = sortAndRank(calculateDriverStandings(config, races, results));
+
+    return {
+      configured: true,
+      type: "drivers",
+      view: resolvedView,
+      label: viewMeta.label,
+      standings: ranked.map((standing) => ({
+        rank: standing.rank,
+        driverId: standing.driverId,
+        name: standing.name,
+        number: standing.number,
+        group: standing.group,
+        starts: standing.starts,
+        wins: standing.wins,
+        podiums: standing.podiums,
+        fastestLaps: standing.fastestLaps,
+        poles: standing.poles,
+        absences: standing.absences,
+        disconnects: standing.disconnects,
+        bestFinish: standing.bestFinish,
+        seasonBonus: standing.seasonBonus ?? 0,
+        penaltyPoints: standing.penaltyPoints ?? 0,
+        points: standing.points
+      })),
+      scoredRaceCount: new Set(results.map((result) => result.raceId)).size
+    };
+  } finally {
+    activeLeagueId = previousLeagueId;
+    selectedView = previousView;
+  }
 }
 
 export function getDriverStandingsSnapshot(

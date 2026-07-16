@@ -3804,3 +3804,338 @@ select {
     margin-left: 0;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Schritt 18: Datensicherung und Export
+   -------------------------------------------------------------------------- */
+
+.export-page {
+  display: grid;
+  gap: 22px;
+}
+
+.export-hero,
+.export-data-summary article,
+.export-card,
+.import-card {
+  border: 1px solid var(--color-border);
+  background: linear-gradient(145deg, rgba(29, 29, 43, 0.96), rgba(20, 20, 31, 0.96));
+  box-shadow: var(--shadow-card);
+}
+
+.export-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  padding: 30px 34px;
+  border-radius: var(--radius-large);
+}
+
+.export-hero h3 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3.5vw, 2.8rem);
+  letter-spacing: -0.045em;
+}
+
+.export-hero h3 span {
+  color: var(--color-accent);
+}
+
+.export-hero p:not(.eyebrow) {
+  max-width: 780px;
+  margin: 12px 0 0;
+  color: var(--color-muted);
+  line-height: 1.65;
+}
+
+.export-hero-badge {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px 11px;
+  min-width: 180px;
+  padding: 15px 17px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.32);
+  border-radius: 16px;
+  background: rgba(var(--color-primary-rgb), 0.09);
+}
+
+.export-hero-badge > span {
+  grid-row: 1 / span 2;
+  font-size: 1.75rem;
+}
+
+.export-hero-badge strong {
+  font-size: 1rem;
+}
+
+.export-hero-badge small {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+}
+
+.export-data-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.export-data-summary article {
+  display: grid;
+  align-content: center;
+  min-height: 100px;
+  padding: 20px 22px;
+  border-radius: var(--radius-medium);
+}
+
+.export-data-summary span {
+  color: var(--color-muted);
+  font-size: 0.77rem;
+  font-weight: 800;
+}
+
+.export-data-summary strong {
+  margin-top: 7px;
+  color: var(--color-accent);
+  font-size: 1.75rem;
+}
+
+.export-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.export-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 340px;
+  padding: 25px;
+  border-radius: var(--radius-large);
+}
+
+.export-card-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.32);
+  border-radius: 15px;
+  background: rgba(var(--color-primary-rgb), 0.1);
+  font-size: 1.6rem;
+}
+
+.export-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.export-card > p:not(.eyebrow) {
+  margin: 12px 0 22px;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.export-card > .primary-button {
+  width: 100%;
+  margin-top: auto;
+}
+
+.export-view-field {
+  display: grid;
+  width: 100%;
+  gap: 7px;
+  margin: 0 0 16px;
+}
+
+.export-view-field > span {
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.export-message {
+  margin: 0;
+}
+
+.import-card {
+  padding: 28px;
+  border-radius: var(--radius-large);
+}
+
+.import-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.import-card-header h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.import-card-header p:not(.eyebrow) {
+  max-width: 750px;
+  margin: 10px 0 0;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.import-card-header > span {
+  font-size: 2rem;
+}
+
+.import-file-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+  padding: 18px;
+  border: 1px dashed rgba(var(--color-primary-rgb), 0.38);
+  border-radius: 14px;
+  background: rgba(var(--color-primary-rgb), 0.045);
+}
+
+.import-file-row small {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+.file-picker {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.42);
+  border-radius: 11px;
+  background: rgba(var(--color-primary-rgb), 0.12);
+  color: var(--color-text);
+  font-size: 0.78rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.file-picker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.import-preview {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.import-preview-meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.import-preview-meta > div {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.import-preview-meta span {
+  color: var(--color-muted);
+  font-size: 0.67rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.import-preview-meta strong {
+  overflow: hidden;
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.import-preview-content h4 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.import-preview-content ul {
+  margin: 12px 0 0;
+  padding-left: 20px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+.import-warning {
+  display: flex;
+  gap: 11px;
+  padding: 13px 14px;
+  border: 1px solid rgba(245, 158, 11, 0.26);
+  border-radius: 12px;
+  background: rgba(245, 158, 11, 0.07);
+}
+
+.import-warning p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 1050px) {
+  .export-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .export-card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .export-hero,
+  .import-card-header,
+  .import-file-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .export-data-summary,
+  .import-preview-meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .export-hero,
+  .export-card,
+  .import-card {
+    padding: 20px;
+  }
+
+  .export-data-summary,
+  .import-preview-meta {
+    grid-template-columns: 1fr;
+  }
+}

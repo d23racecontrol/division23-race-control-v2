@@ -1,59 +1,60 @@
-# Division 23 Race Control V2 – Schritt 17: Strafenverwaltung
+# Division 23 Race Control V2 – Schritt 18: Datensicherung & Export
 
-Version: 3.6.0
+Version: 3.7.0
 
 ## Neue Funktionen
 
-- eigener Reiter **Strafen**
-- Fahrer und Rennen auswählen
-- Verwarnung
-- Zeitstrafe
-- Positionsstrafe
-- Punktabzug
-- Vorfall / Begründung dokumentieren
-- Entscheidung der Rennkommission eintragen
-- offene und abgeschlossene Fälle
-- Fälle bearbeiten und löschen
-- Suche sowie Filter nach Status, Maßnahme und Fahrer
-- vollständige Strafhistorie pro Fahrer und Liga
-- getrennte lokale Speicherung je Liga
+### Liga-Backup als JSON
+Sichert für die aktuell ausgewählte Liga:
+- Fahrer
+- Rennen
+- Ergebnisbögen
+- Strafakten
 
-## Automatische Punktewirkung
+### Gesamtsicherung
+Sichert alle sieben Ligen in einer einzigen JSON-Datei.
 
-Nur ein Fall mit:
-- Maßnahme **Punktabzug**
-- Status **Abgeschlossen**
+### Backup wiederherstellen
+- Datei wird vor dem Import geprüft
+- Vorschau mit Datenmengen je Liga
+- erst nach Bestätigung werden Daten ersetzt
+- eine Liga-Sicherung ersetzt nur diese eine Liga
+- eine Gesamtsicherung ersetzt alle sieben Ligen
+- nicht betroffene Ligen bleiben unverändert
 
-wird automatisch von der Meisterschaftstabelle abgezogen.
+### Tabellen als CSV
+- Excel-freundliches Semikolon-Format
+- UTF-8 mit BOM für Umlaute
+- Fahrerwertungen
+- WHC Liga 1 und Liga 2
+- WHC Herstellerwertung
+- Saisonbonus und Punktstrafen werden mit exportiert
 
-Der Abzug erscheint beim Fahrer als `Strafen −X`.
+## Sicherheit
 
-Bei der WHC wird der Abzug zusätzlich von der jeweiligen Fahrerleistung des
-Rennens abgezogen, bevor die drei besten Herstellerbeiträge ausgewählt werden.
-
-Zeit- und Positionsstrafen werden dokumentiert, verändern das Rennergebnis aber
-nicht automatisch. Das offizielle Ergebnis kann anschließend im Reiter
-**Ergebnisse** angepasst werden.
+Backups enthalten Ligadaten im Klartext. Sie sollten sicher aufbewahrt und
+nicht öffentlich geteilt werden.
 
 ## GitHub-Upload
 
 Hochladen:
-- `data`
 - `css`
 - `js`
 - `index.html`
 - `README.md`
 
 Commit:
-`Schritt 17 Strafenverwaltung hinzugefügt`
+`Schritt 18 Datensicherung und Export hinzugefügt`
 
 ## Test
 
-1. Eine Liga mit Fahrer, Rennen und Ergebnis auswählen.
-2. Im Reiter **Strafen** einen offenen Punktabzug von 5 Punkten speichern.
-3. Die Tabelle darf sich noch nicht verändern.
-4. Den Fall bearbeiten, auf **Abgeschlossen** setzen und eine Entscheidung eintragen.
-5. In der Tabelle müssen beim Fahrer 5 Punkte abgezogen werden.
-6. Im Statistikreiter müssen die reduzierten Punkte ebenfalls erscheinen.
-7. Zu einer anderen Liga wechseln: Dort darf die Strafakte nicht sichtbar sein.
-8. Zurückwechseln: Die Strafakte muss erhalten bleiben.
+1. Aktive Liga mit Fahrern, Rennen, Ergebnissen und einer Strafakte auswählen.
+2. **Liga-Backup herunterladen**.
+3. **Tabelle als CSV herunterladen** und öffnen.
+4. Einen Testfahrer löschen.
+5. Die eben erstellte JSON-Datei auswählen.
+6. Vorschau prüfen und Sicherung einspielen.
+7. Der gelöschte Fahrer muss wieder vorhanden sein.
+8. Zu einer anderen Liga wechseln; deren Daten dürfen durch ein Einzelbackup
+   nicht verändert worden sein.
+9. Optional eine Gesamtsicherung herunterladen.
