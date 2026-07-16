@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=2.6.0">
-  <script type="module" src="js/app.js?v=2.6.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=2.7.0">
+  <script type="module" src="js/app.js?v=2.7.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -64,6 +64,11 @@
         <button class="nav-item" type="button" data-page="races">
           <span aria-hidden="true">🏎️</span>
           <span>Rennen</span>
+        </button>
+
+        <button class="nav-item" type="button" data-page="results">
+          <span aria-hidden="true">🧾</span>
+          <span>Ergebnisse</span>
         </button>
 
         <button class="nav-item" type="button" data-page="standings">
@@ -188,12 +193,21 @@
                 <span>Rennen, Termine und Starterfelder werden pro Liga verwaltet.</span>
               </div>
             </article>
+
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
+              <div>
+                <p>Schritt 8</p>
+                <h3>Rennergebnisse</h3>
+                <span>Platzierungen, Status, Gaststarter, FL und Pole werden erfasst.</span>
+              </div>
+            </article>
           </section>
 
           <section class="system-check" aria-labelledby="systemCheckTitle">
             <div>
               <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Fahrer- und Rennerfassung erfolgreich geladen</h3>
+              <h3 id="systemCheckTitle">Fahrer-, Renn- und Ergebniserfassung erfolgreich geladen</h3>
             </div>
             <p id="loadMessage">JavaScript wird geprüft …</p>
           </section>
@@ -574,6 +588,120 @@ NurEinFahrername</pre>
           <aside class="local-data-note">
             <span aria-hidden="true">💾</span>
             <p><strong>Pro Liga getrennt:</strong> Renntermine und Starterfelder werden nur für die aktuell ausgewählte Liga in diesem Browser gespeichert.</p>
+          </aside>
+        </section>
+
+        <section class="page-view results-page" data-page-content="results" aria-labelledby="resultsTitle" hidden>
+          <section class="results-hero">
+            <div>
+              <p class="eyebrow">Rennergebnisse</p>
+              <h3 id="resultsTitle">Ergebnisse von <span data-active-league-name>Porsche GT Cup</span></h3>
+              <p>Erfasse Platzierungen und Rennstatus getrennt für Sprint, Hauptrennen und Qualifying.</p>
+            </div>
+            <div class="results-hero-badge">
+              <span aria-hidden="true">🧾</span>
+              <strong>Ergebnisbogen</strong>
+            </div>
+          </section>
+
+          <section class="result-selection-card" aria-label="Rennen und Wertung auswählen">
+            <div class="result-selection-field">
+              <label for="resultRaceSelect">Rennen</label>
+              <select id="resultRaceSelect"></select>
+            </div>
+
+            <div class="result-selection-field">
+              <label for="resultSessionSelect">Wertung</label>
+              <select id="resultSessionSelect">
+                <option value="main">Hauptrennen</option>
+                <option value="sprint">Sprintrennen</option>
+                <option value="qualifying">Qualifying</option>
+              </select>
+            </div>
+
+            <div class="result-session-overview" id="resultSessionOverview" aria-label="Gespeicherte Wertungen"></div>
+          </section>
+
+          <div class="result-no-races" id="resultNoRaces" hidden>
+            <span aria-hidden="true">🏎️</span>
+            <p>Für diese Liga wurde noch kein Rennen angelegt. Öffne zuerst den Reiter <strong>Rennen</strong>.</p>
+          </div>
+
+          <section class="result-stats-grid" aria-label="Ergebnisübersicht">
+            <article class="result-stat-card">
+              <span>Gewertet</span>
+              <strong id="resultClassifiedCount">0</strong>
+            </article>
+            <article class="result-stat-card">
+              <span>DNF</span>
+              <strong id="resultDnfCount">0</strong>
+            </article>
+            <article class="result-stat-card">
+              <span>DNS</span>
+              <strong id="resultDnsCount">0</strong>
+            </article>
+            <article class="result-stat-card">
+              <span>Abwesend</span>
+              <strong id="resultAbsentCount">0</strong>
+            </article>
+            <article class="result-stat-card">
+              <span>Gaststarter</span>
+              <strong id="resultGuestCount">0</strong>
+            </article>
+          </section>
+
+          <section class="result-editor-card" id="resultEditorWorkspace">
+            <header class="result-editor-header">
+              <div>
+                <p class="eyebrow">Aktuelle Wertung</p>
+                <h3 id="resultEditorTitle">Kein Rennen ausgewählt</h3>
+                <span id="resultEditorMeta">Lege zuerst ein Rennen an.</span>
+              </div>
+
+              <div class="result-editor-state">
+                <span class="result-saved-state" id="resultSavedState">Noch nicht gespeichert</span>
+                <button class="danger-button compact-button" id="resultDeleteButton" type="button" hidden>Ergebnis löschen</button>
+              </div>
+            </header>
+
+            <div class="result-tools" aria-label="Schnellaktionen">
+              <button class="secondary-button compact-button" id="resultAllFinishedButton" type="button">Alle gewertet</button>
+              <button class="secondary-button compact-button" id="resultGuestDefaultsButton" type="button">Gaststatus aus Kader</button>
+              <button class="secondary-button compact-button" id="resultClearPositionsButton" type="button">Positionen leeren</button>
+            </div>
+
+            <div class="result-table" role="table" aria-label="Rennergebnis">
+              <div class="result-table-header" role="row">
+                <span>Pos.</span>
+                <span>Fahrer</span>
+                <span>Status</span>
+                <span>Gast</span>
+                <span>FL</span>
+                <span>Pole</span>
+              </div>
+              <div class="result-entry-rows" id="resultEntryRows"></div>
+            </div>
+
+            <p class="form-message" id="resultMessage" role="status" hidden></p>
+
+            <footer class="result-editor-footer">
+              <p>Gaststarter bleiben im Ergebnis sichtbar, können später aber automatisch aus der Meisterschaftstabelle herausgefiltert werden.</p>
+              <div class="form-actions">
+                <button class="primary-button" id="resultSaveButton" type="button">Ergebnis speichern</button>
+                <button class="secondary-button" id="resultResetButton" type="button">Änderungen verwerfen</button>
+              </div>
+            </footer>
+          </section>
+
+          <div class="result-editor-empty" id="resultEditorEmpty" hidden>
+            <span aria-hidden="true">🧾</span>
+            <h4>Noch kein Ergebnisbogen verfügbar</h4>
+            <p>Lege ein Rennen mit Starterfeld an. Danach erscheinen die Fahrer hier automatisch.</p>
+          </div>
+
+          <aside class="local-data-note">
+            <span aria-hidden="true">💾</span>
+            <p><strong>Getrennt gespeichert:</strong> Jede Liga, jedes Rennen und jede Wertung besitzt einen eigenen Ergebnisbogen in diesem Browser.</p>
           </aside>
         </section>
 

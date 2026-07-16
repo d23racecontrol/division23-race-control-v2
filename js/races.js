@@ -1,17 +1,17 @@
 "use strict";
 
-import { DEFAULT_RACES as PGTC_DEFAULT_RACES } from "../data/pgtc/races.js?v=2.6.0";
-import { DEFAULT_RACES as ATM_DEFAULT_RACES } from "../data/atm/races.js?v=2.6.0";
-import { DEFAULT_RACES as WHC_DEFAULT_RACES } from "../data/whc/races.js?v=2.6.0";
-import { DEFAULT_RACES as MTC_DEFAULT_RACES } from "../data/mtc/races.js?v=2.6.0";
-import { DEFAULT_RACES as GT3DL_DEFAULT_RACES } from "../data/gt3dl/races.js?v=2.6.0";
-import { DEFAULT_RACES as MOM_DEFAULT_RACES } from "../data/mom/races.js?v=2.6.0";
-import { DEFAULT_RACES as TWINGO_RUSH_DEFAULT_RACES } from "../data/twingo-rush/races.js?v=2.6.0";
-import { getDriversForLeague } from "./drivers.js?v=2.6.0";
+import { DEFAULT_RACES as PGTC_DEFAULT_RACES } from "../data/pgtc/races.js?v=2.7.0";
+import { DEFAULT_RACES as ATM_DEFAULT_RACES } from "../data/atm/races.js?v=2.7.0";
+import { DEFAULT_RACES as WHC_DEFAULT_RACES } from "../data/whc/races.js?v=2.7.0";
+import { DEFAULT_RACES as MTC_DEFAULT_RACES } from "../data/mtc/races.js?v=2.7.0";
+import { DEFAULT_RACES as GT3DL_DEFAULT_RACES } from "../data/gt3dl/races.js?v=2.7.0";
+import { DEFAULT_RACES as MOM_DEFAULT_RACES } from "../data/mom/races.js?v=2.7.0";
+import { DEFAULT_RACES as TWINGO_RUSH_DEFAULT_RACES } from "../data/twingo-rush/races.js?v=2.7.0";
+import { getDriversForLeague } from "./drivers.js?v=2.7.0";
 import {
   readStoredJson,
   writeStoredJson
-} from "./storage.js?v=2.6.0";
+} from "./storage.js?v=2.7.0";
 
 const RACE_STORAGE_PREFIX = "races_";
 
@@ -132,10 +132,20 @@ function loadRaces(leagueId) {
 }
 
 function saveRaces(leagueId, races) {
-  return writeStoredJson(
+  const saved = writeStoredJson(
     getStorageKey(leagueId),
     races.map((race) => normalizeRace(race))
   );
+
+  if (saved) {
+    window.dispatchEvent(
+      new CustomEvent("d23:races-updated", {
+        detail: { leagueId }
+      })
+    );
+  }
+
+  return saved;
 }
 
 function parseLocalDate(dateValue) {
