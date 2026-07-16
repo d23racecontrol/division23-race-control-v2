@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=4.1.0">
-  <script type="module" src="js/app.js?v=4.1.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=4.2.0">
+  <script type="module" src="js/app.js?v=4.2.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -111,7 +111,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.1.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.2.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -226,10 +226,10 @@
 
         <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
           <section class="calendar-hero">
-            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.1.0" alt="">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.2.0" alt="">
 
             <div class="calendar-hero-logo">
-              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.1.0" alt="" hidden>
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.2.0" alt="" hidden>
               <span id="calendarLeagueLogoFallback">PG</span>
             </div>
 
@@ -1243,7 +1243,7 @@ NurEinFahrername</pre>
         <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
           <section class="export-hero">
             <div>
-              <p class="eyebrow">Schritt 22 · Grafikexport & Datensicherheit</p>
+              <p class="eyebrow">Schritt 23 · Grafikexport & Datensicherheit</p>
               <h3 id="exportTitle">Export & Backup für <span id="exportActiveLeagueName">Porsche GT Cup</span></h3>
               <p>Erstelle fertige Tabellenposter, sichere deine Race-Control-Daten oder exportiere die Meisterschaft als CSV.</p>
             </div>
@@ -1482,6 +1482,91 @@ NurEinFahrername</pre>
                   <div class="result-poster-loading" id="resultPosterLoading" hidden>
                     <span aria-hidden="true">🏁</span>
                     <strong>Ergebnisposter wird aufgebaut …</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <section class="starter-poster-studio" aria-labelledby="starterPosterTitle">
+            <header class="starter-poster-header">
+              <div>
+                <p class="eyebrow">Grafikexport V1 · Starterliste</p>
+                <h3 id="starterPosterTitle">Starterlistenposter erstellen</h3>
+                <p>Wähle ein bereits angelegtes Rennen mit Startern. Race Control erstellt daraus automatisch eine fertige Starterliste im Design der aktiven Liga.</p>
+              </div>
+
+              <div class="starter-poster-header-badge">
+                <span aria-hidden="true">👥</span>
+                <strong>STARTERS</strong>
+                <small>Startnummern, Fahrer, Fahrzeug und Status</small>
+              </div>
+            </header>
+
+            <div class="starter-poster-workspace">
+              <aside class="starter-poster-controls">
+                <div class="form-field">
+                  <label for="starterPosterRace">Rennen</label>
+                  <select id="starterPosterRace">
+                    <option value="">Noch keine Rennen mit Startern gespeichert</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="starterPosterFormat">Bildformat</label>
+                  <select id="starterPosterFormat">
+                    <option value="portrait">4:5 · Instagram</option>
+                    <option value="landscape">16:9 · Discord / Bildschirm</option>
+                  </select>
+                </div>
+
+                <section class="starter-poster-info-grid" aria-label="Posterdaten">
+                  <div>
+                    <span>Auflösung</span>
+                    <strong id="starterPosterDimensions">1080 × 1350 px</strong>
+                  </div>
+                  <div>
+                    <span>Starterzahl</span>
+                    <strong id="starterPosterEntryCount">0 Starter</strong>
+                  </div>
+                  <div>
+                    <span>Auswahl</span>
+                    <strong id="starterPosterRaceInfo">Kein Rennen</strong>
+                  </div>
+                </section>
+
+                <aside class="starter-poster-note">
+                  <span aria-hidden="true">ℹ️</span>
+                  <p>Die Grafik übernimmt die beim Rennen gespeicherten Starter. Gaststarter, Ersatzfahrer und Stammfahrer werden automatisch unterschiedlich gekennzeichnet.</p>
+                </aside>
+
+                <div class="starter-poster-actions">
+                  <button class="secondary-button" id="starterPosterRefreshButton" type="button">
+                    Vorschau neu laden
+                  </button>
+                  <button class="primary-button" id="starterPosterDownloadButton" type="button" disabled>
+                    PNG herunterladen
+                  </button>
+                </div>
+
+                <p class="form-message" id="starterPosterMessage" role="status" hidden></p>
+              </aside>
+
+              <div class="starter-poster-preview-column">
+                <div class="starter-poster-preview-label">
+                  <span>Live-Vorschau</span>
+                  <small>Die PNG wird in voller Auflösung gespeichert.</small>
+                </div>
+
+                <div class="starter-poster-preview-shell" id="starterPosterPreviewShell" data-poster-format="portrait">
+                  <canvas id="starterPosterCanvas" width="1080" height="1350">
+                    Dein Browser unterstützt die Starterlisten-Vorschau nicht.
+                  </canvas>
+
+                  <div class="starter-poster-loading" id="starterPosterLoading" hidden>
+                    <span aria-hidden="true">👥</span>
+                    <strong>Starterliste wird aufgebaut …</strong>
                   </div>
                 </div>
               </div>
