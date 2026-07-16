@@ -1,77 +1,67 @@
-# Division 23 Race Control V2 – Schritt 20: Kalender
+# Division 23 Race Control V2 – Schritt 21: Tabellenposter Export V1
 
-Version: 3.9.0
+Version: 4.0.0
 
-Dieser Schritt füllt ausschließlich den Reiter **Kalender**.
+Dieser Schritt erweitert ausschließlich den bestehenden Reiter **Export** um
+den ersten Grafikexport.
 
-## Enthaltene Saisonkalender
+## Tabellenposter
 
-- Porsche GT Cup – Saison 1
-- ATM – Saison 13
-- World Hypercar Championship – Saison 1 / 2026
-- Mégane Trophy Cup – Saison 7
-- GT3 Derby League – Saison 2
-- Masters of Motorsport – Saison 1
-- Twingo Rush – Saison 2
-
-## Funktionen
-
-- eigenes Liga-Logo im Kopfbereich
-- zusätzlich dezentes Logo-Wasserzeichen
+- Live-Vorschau direkt im Browser
+- PNG-Download in voller Auflösung
+- Formate:
+  - 4:5 – 1080 × 1350 Pixel
+  - 16:9 – 1920 × 1080 Pixel
+- automatisches Liga-Logo
 - automatische Liga-Farben
-- alle offiziellen Renntermine
-- vergangene Termine werden abgeschwächt
-- nächstes Rennen wird hervorgehoben
-- ausgewertete Rennen werden erkannt, wenn ein passendes Race-Control-Rennen
-  bereits ein gespeichertes Ergebnis besitzt
-- Filter:
-  - Alle
-  - Kommend
-  - Vergangen
-  - Ausgewertet
-- WHC:
-  - Umschaltung Liga 1 / Liga 2
-- MoM:
-  - sichtbare Phase 1 / Phase 2
-- MTC:
-  - Midseason Race gekennzeichnet
-- GT3DL:
-  - Saisonfinale mit 90-Minuten-Format gekennzeichnet
-- Schnellzugriff zur Rennplanung
+- Liga- und Saisonname
+- aktuelle Wertung direkt aus Race Control
+- Stand nach gespeicherten Rennen
+- Punktstrafen bereits im Punktestand berücksichtigt
+- Top 3 optisch hervorgehoben
 
-## Wichtige Trennung
+## Unterstützte Wertungen
 
-Der Kalender ist der veröffentlichte **Saisonplan**.
+- PGTC Fahrerwertung
+- ATM Fahrerwertung
+- WHC Liga 1
+- WHC Liga 2
+- WHC Herstellerwertung
+- MTC Fahrerwertung
+- GT3DL Fahrerwertung
+- MoM Fahrerwertung
+- Twingo Rush Fahrerwertung
 
-Der Reiter **Rennen** bleibt die operative Rennverwaltung mit:
-- Starterauswahl
-- Notizen
-- Ergebnissen
-- Ligagruppen
+## Bewusste Grenze von V1
 
-Dadurch kann der Kalender nicht versehentlich durch Änderungen an einzelnen
-Rennabenden zerstört werden.
+Schritt 21 erzeugt ausschließlich **Tabellenposter**.
+
+Noch nicht enthalten:
+- Ergebnisposter
+- Starterlisten
+- Strafengrafiken
+- Statistikposter
+
+Diese Bereiche folgen jeweils als eigene Schritte.
 
 ## GitHub-Upload
 
 Hochladen:
-- `data`
 - `css`
 - `js`
 - `index.html`
 - `README.md`
 
 Commit:
-`Schritt 20 Saisonkalender hinzugefügt`
+`Schritt 21 Tabellenposter Export V1 hinzugefügt`
 
 ## Test
 
-1. PGTC öffnen: Logo und zehn Rennen müssen erscheinen.
-2. Liga wechseln: Logo, Farben und Termine müssen sofort wechseln.
-3. WHC öffnen und zwischen Liga 1 und Liga 2 umschalten.
-4. MoM öffnen: Phase 1 und Phase 2 müssen getrennt sein.
-5. MTC öffnen: R5 muss als Midseason Race markiert sein.
-6. GT3DL öffnen: R10 muss als Saisonfinale mit 90 Minuten markiert sein.
-7. Filter „Kommend“ und „Vergangen“ testen.
-8. Ein passendes Rennen mit Ergebnis prüfen: Der Termin muss „Ausgewertet“ zeigen.
-9. Der Einstellungen-Reiter muss weiterhin entfernt bleiben.
+1. Eine Liga mit gespeicherten Ergebnissen auswählen.
+2. Export öffnen.
+3. Im Tabellenposter-Studio muss eine Vorschau erscheinen.
+4. 4:5 auswählen und PNG herunterladen.
+5. 16:9 auswählen und PNG herunterladen.
+6. Liga wechseln: Logo, Farben und Tabellenstand müssen wechseln.
+7. WHC auswählen und Liga 1, Liga 2 sowie Herstellerwertung testen.
+8. Punktabzug prüfen: Der reduzierte Punktestand muss auch im Poster stehen.

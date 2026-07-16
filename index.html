@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=3.9.0">
-  <script type="module" src="js/app.js?v=3.9.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=4.0.0">
+  <script type="module" src="js/app.js?v=4.0.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -111,7 +111,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=3.9.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.0.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -226,10 +226,10 @@
 
         <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
           <section class="calendar-hero">
-            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=3.9.0" alt="">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.0.0" alt="">
 
             <div class="calendar-hero-logo">
-              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=3.9.0" alt="" hidden>
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.0.0" alt="" hidden>
               <span id="calendarLeagueLogoFallback">PG</span>
             </div>
 
@@ -1243,9 +1243,9 @@ NurEinFahrername</pre>
         <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
           <section class="export-hero">
             <div>
-              <p class="eyebrow">Schritt 18 · Datensicherheit</p>
+              <p class="eyebrow">Schritt 21 · Exportstudio & Datensicherheit</p>
               <h3 id="exportTitle">Export & Backup für <span id="exportActiveLeagueName">Porsche GT Cup</span></h3>
-              <p>Sichere deine Race-Control-Daten außerhalb des Browsers, stelle Backups wieder her oder exportiere die aktuelle Meisterschaftstabelle als CSV.</p>
+              <p>Erstelle fertige Tabellenposter, sichere deine Race-Control-Daten oder exportiere die Meisterschaft als CSV.</p>
             </div>
 
             <div class="export-hero-badge">
@@ -1313,6 +1313,88 @@ NurEinFahrername</pre>
           </section>
 
           <p class="form-message export-message" id="exportMessage" role="status" hidden></p>
+
+          <section class="table-poster-studio" aria-labelledby="tablePosterTitle">
+            <header class="table-poster-header">
+              <div>
+                <p class="eyebrow">Grafikexport V1</p>
+                <h3 id="tablePosterTitle">Tabellenposter erstellen</h3>
+                <p>Die aktuelle Meisterschaft wird direkt aus Race Control als fertige PNG-Grafik im Design der ausgewählten Liga gerendert.</p>
+              </div>
+
+              <div class="table-poster-header-badge">
+                <span aria-hidden="true">🖼️</span>
+                <strong>PNG</strong>
+                <small>1080 × 1350 oder 1920 × 1080</small>
+              </div>
+            </header>
+
+            <div class="table-poster-workspace">
+              <aside class="table-poster-controls">
+                <div class="form-field">
+                  <label for="tablePosterStandingsView">Wertung</label>
+                  <select id="tablePosterStandingsView"></select>
+                </div>
+
+                <div class="form-field">
+                  <label for="tablePosterFormat">Bildformat</label>
+                  <select id="tablePosterFormat">
+                    <option value="portrait">4:5 · Instagram</option>
+                    <option value="landscape">16:9 · Discord / Bildschirm</option>
+                  </select>
+                </div>
+
+                <section class="table-poster-info-grid" aria-label="Posterdaten">
+                  <div>
+                    <span>Auflösung</span>
+                    <strong id="tablePosterDimensions">1080 × 1350 px</strong>
+                  </div>
+                  <div>
+                    <span>Tabellenumfang</span>
+                    <strong id="tablePosterRowCount">0 Tabellenzeilen</strong>
+                  </div>
+                  <div>
+                    <span>Meisterschaftsstand</span>
+                    <strong id="tablePosterRaceCount">Stand nach 0 Rennen</strong>
+                  </div>
+                </section>
+
+                <aside class="table-poster-note">
+                  <span aria-hidden="true">🏁</span>
+                  <p>Logo, Farben, Fahrerwertung, WHC-Ligen und Herstellerwertung werden automatisch übernommen. Punktstrafen sind bereits im Punktestand enthalten.</p>
+                </aside>
+
+                <div class="table-poster-actions">
+                  <button class="secondary-button" id="tablePosterRefreshButton" type="button">
+                    Vorschau neu laden
+                  </button>
+                  <button class="primary-button" id="tablePosterDownloadButton" type="button">
+                    PNG herunterladen
+                  </button>
+                </div>
+
+                <p class="form-message" id="tablePosterMessage" role="status" hidden></p>
+              </aside>
+
+              <div class="table-poster-preview-column">
+                <div class="table-poster-preview-label">
+                  <span>Live-Vorschau</span>
+                  <small>Die heruntergeladene PNG besitzt die volle Auflösung.</small>
+                </div>
+
+                <div class="table-poster-preview-shell" id="tablePosterPreviewShell" data-poster-format="portrait">
+                  <canvas id="tablePosterCanvas" width="1080" height="1350">
+                    Dein Browser unterstützt die Poster-Vorschau nicht.
+                  </canvas>
+
+                  <div class="table-poster-loading" id="tablePosterLoading" hidden>
+                    <span aria-hidden="true">🏁</span>
+                    <strong>Poster wird aufgebaut …</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
           <section class="import-card">
             <header class="import-card-header">

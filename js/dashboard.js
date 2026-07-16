@@ -1,14 +1,14 @@
 "use strict";
 
-import { getLeague } from "./leagues.js?v=3.9.0";
-import { getDriversForLeague } from "./drivers.js?v=3.9.0";
-import { getRacesForLeague } from "./races.js?v=3.9.0";
-import { getResultsForLeague } from "./results.js?v=3.9.0";
-import { getPenaltiesForLeague } from "./penalties.js?v=3.9.0";
+import { getLeague } from "./leagues.js?v=4.0.0";
+import { getDriversForLeague } from "./drivers.js?v=4.0.0";
+import { getRacesForLeague } from "./races.js?v=4.0.0";
+import { getResultsForLeague } from "./results.js?v=4.0.0";
+import { getPenaltiesForLeague } from "./penalties.js?v=4.0.0";
 import {
   getStandingsExportSnapshot,
   getStandingsExportViews
-} from "./standings.js?v=3.9.0";
+} from "./standings.js?v=4.0.0";
 
 const SESSION_LABELS = Object.freeze({
   main: "Hauptrennen",
@@ -171,7 +171,7 @@ function updateLeagueHero(league) {
     fallback.hidden = false;
   };
 
-  logo.src = `${league.logoPath}?v=3.9.0`;
+  logo.src = `${league.logoPath}?v=4.0.0`;
 }
 
 function renderSummary(drivers, races, results, penalties) {

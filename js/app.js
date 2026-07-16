@@ -5,56 +5,56 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=3.9.0";
+} from "./leagues.js?v=4.0.0";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=3.9.0";
+} from "./storage.js?v=4.0.0";
 import {
   initializeDriversModule,
   renderDriversForLeague,
   setDriversLeague
-} from "./drivers.js?v=3.9.0";
+} from "./drivers.js?v=4.0.0";
 import {
   initializeRacesModule,
   renderRacesForLeague,
   setRacesLeague
-} from "./races.js?v=3.9.0";
+} from "./races.js?v=4.0.0";
 import {
   initializeResultsModule,
   renderResultsForLeague,
   setResultsLeague
-} from "./results.js?v=3.9.0";
+} from "./results.js?v=4.0.0";
 import {
   initializeStandingsModule,
   renderStandingsForLeague,
   setStandingsLeague
-} from "./standings.js?v=3.9.0";
+} from "./standings.js?v=4.0.0";
 import {
   initializeStatisticsModule,
   renderStatisticsForLeague,
   setStatisticsLeague
-} from "./statistics.js?v=3.9.0";
+} from "./statistics.js?v=4.0.0";
 import {
   initializePenaltiesModule,
   renderPenaltiesForLeague,
   setPenaltiesLeague
-} from "./penalties.js?v=3.9.0";
+} from "./penalties.js?v=4.0.0";
 import {
   initializeExportModule,
   renderExportForLeague,
   setExportLeague
-} from "./export.js?v=3.9.0";
+} from "./export.js?v=4.0.0";
 import {
   initializeDashboardModule,
   renderDashboardForLeague,
   setDashboardLeague
-} from "./dashboard.js?v=3.9.0";
+} from "./dashboard.js?v=4.0.0";
 import {
   initializeCalendarModule,
   renderCalendarForLeague,
   setCalendarLeague
-} from "./calendar.js?v=3.9.0";
+} from "./calendar.js?v=4.0.0";
 
 /**
  * Division 23 Race Control V2
@@ -64,7 +64,7 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "3.9.0";
+const APP_VERSION = "4.0.0";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 
