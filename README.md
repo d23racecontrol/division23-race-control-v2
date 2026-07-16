@@ -1,14 +1,14 @@
-# Division 23 Race Control V2 – Schritt 24: Strafengrafik Export V1
+# Division 23 Race Control V2 – Schritt 25: Statistikposter Export V1
 
-Version: 4.3.0
+Version: 4.4.0
 
 Dieser Schritt erweitert ausschließlich den bestehenden Reiter **Export** um
-den vierten Grafikexport.
+den fünften Grafikexport.
 
-## Strafengrafik
+## Statistikposter
 
-- gespeicherte Strafakte auswählen
-- Live-Vorschau direkt im Browser
+- Statistikposter direkt im Export-Reiter
+- Live-Vorschau im Browser
 - PNG-Download in voller Auflösung
 - Formate:
   - 4:5 – 1080 × 1350 Pixel
@@ -16,29 +16,33 @@ den vierten Grafikexport.
 - automatisches Liga-Logo
 - automatische Liga-Farben
 - Liga- und Saisonname
-- Fahrername und Startnummer
-- Liga / Gruppe und Fahrzeug
-- betroffenes Rennen
-- Maßnahme:
-  - Verwarnung
-  - Zeitstrafe
-  - Positionsstrafe
-  - Punktabzug
-- Vorfall / Begründung
-- Entscheidung der Rennkommission
-- offene Fälle als **Vorläufige Mitteilung**
-- abgeschlossene Fälle als **Offizielle Entscheidung**
-- abgeschlossene Punktabzüge werden als bereits in der Meisterschaft
-  berücksichtigt gekennzeichnet
+- Auswahl der Wertung:
+  - Gesamtwertung
+  - Ligagruppe / Liga 1 / Liga 2, wenn vorhanden
+- Auswahl der Statistik:
+  - Punkte
+  - Siege
+  - Podien
+  - Pole Positions
+  - Schnellste Runden
+  - Starts
+  - Ausfälle
+  - Durchschnittsplatzierung
+  - Punkte pro Start
+  - Siegquote
+- automatische Topliste
+- Führender Fahrer im Übersichtsteil
+- Anzeige der gewerteten Rennen
+- echte Daten direkt aus Race Control
 
 ## Bewusste Grenze von V1
 
-Schritt 24 erzeugt ausschließlich **Grafiken aus gespeicherten Strafakten**.
+Schritt 25 erzeugt ausschließlich **Toplisten-Statistikposter** aus den
+vorhandenen Saisonstatistiken.
 
 Noch nicht enthalten:
-- Statistikposter
-
-Dieser Bereich folgt als eigener Schritt.
+- frei konfigurierbare Mehrfachdiagramme
+- kombinierte Vergleichsposter mit mehreren Statistiken gleichzeitig
 
 ## GitHub-Upload
 
@@ -49,18 +53,17 @@ Hochladen:
 - `README.md`
 
 Commit:
-`Schritt 24 Strafengrafik Export V1 hinzugefügt`
+`Schritt 25 Statistikposter Export V1 hinzugefügt`
 
 ## Test
 
-1. Eine Liga mit mindestens einer gespeicherten Strafakte auswählen.
+1. Eine Liga mit vorhandenen Ergebnissen auswählen.
 2. Export öffnen.
-3. Zum Bereich **Strafengrafik erstellen** scrollen.
-4. Eine offene Strafakte auswählen.
-5. Die Grafik muss als **Vorläufige Mitteilung** erscheinen.
-6. Eine abgeschlossene Strafakte auswählen.
-7. Die Grafik muss als **Offizielle Entscheidung** erscheinen.
-8. 4:5-Vorschau prüfen und PNG herunterladen.
-9. 16:9 auswählen und PNG herunterladen.
-10. Einen abgeschlossenen Punktabzug prüfen.
-11. Tabellen-, Ergebnis- und Starterlistenposter müssen weiterhin funktionieren.
+3. Zum Bereich **Statistikposter erstellen** scrollen.
+4. Statistik **Punkte** prüfen.
+5. Danach **Siege**, **Podien** und **Schnellste Runden** testen.
+6. Bei WHC zusätzlich Gesamtwertung sowie Liga 1 / Liga 2 testen.
+7. 4:5-Vorschau prüfen und PNG herunterladen.
+8. Danach 16:9 testen.
+9. Bei einer Liga ohne Statistikdaten muss eine saubere Leermeldung erscheinen.
+10. Tabellen-, Ergebnis-, Starterlisten- und Strafengrafiken müssen weiterhin funktionieren.

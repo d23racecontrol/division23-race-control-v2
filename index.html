@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=4.3.0">
-  <script type="module" src="js/app.js?v=4.3.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=4.4.0">
+  <script type="module" src="js/app.js?v=4.4.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -111,7 +111,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.3.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.4.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -226,10 +226,10 @@
 
         <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
           <section class="calendar-hero">
-            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.3.0" alt="">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.4.0" alt="">
 
             <div class="calendar-hero-logo">
-              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.3.0" alt="" hidden>
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.4.0" alt="" hidden>
               <span id="calendarLeagueLogoFallback">PG</span>
             </div>
 
@@ -1243,7 +1243,7 @@ NurEinFahrername</pre>
         <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
           <section class="export-hero">
             <div>
-              <p class="eyebrow">Schritt 24 · Grafikexport & Datensicherheit</p>
+              <p class="eyebrow">Schritt 25 · Grafikexport & Datensicherheit</p>
               <h3 id="exportTitle">Export & Backup für <span id="exportActiveLeagueName">Porsche GT Cup</span></h3>
               <p>Erstelle fertige Tabellenposter, sichere deine Race-Control-Daten oder exportiere die Meisterschaft als CSV.</p>
             </div>
@@ -1657,6 +1657,98 @@ NurEinFahrername</pre>
               </div>
             </div>
           </section>
+
+
+<section class="statistics-poster-studio" aria-labelledby="statisticsPosterTitle">
+  <header class="statistics-poster-header">
+    <div>
+      <p class="eyebrow">Grafikexport V1 · Statistik</p>
+      <h3 id="statisticsPosterTitle">Statistikposter erstellen</h3>
+      <p>Wähle eine Statistik und – wenn vorhanden – die gewünschte Ligagruppe. Race Control erstellt daraus automatisch eine Rangliste mit den echten Saisondaten der aktiven Liga.</p>
+    </div>
+
+    <div class="statistics-poster-header-badge">
+      <span aria-hidden="true">📈</span>
+      <strong>STATS</strong>
+      <small>Punkte, Siege, Podien, Pole, FL und mehr</small>
+    </div>
+  </header>
+
+  <div class="statistics-poster-workspace">
+    <aside class="statistics-poster-controls">
+      <div class="form-field" id="statisticsPosterViewField">
+        <label for="statisticsPosterView">Wertung</label>
+        <select id="statisticsPosterView">
+          <option value="__all__">Gesamtwertung</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="statisticsPosterMetric">Statistik</label>
+        <select id="statisticsPosterMetric">
+          <option value="points">Punkte</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="statisticsPosterFormat">Bildformat</label>
+        <select id="statisticsPosterFormat">
+          <option value="portrait">4:5 · Instagram</option>
+          <option value="landscape">16:9 · Discord / Bildschirm</option>
+        </select>
+      </div>
+
+      <section class="statistics-poster-info-grid" aria-label="Posterdaten">
+        <div>
+          <span>Auflösung</span>
+          <strong id="statisticsPosterDimensions">1080 × 1350 px</strong>
+        </div>
+        <div>
+          <span>Statistik</span>
+          <strong id="statisticsPosterMetricInfo">Punkte</strong>
+        </div>
+        <div>
+          <span>Spitzenreiter</span>
+          <strong id="statisticsPosterTopInfo">Noch keine Daten</strong>
+        </div>
+      </section>
+
+      <aside class="statistics-poster-note">
+        <span aria-hidden="true">ℹ️</span>
+        <p>Das Poster greift direkt auf die Race-Control-Statistikdaten zu. Bei Ligen mit mehreren Gruppen kannst du zwischen Gesamtwertung und Ligagruppen wechseln.</p>
+      </aside>
+
+      <div class="statistics-poster-actions">
+        <button class="secondary-button" id="statisticsPosterRefreshButton" type="button">
+          Vorschau neu laden
+        </button>
+        <button class="primary-button" id="statisticsPosterDownloadButton" type="button" disabled>
+          PNG herunterladen
+        </button>
+      </div>
+
+      <p class="form-message" id="statisticsPosterMessage" role="status" hidden></p>
+    </aside>
+
+    <div class="statistics-poster-preview-column">
+      <div class="statistics-poster-preview-label">
+        <span>Live-Vorschau</span>
+        <small>Die PNG wird in voller Auflösung gespeichert.</small>
+      </div>
+
+      <div class="statistics-poster-preview-shell" id="statisticsPosterPreviewShell" data-poster-format="portrait">
+        <canvas id="statisticsPosterCanvas" width="1080" height="1350">
+          Dein Browser unterstützt die Statistikposter-Vorschau nicht.
+        </canvas>
+
+        <div class="statistics-poster-loading" id="statisticsPosterLoading" hidden>
+          <span aria-hidden="true">📈</span>
+          <strong>Statistikposter wird aufgebaut …</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
           <section class="import-card">
             <header class="import-card-header">
