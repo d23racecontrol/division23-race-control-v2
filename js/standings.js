@@ -1,15 +1,15 @@
 "use strict";
 
-import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=2.8.1";
-import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=2.8.1";
-import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=2.8.1";
-import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=2.8.1";
-import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=2.8.1";
-import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=2.8.1";
-import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=2.8.1";
-import { getDriversForLeague } from "./drivers.js?v=2.8.1";
-import { getRacesForLeague } from "./races.js?v=2.8.1";
-import { getResultsForLeague } from "./results.js?v=2.8.1";
+import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=2.9.0";
+import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=2.9.0";
+import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=2.9.0";
+import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=2.9.0";
+import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=2.9.0";
+import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=2.9.0";
+import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=2.9.0";
+import { getDriversForLeague } from "./drivers.js?v=2.9.0";
+import { getRacesForLeague } from "./races.js?v=2.9.0";
+import { getResultsForLeague } from "./results.js?v=2.9.0";
 
 const ALL_GROUPS = "__all__";
 
@@ -80,16 +80,16 @@ function getGroups(races) {
   );
 }
 
-function updateGroupSelect(races) {
+function updateGroupSelect(races, config) {
   const select = document.getElementById("standingsGroupSelect");
   const field = document.getElementById("standingsGroupField");
   if (!select || !field) return;
 
-  const groups = getGroups(races);
+  const groups = config.useGroups === false ? [] : getGroups(races);
   const previous = selectedGroup;
   select.replaceChildren();
 
-  if (groups.length === 0) {
+  if (config.useGroups === false || groups.length === 0) {
     const option = document.createElement("option");
     option.value = ALL_GROUPS;
     option.textContent = "Gesamtwertung";
@@ -223,15 +223,25 @@ function getEventStatusEntry(sessionEntries) {
 }
 
 function findPoleWinner(sessionMaps, config, race) {
-  const allowedRaceNumbers = config.bonuses?.pole?.raceNumbers ?? [];
-  if (!allowedRaceNumbers.includes(race.number)) return null;
+  const poleConfig = config.bonuses?.pole;
+  if (!poleConfig || (poleConfig.points ?? 0) <= 0) return null;
 
-  for (const session of SESSION_PRIORITY_FOR_POLE) {
+  const allowedRaceNumbers = poleConfig.raceNumbers ?? [];
+  const raceIsEligible = poleConfig.allRaces === true ||
+    allowedRaceNumbers.includes(race.number);
+
+  if (!raceIsEligible) return null;
+
+  const sessions = poleConfig.session
+    ? [poleConfig.session]
+    : SESSION_PRIORITY_FOR_POLE;
+
+  for (const session of sessions) {
     const result = sessionMaps.get(session);
     const winner = result?.entries?.find((entry) =>
       entry.pole &&
       !entry.isGuest &&
-      entry.status !== "absent"
+      !["absent", "dns", "dsq"].includes(entry.status)
     );
 
     if (winner) return winner;
@@ -498,6 +508,34 @@ function renderStandingsTable(standings) {
   empty.hidden = standings.length !== 0;
 }
 
+function getSessionLabel(session) {
+  return {
+    qualifying: "Qualifying",
+    sprint: "Sprint",
+    main: "Hauptrennen"
+  }[session] ?? "Wertung";
+}
+
+function formatPoints(points) {
+  return `${points} ${points === 1 ? "Punkt" : "Punkte"}`;
+}
+
+function getPoleDescription(config) {
+  const pole = config.bonuses?.pole;
+  if (!pole || (pole.points ?? 0) <= 0) return null;
+
+  const sessionLabel = getSessionLabel(pole.session);
+  const restriction = pole.allRaces === true
+    ? ""
+    : pole.raceNumbers?.length === 1
+      ? ` (nur Rennen ${pole.raceNumbers[0]})`
+      : pole.raceNumbers?.length
+        ? ` (Rennen ${pole.raceNumbers.join(", ")})`
+        : "";
+
+  return `Pole im ${sessionLabel}${restriction}: +${formatPoints(pole.points)}`;
+}
+
 function renderConfiguration(config) {
   const positionList = document.getElementById("standingsPositionPoints");
   const bonusList = document.getElementById("standingsBonusPoints");
@@ -512,14 +550,32 @@ function renderConfiguration(config) {
     })
   );
 
-  const bonusItems = [
-    `Pole nur Rennen 1: +${config.bonuses?.pole?.points ?? 0}`,
-    `Schnellste Runde Sprint: +${config.bonuses?.fastestLap?.sprint ?? 0}`,
-    `Schnellste Runde Haupt: +${config.bonuses?.fastestLap?.main ?? 0}`,
-    `Fristgerecht abwesend: +${config.statuses?.absent ?? 0}`,
-    "DNF / DNS / DSQ: 0 Punkte",
-    "Gaststarter: keine Meisterschaftspunkte"
-  ];
+  const bonusItems = [];
+  const poleDescription = getPoleDescription(config);
+  if (poleDescription) bonusItems.push(poleDescription);
+
+  const fastestLap = config.bonuses?.fastestLap ?? {};
+  if ((fastestLap.sprint ?? 0) > 0) {
+    bonusItems.push(`Schnellste Runde Sprint: +${formatPoints(fastestLap.sprint)}`);
+  }
+  if ((fastestLap.main ?? 0) > 0) {
+    bonusItems.push(`Schnellste Runde Hauptrennen: +${formatPoints(fastestLap.main)}`);
+  }
+  if ((fastestLap.qualifying ?? 0) > 0) {
+    bonusItems.push(`Schnellste Runde Qualifying: +${formatPoints(fastestLap.qualifying)}`);
+  }
+
+  const statuses = config.statuses ?? {};
+  bonusItems.push(
+    `Abwesenheit: ${formatPoints(statuses.absent ?? 0)}`,
+    `DNF: ${formatPoints(statuses.dnf ?? 0)}`,
+    `DNS: ${formatPoints(statuses.dns ?? 0)}`,
+    `Disqualifiziert: ${formatPoints(statuses.dsq ?? 0)}`
+  );
+
+  if (config.excludeGuests) {
+    bonusItems.push("Gaststarter: keine Meisterschaftspunkte");
+  }
 
   bonusList.replaceChildren(
     ...bonusItems.map((text) => {
@@ -564,7 +620,7 @@ function renderConfigured(config) {
   }
 
   const allRaces = getSortedRaces();
-  updateGroupSelect(allRaces);
+  updateGroupSelect(allRaces, config);
 
   const races = allRaces.filter(raceMatchesSelectedGroup);
   const raceIds = new Set(races.map((race) => race.id));

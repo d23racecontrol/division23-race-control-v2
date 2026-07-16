@@ -4,6 +4,8 @@
 export const POINTS_CONFIG = Object.freeze({
   configured: true,
   label: "PGTC Punktesystem",
+  useGroups: true,
+  format: "Sprintrennen ohne Positionspunkte + Hauptrennen",
   positionPoints: Object.freeze({
     main: Object.freeze([35, 32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6]),
     sprint: Object.freeze([]),
@@ -12,7 +14,9 @@ export const POINTS_CONFIG = Object.freeze({
   bonuses: Object.freeze({
     pole: Object.freeze({
       points: 1,
+      session: "qualifying",
       raceNumbers: Object.freeze([1]),
+      allRaces: false,
       oncePerRace: true
     }),
     fastestLap: Object.freeze({
