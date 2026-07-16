@@ -1,36 +1,65 @@
-# Division 23 Race Control V2 – Schritt 8: Rennergebnisse
+# Division 23 Race Control V2 – Schritt 9: PGTC-Meisterschaftstabelle
 
-Version: 2.7.0
+Version: 2.8.0
 
-Neu:
-- Eigener Menüpunkt **Ergebnisse**
-- Vorhandenes Rennen auswählen
-- Getrennte Ergebnisbögen für **Hauptrennen**, **Sprintrennen** und **Qualifying**
-- Platzierungen eintragen
-- Status: Gewertet, DNF, DNS, Abwesend oder Disqualifiziert
-- Gaststarter markieren
-- Schnellste Runde und Pole erfassen
-- Pro Wertung nur eine schnellste Runde und eine Pole möglich
-- Doppelte Platzierungen werden beim Speichern abgefangen
-- Gespeicherte Wertungen bleiben pro Liga und Rennen getrennt
-- Gaststarter bleiben sichtbar und können später in der Tabelle automatisch herausgefiltert werden
+## Eingebautes PGTC-Punktesystem
 
-Zum Hochladen bei GitHub:
+Hauptrennen:
+- P1 35
+- P2 32
+- P3 30
+- P4 28
+- P5 26
+- P6 24
+- P7 22
+- P8 20
+- P9 18
+- P10 16
+- P11 14
+- P12 12
+- P13 10
+- P14 8
+- P15 6
+
+Zusatzpunkte:
+- Pole nur Rennen 1: +1
+- Schnellste Runde Sprint: +1
+- Schnellste Runde Hauptrennen: +1
+- Fristgerecht abwesend: +3
+- DNF, DNS, DSQ: 0
+- Gaststarter: keine Meisterschaftspunkte
+
+Punktgleichheit:
+1. Bestes Einzelergebnis
+2. Anzahl der Siege
+3. Anzahl der zweiten Plätze
+4. Danach dritte, vierte Plätze usw.
+
+## Neue Funktionen
+
+- Automatische Fahrerwertung im Reiter **Tabellen**
+- Getrennte Wertung nach Liga/Gruppe
+- Gleichplatzierung, wenn alle sportlichen Kriterien identisch sind
+- Andere Ligen bleiben bewusst gesperrt, bis ihr echtes Punktesystem vorliegt
+- Neuberechnung nach jeder Änderung an Fahrern, Rennen oder Ergebnissen
+
+## Upload zu GitHub
+
+Hochladen:
 - `data`
 - `css`
 - `js`
 - `index.html`
 - `README.md`
 
-Commit-Nachricht:
-`Schritt 8 Rennergebnisse hinzugefügt`
+Commit:
+`Schritt 9 PGTC Tabelle hinzugefügt`
 
-Test:
-1. Ein Rennen mit mindestens drei Startern auswählen.
-2. Im Reiter **Ergebnisse** das Hauptrennen öffnen.
-3. Positionen 1 und 2 vergeben, einen Fahrer auf DNF setzen.
-4. Einen Fahrer als Gaststarter sowie FL und Pole markieren.
-5. Ergebnis speichern.
-6. Zum Sprintrennen wechseln – dort muss ein leerer eigener Ergebnisbogen erscheinen.
-7. Zurück zum Hauptrennen – die gespeicherten Angaben müssen wieder vorhanden sein.
-8. Liga wechseln und zurückkehren – das Ergebnis muss nur in der richtigen Liga erscheinen.
+## Test
+
+1. PGTC auswählen.
+2. Ein Hauptrennen mit P1, P2 und P3 speichern.
+3. Einen Fahrer als abwesend markieren.
+4. Reiter **Tabellen** öffnen.
+5. Punkte müssen automatisch erscheinen.
+6. Zu WHC wechseln: Dort muss stehen, dass das Punktesystem noch fehlt.

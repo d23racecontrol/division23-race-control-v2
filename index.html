@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=2.7.0">
-  <script type="module" src="js/app.js?v=2.7.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=2.8.0">
+  <script type="module" src="js/app.js?v=2.8.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -202,12 +202,21 @@
                 <span>Platzierungen, Status, Gaststarter, FL und Pole werden erfasst.</span>
               </div>
             </article>
+
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
+              <div>
+                <p>Schritt 9</p>
+                <h3>PGTC-Tabelle</h3>
+                <span>Punkte und Tie-Breaker werden automatisch berechnet.</span>
+              </div>
+            </article>
           </section>
 
           <section class="system-check" aria-labelledby="systemCheckTitle">
             <div>
               <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Fahrer-, Renn- und Ergebniserfassung erfolgreich geladen</h3>
+              <h3 id="systemCheckTitle">Fahrer-, Renn-, Ergebnis- und Tabellenmodule erfolgreich geladen</h3>
             </div>
             <p id="loadMessage">JavaScript wird geprüft …</p>
           </section>
@@ -705,14 +714,114 @@ NurEinFahrername</pre>
           </aside>
         </section>
 
-        <section class="page-view" data-page-content="standings" aria-labelledby="standingsTitle" hidden>
-          <article class="module-placeholder">
-            <div class="module-icon" aria-hidden="true">🏆</div>
-            <p class="eyebrow">Modul vorbereitet</p>
-            <h3 id="standingsTitle">Tabellen</h3>
-            <p>Hier werden später Punkte, Platzierungen und Meisterschaftsstände für <strong data-active-league-name>Porsche GT Cup</strong> berechnet.</p>
-            <span class="development-badge">In Vorbereitung</span>
-          </article>
+        <section class="page-view standings-page" data-page-content="standings" aria-labelledby="standingsTitle" hidden>
+          <section class="standings-hero">
+            <div>
+              <p class="eyebrow">Phase 4 · Meisterschaft</p>
+              <h3 id="standingsTitle">Tabelle von <span data-active-league-name>Porsche GT Cup</span></h3>
+              <p>Die Tabelle wird automatisch aus den gespeicherten Rennergebnissen berechnet. Gaststarter werden nicht gewertet.</p>
+            </div>
+
+            <div class="standings-config-badge" id="standingsConfigBadge">
+              Punktesystem wird geprüft
+            </div>
+          </section>
+
+          <section class="standings-unconfigured" id="standingsUnconfigured" hidden>
+            <span aria-hidden="true">⚙️</span>
+            <h4>Punktesystem noch nicht eingerichtet</h4>
+            <p id="standingsUnconfiguredText">Für diese Liga wurde noch kein Punktesystem hinterlegt.</p>
+          </section>
+
+          <div id="standingsConfigured">
+            <section class="standings-toolbar">
+              <label class="standings-group-field" id="standingsGroupField" for="standingsGroupSelect">
+                <span>Wertung</span>
+                <select id="standingsGroupSelect">
+                  <option value="__all__">Gesamtwertung</option>
+                </select>
+              </label>
+
+              <p>
+                Angezeigt: <strong id="standingsGroupLabel">Gesamtwertung</strong>
+              </p>
+            </section>
+
+            <section class="standings-stats-grid" aria-label="Tabellenübersicht">
+              <article>
+                <span>Gewertete Fahrer</span>
+                <strong id="standingsDriverCount">0</strong>
+              </article>
+              <article>
+                <span>Rennen mit Ergebnis</span>
+                <strong id="standingsRaceCount">0</strong>
+              </article>
+              <article>
+                <span>Führender Punktestand</span>
+                <strong id="standingsLeaderPoints">0</strong>
+              </article>
+            </section>
+
+            <section class="standings-table-card">
+              <header class="standings-table-header">
+                <div>
+                  <p class="eyebrow">Automatisch berechnet</p>
+                  <h3>Fahrerwertung</h3>
+                </div>
+                <span>Sortierung: Punkte → bestes Einzelergebnis → Siege → weitere Platzierungen</span>
+              </header>
+
+              <div class="standings-table-scroll">
+                <div class="standings-table">
+                  <div class="standings-row standings-row-head" aria-hidden="true">
+                    <div>Pos.</div>
+                    <div>Fahrer</div>
+                    <div>Starts</div>
+                    <div>Siege</div>
+                    <div>Podien</div>
+                    <div>FL</div>
+                    <div>Pole</div>
+                    <div>Abw.</div>
+                    <div>Bestes</div>
+                    <div>Punkte</div>
+                  </div>
+
+                  <div id="standingsRows"></div>
+                </div>
+              </div>
+
+              <div class="standings-empty" id="standingsEmpty">
+                <span aria-hidden="true">🏆</span>
+                <h4>Noch keine Meisterschaftsdaten</h4>
+                <p>Sobald du ein Ergebnis speicherst, erscheint hier automatisch die Tabelle.</p>
+              </div>
+            </section>
+
+            <section class="standings-rules-grid">
+              <article>
+                <p class="eyebrow">Hauptrennen</p>
+                <h3>Positionspunkte</h3>
+                <ul id="standingsPositionPoints"></ul>
+              </article>
+
+              <article>
+                <p class="eyebrow">Zusatzregeln</p>
+                <h3>Boni und Status</h3>
+                <ul id="standingsBonusPoints"></ul>
+              </article>
+
+              <article>
+                <p class="eyebrow">Punktgleichheit</p>
+                <h3>Sportliche Reihenfolge</h3>
+                <ol>
+                  <li>Bestes Einzelergebnis</li>
+                  <li>Anzahl der Siege</li>
+                  <li>Anzahl der zweiten Plätze</li>
+                  <li>Danach dritte, vierte Plätze usw.</li>
+                </ol>
+              </article>
+            </section>
+          </div>
         </section>
 
         <section class="page-view" data-page-content="statistics" aria-labelledby="statisticsTitle" hidden>
