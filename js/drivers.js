@@ -1,20 +1,20 @@
 "use strict";
 
-import { DEFAULT_DRIVERS as PGTC_DEFAULT_DRIVERS } from "../data/pgtc/drivers.js?v=3.3.0";
-import { DEFAULT_DRIVERS as ATM_DEFAULT_DRIVERS } from "../data/atm/drivers.js?v=3.3.0";
-import { DEFAULT_DRIVERS as WHC_DEFAULT_DRIVERS } from "../data/whc/drivers.js?v=3.3.0";
-import { DEFAULT_DRIVERS as MTC_DEFAULT_DRIVERS } from "../data/mtc/drivers.js?v=3.3.0";
-import { DEFAULT_DRIVERS as GT3DL_DEFAULT_DRIVERS } from "../data/gt3dl/drivers.js?v=3.3.0";
-import { DEFAULT_DRIVERS as MOM_DEFAULT_DRIVERS } from "../data/mom/drivers.js?v=3.3.0";
-import { DEFAULT_DRIVERS as TWINGO_RUSH_DEFAULT_DRIVERS } from "../data/twingo-rush/drivers.js?v=3.3.0";
+import { DEFAULT_DRIVERS as PGTC_DEFAULT_DRIVERS } from "../data/pgtc/drivers.js?v=3.4.0";
+import { DEFAULT_DRIVERS as ATM_DEFAULT_DRIVERS } from "../data/atm/drivers.js?v=3.4.0";
+import { DEFAULT_DRIVERS as WHC_DEFAULT_DRIVERS } from "../data/whc/drivers.js?v=3.4.0";
+import { DEFAULT_DRIVERS as MTC_DEFAULT_DRIVERS } from "../data/mtc/drivers.js?v=3.4.0";
+import { DEFAULT_DRIVERS as GT3DL_DEFAULT_DRIVERS } from "../data/gt3dl/drivers.js?v=3.4.0";
+import { DEFAULT_DRIVERS as MOM_DEFAULT_DRIVERS } from "../data/mom/drivers.js?v=3.4.0";
+import { DEFAULT_DRIVERS as TWINGO_RUSH_DEFAULT_DRIVERS } from "../data/twingo-rush/drivers.js?v=3.4.0";
 import {
   readStoredJson,
   writeStoredJson
-} from "./storage.js?v=3.3.0";
+} from "./storage.js?v=3.4.0";
 import {
   IMPORT_STATUS_LABELS,
   parseDriverImportText
-} from "./driver-import.js?v=3.3.0";
+} from "./driver-import.js?v=3.4.0";
 
 const DRIVER_STORAGE_PREFIX = "drivers_";
 const DEFAULT_STATUS = "regular";

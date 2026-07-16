@@ -1,45 +1,43 @@
-# Division 23 Race Control V2 – Schritt 14: MoM-Tabelle
+# Division 23 Race Control V2 – Schritt 15: Twingo-Rush-Tabelle
 
-Version: 3.3.0
+Version: 3.4.0
 
-## Rennformat
+## Wertung
 
-- eine gemeinsame Fahrerwertung
-- kein Qualifying
-- Sprintrennen ohne Positionspunkte
-- Hauptrennen mit Positionspunkten
+Twingo Rush verwendet dasselbe Punktesystem wie der Porsche GT Cup.
 
-## Hauptrennen
+### Hauptrennen
 
-- P1: 25
-- P2: 22
-- P3: 20
-- P4: 18
-- P5: 16
-- P6: 14
-- P7: 12
-- P8: 10
-- P9: 8
-- P10: 6
-- P11: 5
-- P12: 4
-- P13: 3
-- P14: 2
-- P15: 1
+- P1: 35
+- P2: 32
+- P3: 30
+- P4: 28
+- P5: 26
+- P6: 24
+- P7: 22
+- P8: 20
+- P9: 18
+- P10: 16
+- P11: 14
+- P12: 12
+- P13: 10
+- P14: 8
+- P15: 6
 
-## Zusatz- und Statusregeln
+### Zusatz- und Statusregeln
 
+- Sprintrennen: keine Positionspunkte
+- Pole nur bei Rennen 1: +1 Punkt
 - schnellste Runde Sprintrennen: +1 Punkt
 - schnellste Runde Hauptrennen: +1 Punkt
-- kein Pole-Punkt
+- fristgerechte Abmeldung: +3 Punkte
 - DNF: 0 Punkte
 - DNS: 0 Punkte
-- Abwesenheit: 0 Punkte
-- technischer Defekt / Disconnect: 0 Punkte
 - Disqualifikation: 0 Punkte
-- Gaststarter: 0 Meisterschaftspunkte und nicht in der Fahrerwertung
+- technischer Defekt / Disconnect: 0 Punkte
+- Gaststarter: keine Meisterschaftspunkte
 
-## Punktgleichheit
+### Punktgleichheit
 
 1. bestes Einzelergebnis
 2. Anzahl Siege
@@ -55,13 +53,13 @@ Hochladen:
 - `README.md`
 
 Commit:
-`Schritt 14 MoM Tabelle hinzugefügt`
+`Schritt 15 Twingo Rush Tabelle hinzugefügt`
 
 ## Test
 
-1. MoM auswählen.
-2. Sprint- und Hauptrennenergebnis speichern.
-3. P1 im Hauptrennen erhält 25 Punkte.
-4. Hat derselbe Fahrer beide schnellsten Runden, erhält er insgesamt 27 Punkte.
-5. DNF, DNS, Abwesenheit, Disconnect und DSQ müssen 0 Punkte geben.
-6. Ein Gaststarter darf nicht in der Meisterschaftstabelle erscheinen.
+1. Twingo Rush auswählen.
+2. Rennen 1 mit Qualifying, Sprint und Hauptrennen speichern.
+3. P1 mit Pole und beiden schnellsten Runden muss 38 Punkte erhalten.
+4. Bei späteren Rennen darf kein Pole-Punkt mehr vergeben werden.
+5. Ein fristgerecht abwesender Fahrer erhält 3 Punkte.
+6. Gaststarter erscheinen nicht in der Meisterschaftstabelle.
