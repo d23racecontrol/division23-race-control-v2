@@ -1,15 +1,15 @@
 "use strict";
 
-import { CALENDAR_CONFIG as PGTC_CALENDAR } from "../data/pgtc/calendar.js?v=4.4.0";
-import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.4.0";
-import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.4.0";
-import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.4.0";
-import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.4.0";
-import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.4.0";
-import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.4.0";
-import { getLeague } from "./leagues.js?v=4.4.0";
-import { getRacesForLeague } from "./races.js?v=4.4.0";
-import { getResultsForLeague } from "./results.js?v=4.4.0";
+import { CALENDAR_CONFIG as PGTC_CALENDAR } from "../data/pgtc/calendar.js?v=4.5.0";
+import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.5.0";
+import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.5.0";
+import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.5.0";
+import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.5.0";
+import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.5.0";
+import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.5.0";
+import { getLeague } from "./leagues.js?v=4.5.0";
+import { getRacesForLeague } from "./races.js?v=4.5.0";
+import { getResultsForLeague } from "./results.js?v=4.5.0";
 
 const CALENDARS = Object.freeze({
   pgtc: PGTC_CALENDAR,
@@ -220,11 +220,11 @@ function updateHero(league, calendar, entries) {
       fallback.hidden = false;
     };
 
-    logo.src = `${league.logoPath}?v=4.4.0`;
+    logo.src = `${league.logoPath}?v=4.5.0`;
   }
 
   if (watermark) {
-    watermark.src = `${league.logoPath}?v=4.4.0`;
+    watermark.src = `${league.logoPath}?v=4.5.0`;
     watermark.alt = "";
   }
 }

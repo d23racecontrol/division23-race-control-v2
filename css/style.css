@@ -6502,3 +6502,213 @@ select {
     padding: 15px;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   Schritt 26: strukturierte Exportzentrale
+   -------------------------------------------------------------------------- */
+
+.export-tool-switcher {
+  position: sticky;
+  top: 14px;
+  z-index: 8;
+  padding: 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  background:
+    radial-gradient(circle at 92% 12%, rgba(var(--color-primary-rgb), 0.17), transparent 36%),
+    rgba(18, 18, 29, 0.96);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(18px);
+}
+
+.export-tool-switcher-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.export-tool-switcher-header h3 {
+  margin: 0;
+  font-size: 1.28rem;
+}
+
+.export-tool-switcher-header > div:first-child > p:not(.eyebrow) {
+  margin: 8px 0 0;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.export-active-tool {
+  display: grid;
+  gap: 3px;
+  min-width: 195px;
+  padding: 11px 14px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.3);
+  border-radius: 12px;
+  background: rgba(var(--color-primary-rgb), 0.08);
+}
+
+.export-active-tool span {
+  color: var(--color-muted);
+  font-size: 0.61rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.export-active-tool strong {
+  color: var(--color-accent);
+  font-size: 0.8rem;
+}
+
+.export-tool-tabs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.export-tool-button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 67px;
+  padding: 10px 11px;
+  border: 1px solid var(--color-border);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.export-tool-button:hover {
+  border-color: rgba(var(--color-primary-rgb), 0.38);
+  background: rgba(var(--color-primary-rgb), 0.07);
+  transform: translateY(-1px);
+}
+
+.export-tool-button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.export-tool-button.is-active {
+  border-color: rgba(var(--color-primary-rgb), 0.62);
+  background:
+    linear-gradient(145deg, rgba(var(--color-primary-rgb), 0.18), rgba(var(--color-primary-rgb), 0.07));
+  box-shadow: 0 10px 28px rgba(var(--color-primary-rgb), 0.12);
+}
+
+.export-tool-button-data {
+  border-style: dashed;
+}
+
+.export-tool-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(var(--color-primary-rgb), 0.1);
+  font-size: 1rem;
+}
+
+.export-tool-button.is-active .export-tool-icon {
+  background: rgba(var(--color-primary-rgb), 0.23);
+}
+
+.export-tool-button > span:last-child {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.export-tool-button strong {
+  overflow: hidden;
+  font-size: 0.7rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.export-tool-button small {
+  overflow: hidden;
+  color: var(--color-muted);
+  font-size: 0.59rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.export-tool-panel {
+  animation: export-panel-enter 190ms ease both;
+}
+
+.export-data-panel,
+.export-data-restore-panel {
+  display: grid;
+  gap: 20px;
+}
+
+.export-data-panel .export-message {
+  margin: 0;
+}
+
+@keyframes export-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1260px) {
+  .export-tool-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .export-tool-switcher {
+    position: static;
+    padding: 18px;
+  }
+
+  .export-tool-switcher-header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .export-active-tool {
+    min-width: 0;
+  }
+
+  .export-tool-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 470px) {
+  .export-tool-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .export-tool-button {
+    min-height: 62px;
+  }
+}

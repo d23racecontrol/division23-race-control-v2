@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=4.4.0">
-  <script type="module" src="js/app.js?v=4.4.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=4.5.0">
+  <script type="module" src="js/app.js?v=4.5.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -111,7 +111,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.4.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.5.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -226,10 +226,10 @@
 
         <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
           <section class="calendar-hero">
-            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.4.0" alt="">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.5.0" alt="">
 
             <div class="calendar-hero-logo">
-              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.4.0" alt="" hidden>
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.5.0" alt="" hidden>
               <span id="calendarLeagueLogoFallback">PG</span>
             </div>
 
@@ -1243,9 +1243,9 @@ NurEinFahrername</pre>
         <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
           <section class="export-hero">
             <div>
-              <p class="eyebrow">Schritt 25 · Grafikexport & Datensicherheit</p>
+              <p class="eyebrow">Schritt 26 · Exportzentrale</p>
               <h3 id="exportTitle">Export & Backup für <span id="exportActiveLeagueName">Porsche GT Cup</span></h3>
-              <p>Erstelle fertige Tabellenposter, sichere deine Race-Control-Daten oder exportiere die Meisterschaft als CSV.</p>
+              <p>Wähle genau das Werkzeug, das du gerade brauchst. Nur der aktive Arbeitsbereich bleibt geöffnet.</p>
             </div>
 
             <div class="export-hero-badge">
@@ -1274,6 +1274,73 @@ NurEinFahrername</pre>
             </article>
           </section>
 
+
+<section class="export-tool-switcher" id="exportToolSwitcher" aria-labelledby="exportToolSwitcherTitle">
+  <header class="export-tool-switcher-header">
+    <div>
+      <p class="eyebrow">Arbeitsbereich auswählen</p>
+      <h3 id="exportToolSwitcherTitle">Was möchtest du erstellen?</h3>
+      <p id="exportActiveToolDescription">Meisterschaftstabellen als fertige PNG-Grafik.</p>
+    </div>
+
+    <div class="export-active-tool">
+      <span>Aktives Werkzeug</span>
+      <strong id="exportActiveToolLabel">Tabellenposter</strong>
+    </div>
+  </header>
+
+  <div class="export-tool-tabs" role="tablist" aria-label="Exportwerkzeug auswählen">
+    <button class="export-tool-button is-active" type="button" role="tab" data-export-tool="table" aria-selected="true">
+      <span class="export-tool-icon" aria-hidden="true">🖼️</span>
+      <span>
+        <strong>Tabellenposter</strong>
+        <small>Meisterschaft als Grafik</small>
+      </span>
+    </button>
+
+    <button class="export-tool-button" type="button" role="tab" data-export-tool="result" aria-selected="false" tabindex="-1">
+      <span class="export-tool-icon" aria-hidden="true">🏁</span>
+      <span>
+        <strong>Ergebnisposter</strong>
+        <small>Rennen & Sessions</small>
+      </span>
+    </button>
+
+    <button class="export-tool-button" type="button" role="tab" data-export-tool="starters" aria-selected="false" tabindex="-1">
+      <span class="export-tool-icon" aria-hidden="true">👥</span>
+      <span>
+        <strong>Starterliste</strong>
+        <small>Fahrer eines Rennens</small>
+      </span>
+    </button>
+
+    <button class="export-tool-button" type="button" role="tab" data-export-tool="penalty" aria-selected="false" tabindex="-1">
+      <span class="export-tool-icon" aria-hidden="true">⚖️</span>
+      <span>
+        <strong>Strafengrafik</strong>
+        <small>Rennkommission</small>
+      </span>
+    </button>
+
+    <button class="export-tool-button" type="button" role="tab" data-export-tool="statistics" aria-selected="false" tabindex="-1">
+      <span class="export-tool-icon" aria-hidden="true">📈</span>
+      <span>
+        <strong>Statistikposter</strong>
+        <small>Toplisten & Saisonwerte</small>
+      </span>
+    </button>
+
+    <button class="export-tool-button export-tool-button-data" type="button" role="tab" data-export-tool="data" aria-selected="false" tabindex="-1">
+      <span class="export-tool-icon" aria-hidden="true">💾</span>
+      <span>
+        <strong>Daten & Backup</strong>
+        <small>JSON, CSV & Import</small>
+      </span>
+    </button>
+  </div>
+</section>
+
+          <div class="export-tool-panel export-data-panel" data-export-panel="data" aria-label="Daten und Backups" hidden>
           <section class="export-card-grid">
             <article class="export-card">
               <div class="export-card-icon" aria-hidden="true">🏁</div>
@@ -1313,8 +1380,9 @@ NurEinFahrername</pre>
           </section>
 
           <p class="form-message export-message" id="exportMessage" role="status" hidden></p>
+          </div>
 
-          <section class="table-poster-studio" aria-labelledby="tablePosterTitle">
+          <section class="table-poster-studio export-tool-panel" data-export-panel="table" aria-label="Tabellenposter"> aria-labelledby="tablePosterTitle">
             <header class="table-poster-header">
               <div>
                 <p class="eyebrow">Grafikexport V1</p>
@@ -1397,7 +1465,7 @@ NurEinFahrername</pre>
           </section>
 
 
-          <section class="result-poster-studio" aria-labelledby="resultPosterTitle">
+          <section class="result-poster-studio export-tool-panel" data-export-panel="result" aria-labelledby="resultPosterTitle" hidden>
             <header class="result-poster-header">
               <div>
                 <p class="eyebrow">Grafikexport V1 · Rennergebnis</p>
@@ -1489,7 +1557,7 @@ NurEinFahrername</pre>
           </section>
 
 
-          <section class="starter-poster-studio" aria-labelledby="starterPosterTitle">
+          <section class="starter-poster-studio export-tool-panel" data-export-panel="starters" aria-labelledby="starterPosterTitle" hidden>
             <header class="starter-poster-header">
               <div>
                 <p class="eyebrow">Grafikexport V1 · Starterliste</p>
@@ -1574,7 +1642,7 @@ NurEinFahrername</pre>
           </section>
 
 
-          <section class="penalty-poster-studio" aria-labelledby="penaltyPosterTitle">
+          <section class="penalty-poster-studio export-tool-panel" data-export-panel="penalty" aria-labelledby="penaltyPosterTitle" hidden>
             <header class="penalty-poster-header">
               <div>
                 <p class="eyebrow">Grafikexport V1 · Rennkommission</p>
@@ -1659,7 +1727,7 @@ NurEinFahrername</pre>
           </section>
 
 
-<section class="statistics-poster-studio" aria-labelledby="statisticsPosterTitle">
+<section class="statistics-poster-studio export-tool-panel" data-export-panel="statistics" aria-labelledby="statisticsPosterTitle" hidden>
   <header class="statistics-poster-header">
     <div>
       <p class="eyebrow">Grafikexport V1 · Statistik</p>
@@ -1750,6 +1818,7 @@ NurEinFahrername</pre>
   </div>
 </section>
 
+          <div class="export-tool-panel export-data-restore-panel" data-export-panel="data" aria-label="Backup wiederherstellen" hidden>
           <section class="import-card">
             <header class="import-card-header">
               <div>
@@ -1815,6 +1884,7 @@ NurEinFahrername</pre>
             <span aria-hidden="true">🔐</span>
             <p><strong>Wichtig:</strong> JSON-Backups enthalten deine Race-Control-Daten im Klartext. Bewahre sie sicher auf und teile sie nur mit Personen, die Zugriff auf die Ligaverwaltung haben sollen.</p>
           </aside>
+          </div>
         </section>
 
       </div>
