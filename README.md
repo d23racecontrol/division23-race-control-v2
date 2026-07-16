@@ -1,50 +1,77 @@
-# Division 23 Race Control V2 – Schritt 11: WHC-Wertungen
+# Division 23 Race Control V2 – Schritt 12: MTC-Tabelle
 
-Version: 3.0.0
+Version: 3.1.0
 
-## Fahrerwertungen
+## MTC-Format
 
-- Liga 1 und Liga 2 werden getrennt berechnet.
-- Hauptrennen: 25, 20, 16, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 Punkte.
-- Rennen 1: Qualifying + Hauptrennen, kein Sprint.
-- Pole nur Rennen 1: +1 Punkt.
-- Ab Rennen 2: Sprint ohne Positionspunkte; nur schnellste Runde Sprint +1.
-- Schnellste Runde Hauptrennen: +1.
-- Anerkannter technischer Disconnect: 3 Punkte, ohne Pole/FL-Bonus.
-- DNF, DNS, DSQ und Abwesenheit: 0.
-- Gaststarter werden nicht in Meisterschaftstabellen gewertet.
+- eine gemeinsame Fahrerwertung
+- kein Qualifying
+- Sprintrennen ohne Positionspunkte
+- Hauptrennen mit Positionspunkten
 
-## Gemeinsame Herstellerwertung
+## Positionspunkte Hauptrennen
 
-- Liga 1 und Liga 2 werden pro Rennnummer zusammengeführt.
-- Pro Runde zählen die drei punktbesten Fahrer jedes Herstellers.
-- Bonuspunkte sind enthalten.
-- Erkannte Hersteller: Porsche, Ferrari, BMW, Peugeot und Toyota.
-- Die Zuordnung erfolgt über das Feld „Fahrzeug / Hersteller“ im Fahrerprofil.
+- P1 34
+- P2 32
+- P3 30
+- P4 28
+- P5 26
+- P6 24
+- P7 22
+- P8 20
+- P9 18
+- P10 16
+- P11 14
+- P12 12
+- P13 10
+- P14 8
+- P15 6
 
-## Neue Ergebniserfassung
+## Zusatz- und Statuspunkte
 
-- Neuer Status: „Technischer Disconnect“.
-- Der Status steht auch anderen Ligen zur Verfügung, bringt dort aber ohne Konfiguration 0 Punkte.
-- Fahrzeug/Hersteller wird zusätzlich im Ergebnis gespeichert.
+- schnellste Runde Sprint: +1
+- schnellste Runde Hauptrennen: +1
+- fristgerechte Abmeldung: +3
+- anerkannter technischer Disconnect: +3, ohne FL-Punkte
+- DNF: 0
+- DNS: 0
+- Disqualifikation: 0
+- Gaststarter: keine Meisterschaftspunkte
+
+## Saisonabschlussbonus
+
++10 Punkte werden erst vergeben, wenn:
+
+1. alle 10 Saisonrennen in Race Control angelegt sind,
+2. für alle 10 Rennen ein Hauptrennenergebnis gespeichert ist,
+3. der Fahrer jedes der 10 Hauptrennen regulär mit Status „Gewertet“ beendet hat.
+
+DNF, DNS, Abwesenheit, Disqualifikation oder technischer Disconnect verhindern
+für diesen Fahrer den Saisonbonus. Der Bonus wird in der Tabelle direkt unter
+dem Fahrernamen als „Saisonbonus +10“ angezeigt.
+
+## Punktgleichheit
+
+1. bestes Einzelergebnis
+2. Anzahl Siege
+3. Anzahl zweite Plätze
+4. danach dritte, vierte Plätze usw.
 
 ## GitHub-Upload
 
 Hochladen:
 - `data`
-- `css`
 - `js`
 - `index.html`
 - `README.md`
 
 Commit:
-`Schritt 11 WHC Wertungen hinzugefügt`
+`Schritt 12 MTC Tabelle hinzugefügt`
 
 ## Test
 
-1. WHC-Fahrer mit Gruppe „Liga 1“ bzw. „Liga 2“ und Fahrzeugen wie Porsche 963, Ferrari 499P usw. anlegen.
-2. Rennen 1 für beide Gruppen mit derselben Rennnummer anlegen.
-3. Qualifying und Hauptrennen speichern.
-4. Tabellenreiter öffnen und Liga 1 sowie Liga 2 prüfen.
-5. „Herstellerwertung“ wählen: Die drei besten Fahrerbeiträge je Hersteller und Rennnummer müssen addiert werden.
-6. Einen Fahrer auf „Technischer Disconnect“ setzen: Er erhält 3 Punkte und keine Bonuspunkte.
+1. MTC auswählen.
+2. Ein Sprint- und Hauptrennenergebnis speichern.
+3. P1 im Hauptrennen mit beiden schnellsten Runden erhält 36 Punkte.
+4. Ein abwesender Fahrer erhält 3 Punkte.
+5. Der Saisonbonus darf vor dem vollständigen zehnten Hauptrennenergebnis nicht erscheinen.

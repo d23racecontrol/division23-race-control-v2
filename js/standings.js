@@ -1,15 +1,15 @@
 "use strict";
 
-import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=3.0.0";
-import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=3.0.0";
-import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=3.0.0";
-import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=3.0.0";
-import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=3.0.0";
-import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=3.0.0";
-import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=3.0.0";
-import { getDriversForLeague } from "./drivers.js?v=3.0.0";
-import { getRacesForLeague } from "./races.js?v=3.0.0";
-import { getResultsForLeague } from "./results.js?v=3.0.0";
+import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=3.1.0";
+import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=3.1.0";
+import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=3.1.0";
+import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=3.1.0";
+import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=3.1.0";
+import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=3.1.0";
+import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=3.1.0";
+import { getDriversForLeague } from "./drivers.js?v=3.1.0";
+import { getRacesForLeague } from "./races.js?v=3.1.0";
+import { getResultsForLeague } from "./results.js?v=3.1.0";
 
 const ALL_GROUPS = "__all__";
 const MANUFACTURERS_VIEW = "__manufacturers__";
@@ -143,6 +143,7 @@ function createEmptyStanding(driver) {
     poles: 0,
     absences: 0,
     disconnects: 0,
+    seasonBonus: 0,
     bestFinish: null,
     finishCounts: new Map(),
     racePoints: new Map()
@@ -332,6 +333,60 @@ function getCandidateDrivers(drivers, races, resultsByRace) {
   });
 }
 
+function getSeasonBonusRaces(config, races, resultsByRace) {
+  const seasonBonus = config.seasonBonus;
+  if (!seasonBonus?.enabled || (seasonBonus.points ?? 0) <= 0) return [];
+
+  const requiredRaceCount = seasonBonus.requiredRaceCount ?? 0;
+  if (requiredRaceCount <= 0) return [];
+
+  const uniqueByNumber = new Map();
+  [...races]
+    .sort((first, second) => first.number - second.number)
+    .forEach((race) => {
+      if (!uniqueByNumber.has(race.number)) {
+        uniqueByNumber.set(race.number, race);
+      }
+    });
+
+  const seasonRaces = [...uniqueByNumber.values()].slice(0, requiredRaceCount);
+  if (seasonRaces.length < requiredRaceCount) return [];
+
+  const requiredSession = seasonBonus.session ?? "main";
+  const seasonIsComplete = seasonRaces.every((race) =>
+    resultsByRace.get(race.id)?.has(requiredSession)
+  );
+
+  return seasonIsComplete ? seasonRaces : [];
+}
+
+function applySeasonCompletionBonus(config, races, resultsByRace, standings) {
+  const seasonBonus = config.seasonBonus;
+  const seasonRaces = getSeasonBonusRaces(config, races, resultsByRace);
+  if (!seasonRaces.length) return;
+
+  const requiredSession = seasonBonus.session ?? "main";
+  const requiredStatus = seasonBonus.requiredStatus ?? "finished";
+
+  standings.forEach((standing, driverId) => {
+    const completedEveryRace = seasonRaces.every((race) => {
+      const result = resultsByRace.get(race.id)?.get(requiredSession);
+      const entry = result?.entries?.find((item) => item.driverId === driverId);
+
+      return Boolean(
+        entry &&
+        !entry.isGuest &&
+        entry.status === requiredStatus
+      );
+    });
+
+    if (!completedEveryRace) return;
+
+    standing.points += seasonBonus.points;
+    standing.seasonBonus = seasonBonus.points;
+  });
+}
+
 function calculateDriverStandings(config, races, results) {
   const resultsByRace = getResultsByRace(results);
   const drivers = getDriversForLeague(activeLeagueId);
@@ -364,6 +419,7 @@ function calculateDriverStandings(config, races, results) {
     });
   });
 
+  applySeasonCompletionBonus(config, races, resultsByRace, standings);
   return [...standings.values()];
 }
 
@@ -566,7 +622,11 @@ function createStandingRow(standing) {
   const name = document.createElement("strong");
   name.textContent = standing.name;
   const detail = document.createElement("small");
-  detail.textContent = standing.group || "Gesamtwertung";
+  const detailParts = [standing.group || "Gesamtwertung"];
+  if ((standing.seasonBonus ?? 0) > 0) {
+    detailParts.push(`Saisonbonus +${standing.seasonBonus}`);
+  }
+  detail.textContent = detailParts.join(" · ");
   identity.append(name, detail);
   driver.append(number, identity);
 
@@ -737,6 +797,12 @@ function renderConfiguration(config) {
   if ((statuses.disconnect ?? 0) > 0) {
     bonusItems.push(
       `Anerkannter technischer Disconnect: ${formatPoints(statuses.disconnect)} (keine Zusatzpunkte)`
+    );
+  }
+
+  if (config.seasonBonus?.enabled) {
+    bonusItems.push(
+      `Saisonabschluss: +${formatPoints(config.seasonBonus.points)} nur bei ${config.seasonBonus.requiredRaceCount} regulär beendeten Hauptrennen`
     );
   }
 
