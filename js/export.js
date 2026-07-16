@@ -4,32 +4,36 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=4.2.0";
-import { getDriversForLeague } from "./drivers.js?v=4.2.0";
-import { getRacesForLeague } from "./races.js?v=4.2.0";
-import { getResultsForLeague } from "./results.js?v=4.2.0";
-import { getPenaltiesForLeague } from "./penalties.js?v=4.2.0";
+} from "./leagues.js?v=4.3.0";
+import { getDriversForLeague } from "./drivers.js?v=4.3.0";
+import { getRacesForLeague } from "./races.js?v=4.3.0";
+import { getResultsForLeague } from "./results.js?v=4.3.0";
+import { getPenaltiesForLeague } from "./penalties.js?v=4.3.0";
 import {
   getStandingsExportSnapshot,
   getStandingsExportViews
-} from "./standings.js?v=4.2.0";
+} from "./standings.js?v=4.3.0";
 import {
   initializeTablePosterModule,
   renderTablePosterForLeague
-} from "./table-poster.js?v=4.2.0";
+} from "./table-poster.js?v=4.3.0";
 import {
   initializeResultPosterModule,
   renderResultPosterForLeague
-} from "./result-poster.js?v=4.2.0";
+} from "./result-poster.js?v=4.3.0";
 import {
   initializeStarterPosterModule,
   renderStarterPosterForLeague
-} from "./starter-poster.js?v=4.2.0";
-import { writeStoredJson } from "./storage.js?v=4.2.0";
+} from "./starter-poster.js?v=4.3.0";
+import {
+  initializePenaltyPosterModule,
+  renderPenaltyPosterForLeague
+} from "./penalty-poster.js?v=4.3.0";
+import { writeStoredJson } from "./storage.js?v=4.3.0";
 
 const BACKUP_SCHEMA = "division23-race-control-v2-backup";
 const BACKUP_SCHEMA_VERSION = 1;
-const APP_VERSION = "4.2.0";
+const APP_VERSION = "4.3.0";
 const MAX_BACKUP_FILE_SIZE = 25 * 1024 * 1024;
 
 let activeLeagueId = "pgtc";
@@ -612,6 +616,7 @@ export function renderExportForLeague(leagueId = activeLeagueId) {
   renderTablePosterForLeague(activeLeagueId);
   renderResultPosterForLeague(activeLeagueId);
   renderStarterPosterForLeague(activeLeagueId);
+  renderPenaltyPosterForLeague(activeLeagueId);
 
   const league = getLeague(activeLeagueId);
   setText("exportActiveLeagueName", league.name);
@@ -684,6 +689,7 @@ export function initializeExportModule(initialLeagueId) {
   initializeTablePosterModule(activeLeagueId);
   initializeResultPosterModule(activeLeagueId);
   initializeStarterPosterModule(activeLeagueId);
+  initializePenaltyPosterModule(activeLeagueId);
 
   initialized = true;
   clearImportPreview();

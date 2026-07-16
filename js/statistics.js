@@ -2,7 +2,7 @@
 
 import {
   getDriverStandingsSnapshot
-} from "./standings.js?v=4.2.0";
+} from "./standings.js?v=4.3.0";
 
 const ALL_GROUPS = "__all__";
 

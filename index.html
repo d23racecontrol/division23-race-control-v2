@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=4.2.0">
-  <script type="module" src="js/app.js?v=4.2.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=4.3.0">
+  <script type="module" src="js/app.js?v=4.3.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -111,7 +111,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.2.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.3.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -226,10 +226,10 @@
 
         <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
           <section class="calendar-hero">
-            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.2.0" alt="">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.3.0" alt="">
 
             <div class="calendar-hero-logo">
-              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.2.0" alt="" hidden>
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.3.0" alt="" hidden>
               <span id="calendarLeagueLogoFallback">PG</span>
             </div>
 
@@ -1243,7 +1243,7 @@ NurEinFahrername</pre>
         <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
           <section class="export-hero">
             <div>
-              <p class="eyebrow">Schritt 23 · Grafikexport & Datensicherheit</p>
+              <p class="eyebrow">Schritt 24 · Grafikexport & Datensicherheit</p>
               <h3 id="exportTitle">Export & Backup für <span id="exportActiveLeagueName">Porsche GT Cup</span></h3>
               <p>Erstelle fertige Tabellenposter, sichere deine Race-Control-Daten oder exportiere die Meisterschaft als CSV.</p>
             </div>
@@ -1567,6 +1567,91 @@ NurEinFahrername</pre>
                   <div class="starter-poster-loading" id="starterPosterLoading" hidden>
                     <span aria-hidden="true">👥</span>
                     <strong>Starterliste wird aufgebaut …</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <section class="penalty-poster-studio" aria-labelledby="penaltyPosterTitle">
+            <header class="penalty-poster-header">
+              <div>
+                <p class="eyebrow">Grafikexport V1 · Rennkommission</p>
+                <h3 id="penaltyPosterTitle">Strafengrafik erstellen</h3>
+                <p>Wähle eine gespeicherte Strafakte. Race Control erstellt daraus eine offizielle Mitteilung mit Fahrer, Rennen, Maßnahme, Begründung und Entscheidung.</p>
+              </div>
+
+              <div class="penalty-poster-header-badge">
+                <span aria-hidden="true">⚖️</span>
+                <strong>DECISION</strong>
+                <small>Vorläufige Mitteilung oder offizielle Entscheidung</small>
+              </div>
+            </header>
+
+            <div class="penalty-poster-workspace">
+              <aside class="penalty-poster-controls">
+                <div class="form-field">
+                  <label for="penaltyPosterCase">Strafakte</label>
+                  <select id="penaltyPosterCase">
+                    <option value="">Noch keine Strafakten gespeichert</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="penaltyPosterFormat">Bildformat</label>
+                  <select id="penaltyPosterFormat">
+                    <option value="portrait">4:5 · Instagram</option>
+                    <option value="landscape">16:9 · Discord / Bildschirm</option>
+                  </select>
+                </div>
+
+                <section class="penalty-poster-info-grid" aria-label="Grafikdaten">
+                  <div>
+                    <span>Auflösung</span>
+                    <strong id="penaltyPosterDimensions">1080 × 1350 px</strong>
+                  </div>
+                  <div>
+                    <span>Maßnahme</span>
+                    <strong id="penaltyPosterMeasure">Keine Maßnahme</strong>
+                  </div>
+                  <div>
+                    <span>Verfahrensstand</span>
+                    <strong id="penaltyPosterStatusInfo">Keine Strafakte · Kein Status</strong>
+                  </div>
+                </section>
+
+                <aside class="penalty-poster-note">
+                  <span aria-hidden="true">ℹ️</span>
+                  <p>Offene Fälle erscheinen als vorläufige Mitteilung. Abgeschlossene Fälle werden als offizielle Entscheidung dargestellt. Ein abgeschlossener Punktabzug ist bereits in der Meisterschaftstabelle berücksichtigt.</p>
+                </aside>
+
+                <div class="penalty-poster-actions">
+                  <button class="secondary-button" id="penaltyPosterRefreshButton" type="button">
+                    Vorschau neu laden
+                  </button>
+                  <button class="primary-button" id="penaltyPosterDownloadButton" type="button" disabled>
+                    PNG herunterladen
+                  </button>
+                </div>
+
+                <p class="form-message" id="penaltyPosterMessage" role="status" hidden></p>
+              </aside>
+
+              <div class="penalty-poster-preview-column">
+                <div class="penalty-poster-preview-label">
+                  <span>Live-Vorschau</span>
+                  <small>Die PNG wird in voller Auflösung gespeichert.</small>
+                </div>
+
+                <div class="penalty-poster-preview-shell" id="penaltyPosterPreviewShell" data-poster-format="portrait">
+                  <canvas id="penaltyPosterCanvas" width="1080" height="1350">
+                    Dein Browser unterstützt die Strafengrafik-Vorschau nicht.
+                  </canvas>
+
+                  <div class="penalty-poster-loading" id="penaltyPosterLoading" hidden>
+                    <span aria-hidden="true">⚖️</span>
+                    <strong>Mitteilung wird aufgebaut …</strong>
                   </div>
                 </div>
               </div>
