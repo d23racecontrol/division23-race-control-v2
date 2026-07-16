@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=3.5.0">
-  <script type="module" src="js/app.js?v=3.5.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=3.6.0">
+  <script type="module" src="js/app.js?v=3.6.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -243,7 +243,7 @@
           <section class="system-check" aria-labelledby="systemCheckTitle">
             <div>
               <p class="eyebrow">Technischer Test</p>
-              <h3 id="systemCheckTitle">Fahrer-, Renn-, Ergebnis-, Tabellen- und Statistikmodule erfolgreich geladen</h3>
+              <h3 id="systemCheckTitle">Fahrer-, Renn-, Ergebnis-, Tabellen-, Statistik- und Strafenmodule erfolgreich geladen</h3>
             </div>
             <p id="loadMessage">JavaScript wird geprüft …</p>
           </section>
@@ -1023,14 +1023,170 @@ NurEinFahrername</pre>
           </div>
         </section>
 
-        <section class="page-view" data-page-content="penalties" aria-labelledby="penaltiesTitle" hidden>
-          <article class="module-placeholder">
-            <div class="module-icon" aria-hidden="true">⚖️</div>
-            <p class="eyebrow">Modul vorbereitet</p>
-            <h3 id="penaltiesTitle">Strafen</h3>
-            <p>Hier verwalten wir später Vorfälle, Entscheidungen und Punktabzüge für <strong data-active-league-name>Porsche GT Cup</strong>.</p>
-            <span class="development-badge">In Vorbereitung</span>
-          </article>
+        <section class="page-view penalties-page" data-page-content="penalties" aria-labelledby="penaltiesTitle" hidden>
+          <section class="penalties-hero">
+            <div>
+              <p class="eyebrow">Schritt 17 · Rennkommission</p>
+              <h3 id="penaltiesTitle">Strafen von <span data-active-league-name>Porsche GT Cup</span></h3>
+              <p>Dokumentiere Vorfälle, Entscheidungen und Punktabzüge vollständig getrennt für jede Liga.</p>
+            </div>
+
+            <div class="penalties-hero-note">
+              <span aria-hidden="true">⚖️</span>
+              <strong>Punktabzüge wirken automatisch</strong>
+              <small>Nur abgeschlossene Punktstrafen verändern die Meisterschaftstabelle.</small>
+            </div>
+          </section>
+
+          <section class="penalty-summary-grid" aria-label="Strafenübersicht">
+            <article>
+              <span>Fälle gesamt</span>
+              <strong id="penaltyCountTotal">0</strong>
+            </article>
+            <article>
+              <span>Offene Fälle</span>
+              <strong id="penaltyCountOpen">0</strong>
+            </article>
+            <article>
+              <span>Abgeschlossen</span>
+              <strong id="penaltyCountClosed">0</strong>
+            </article>
+            <article>
+              <span>Aktive Punktabzüge</span>
+              <strong><span id="penaltyPointsTotal">0</span> P.</strong>
+            </article>
+          </section>
+
+          <section class="penalties-workspace">
+            <article class="penalty-form-card" id="penaltyFormCard">
+              <header class="section-heading">
+                <div>
+                  <p class="eyebrow">Neue Entscheidung</p>
+                  <h3 id="penaltyFormTitle">Strafakte anlegen</h3>
+                </div>
+              </header>
+
+              <form id="penaltyForm" novalidate>
+                <div class="penalty-form-grid">
+                  <div class="form-field">
+                    <label for="penaltyDriver">Fahrer *</label>
+                    <select id="penaltyDriver" required>
+                      <option value="">Fahrer auswählen</option>
+                    </select>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="penaltyRace">Rennen *</label>
+                    <select id="penaltyRace" required>
+                      <option value="">Rennen auswählen</option>
+                    </select>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="penaltyType">Maßnahme *</label>
+                    <select id="penaltyType">
+                      <option value="warning">Verwarnung</option>
+                      <option value="time">Zeitstrafe</option>
+                      <option value="position">Positionsstrafe</option>
+                      <option value="points">Punktabzug</option>
+                    </select>
+                  </div>
+
+                  <div class="form-field" id="penaltyAmountField" hidden>
+                    <label id="penaltyAmountLabel" for="penaltyAmount">Wert</label>
+                    <input id="penaltyAmount" type="number" min="1" step="1" inputmode="numeric">
+                  </div>
+
+                  <div class="form-field form-field-full">
+                    <label for="penaltyStatus">Bearbeitungsstand *</label>
+                    <select id="penaltyStatus">
+                      <option value="open">Offen</option>
+                      <option value="closed">Abgeschlossen</option>
+                    </select>
+                  </div>
+
+                  <div class="form-field form-field-full">
+                    <label for="penaltyReason">Vorfall / Begründung *</label>
+                    <textarea id="penaltyReason" rows="4" maxlength="600" placeholder="Regelverstoß und Sachverhalt neutral dokumentieren" required></textarea>
+                  </div>
+
+                  <div class="form-field form-field-full">
+                    <label for="penaltyDecision">Entscheidung</label>
+                    <textarea id="penaltyDecision" rows="4" maxlength="600" placeholder="Entscheidung der Rennkommission; bei offenen Fällen optional"></textarea>
+                  </div>
+                </div>
+
+                <p class="form-message" id="penaltyFormMessage" role="status" hidden></p>
+
+                <div class="form-actions">
+                  <button class="primary-button" id="penaltySubmitButton" type="submit">Fall speichern</button>
+                  <button class="secondary-button" id="penaltyCancelEdit" type="button" hidden>Bearbeitung abbrechen</button>
+                </div>
+              </form>
+
+              <aside class="penalty-effect-note">
+                <span aria-hidden="true">ℹ️</span>
+                <p><strong>Automatisch:</strong> Nur ein abgeschlossener <em>Punktabzug</em> wird direkt von Fahrer- und WHC-Herstellerpunkten abgezogen. Zeit- und Positionsstrafen bleiben dokumentiert; das offizielle Rennergebnis kannst du bei Bedarf im Reiter Ergebnisse anpassen.</p>
+              </aside>
+            </article>
+
+            <article class="penalty-list-card">
+              <header class="penalty-list-header">
+                <div>
+                  <p class="eyebrow">Strafhistorie</p>
+                  <h3>Vorfälle und Entscheidungen</h3>
+                  <span id="penaltyResultCount">0 von 0 Fällen angezeigt</span>
+                </div>
+              </header>
+
+              <section class="penalty-filters" aria-label="Strafakten filtern">
+                <label class="search-field" for="penaltySearch">
+                  <span aria-hidden="true">🔎</span>
+                  <input id="penaltySearch" type="search" placeholder="Fahrer, Strecke oder Begründung" autocomplete="off">
+                </label>
+
+                <label>
+                  <span>Status</span>
+                  <select id="penaltyStatusFilter">
+                    <option value="__all__">Alle</option>
+                    <option value="open">Offen</option>
+                    <option value="closed">Abgeschlossen</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Maßnahme</span>
+                  <select id="penaltyTypeFilter">
+                    <option value="__all__">Alle</option>
+                    <option value="warning">Verwarnung</option>
+                    <option value="time">Zeitstrafe</option>
+                    <option value="position">Positionsstrafe</option>
+                    <option value="points">Punktabzug</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Fahrerhistorie</span>
+                  <select id="penaltyDriverFilter">
+                    <option value="__all__">Alle Fahrer</option>
+                  </select>
+                </label>
+              </section>
+
+              <div class="penalty-rows" id="penaltyRows"></div>
+
+              <div class="penalties-empty" id="penaltiesEmpty">
+                <span aria-hidden="true">⚖️</span>
+                <h4>Noch keine Strafakte vorhanden</h4>
+                <p>Wähle links Fahrer und Rennen aus, dokumentiere den Vorfall und speichere anschließend die Entscheidung.</p>
+              </div>
+            </article>
+          </section>
+
+          <aside class="local-data-note">
+            <span aria-hidden="true">💾</span>
+            <p><strong>Pro Liga getrennt:</strong> Strafakten werden lokal im Browser gespeichert und bleiben auch nach dem Neuladen erhalten.</p>
+          </aside>
         </section>
 
         <section class="page-view" data-page-content="export" aria-labelledby="exportTitle" hidden>

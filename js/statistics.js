@@ -2,7 +2,7 @@
 
 import {
   getDriverStandingsSnapshot
-} from "./standings.js?v=3.5.0";
+} from "./standings.js?v=3.6.0";
 
 const ALL_GROUPS = "__all__";
 
@@ -492,7 +492,7 @@ export function initializeStatisticsModule(initialLeagueId) {
     renderStatisticsForLeague(activeLeagueId);
   });
 
-  ["d23:drivers-updated", "d23:races-updated", "d23:results-updated"].forEach(
+  ["d23:drivers-updated", "d23:races-updated", "d23:results-updated", "d23:penalties-updated"].forEach(
     (eventName) => {
       window.addEventListener(eventName, (event) => {
         if (event.detail?.leagueId === activeLeagueId) {

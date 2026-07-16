@@ -1,15 +1,18 @@
 "use strict";
 
-import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=3.5.0";
-import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=3.5.0";
-import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=3.5.0";
-import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=3.5.0";
-import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=3.5.0";
-import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=3.5.0";
-import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=3.5.0";
-import { getDriversForLeague } from "./drivers.js?v=3.5.0";
-import { getRacesForLeague } from "./races.js?v=3.5.0";
-import { getResultsForLeague } from "./results.js?v=3.5.0";
+import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=3.6.0";
+import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=3.6.0";
+import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=3.6.0";
+import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=3.6.0";
+import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=3.6.0";
+import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=3.6.0";
+import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=3.6.0";
+import { getDriversForLeague } from "./drivers.js?v=3.6.0";
+import { getRacesForLeague } from "./races.js?v=3.6.0";
+import { getResultsForLeague } from "./results.js?v=3.6.0";
+import {
+  getPenaltyDeductionsForLeague
+} from "./penalties.js?v=3.6.0";
 
 const ALL_GROUPS = "__all__";
 const MANUFACTURERS_VIEW = "__manufacturers__";
@@ -144,6 +147,7 @@ function createEmptyStanding(driver) {
     absences: 0,
     disconnects: 0,
     seasonBonus: 0,
+    penaltyPoints: 0,
     bestFinish: null,
     finishCounts: new Map(),
     racePoints: new Map()
@@ -387,6 +391,31 @@ function applySeasonCompletionBonus(config, races, resultsByRace, standings) {
   });
 }
 
+function getPenaltyDeduction(deductions, driverId, raceId) {
+  return deductions.get(driverId)?.get(raceId) ?? 0;
+}
+
+function applyDriverPointDeductions(races, standings) {
+  const raceIds = new Set(races.map((race) => race.id));
+  const deductions = getPenaltyDeductionsForLeague(activeLeagueId);
+
+  standings.forEach((standing, driverId) => {
+    const driverDeductions = deductions.get(driverId);
+    if (!driverDeductions) return;
+
+    driverDeductions.forEach((amount, raceId) => {
+      if (!raceIds.has(raceId) || amount <= 0) return;
+
+      standing.points -= amount;
+      standing.penaltyPoints += amount;
+      standing.racePoints.set(
+        raceId,
+        (standing.racePoints.get(raceId) ?? 0) - amount
+      );
+    });
+  });
+}
+
 function calculateDriverStandings(config, races, results) {
   const resultsByRace = getResultsByRace(results);
   const drivers = getDriversForLeague(activeLeagueId);
@@ -420,6 +449,7 @@ function calculateDriverStandings(config, races, results) {
   });
 
   applySeasonCompletionBonus(config, races, resultsByRace, standings);
+  applyDriverPointDeductions(races, standings);
   return [...standings.values()];
 }
 
@@ -509,6 +539,7 @@ function calculateManufacturerStandings(config, races, results) {
 
   const contributionsByRound = new Map();
   const unassignedDrivers = new Set();
+  const penaltyDeductions = getPenaltyDeductionsForLeague(activeLeagueId);
 
   races.forEach((race) => {
     const sessionMaps = resultsByRace.get(race.id) ?? new Map();
@@ -554,7 +585,8 @@ function calculateManufacturerStandings(config, races, results) {
       round.get(manufacturer.id).push({
         driverId,
         driverName: driver?.name || fallbackEntry?.driverName || "Unbekannt",
-        points: contribution.points,
+        points: contribution.points -
+          getPenaltyDeduction(penaltyDeductions, driverId, race.id),
         mainPosition: contribution.mainPosition
       });
     });
@@ -625,6 +657,9 @@ function createStandingRow(standing) {
   const detailParts = [standing.group || "Gesamtwertung"];
   if ((standing.seasonBonus ?? 0) > 0) {
     detailParts.push(`Saisonbonus +${standing.seasonBonus}`);
+  }
+  if ((standing.penaltyPoints ?? 0) > 0) {
+    detailParts.push(`Strafen −${standing.penaltyPoints}`);
   }
   detail.textContent = detailParts.join(" · ");
   identity.append(name, detail);
@@ -1026,7 +1061,7 @@ export function initializeStandingsModule(initialLeagueId) {
     renderStandingsForLeague(activeLeagueId);
   });
 
-  ["d23:drivers-updated", "d23:races-updated", "d23:results-updated"].forEach(
+  ["d23:drivers-updated", "d23:races-updated", "d23:results-updated", "d23:penalties-updated"].forEach(
     (eventName) => {
       window.addEventListener(eventName, (event) => {
         if (event.detail?.leagueId === activeLeagueId) {

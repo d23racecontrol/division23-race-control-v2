@@ -1,54 +1,59 @@
-# Division 23 Race Control V2 – Schritt 16: Statistiken
+# Division 23 Race Control V2 – Schritt 17: Strafenverwaltung
 
-Version: 3.5.0
+Version: 3.6.0
 
-## Neu
+## Neue Funktionen
 
-- automatischer Statistikreiter für jede Liga
-- getrennte Wertungen nach Liga/Gruppe, wenn eine Serie mehrere Ligen besitzt
-- WHC-Statistiken getrennt für Liga 1 und Liga 2
-- Punkte pro Fahrer direkt aus derselben Berechnung wie die Meisterschaftstabelle
-- Starts
-- Siege
-- Podien
-- Pole Positions
-- schnellste Runden
-- DNF, DNS, technischer Disconnect, DSQ und Abwesenheiten
-- zusammengefasste Ausfälle
-- bestes Ergebnis
-- durchschnittlicher Zieleinlauf im Hauptrennen
-- Punkte pro Start
-- Siegquote
-- Top-5-Listen
-- Suche und verschiedene Sortierungen
+- eigener Reiter **Strafen**
+- Fahrer und Rennen auswählen
+- Verwarnung
+- Zeitstrafe
+- Positionsstrafe
+- Punktabzug
+- Vorfall / Begründung dokumentieren
+- Entscheidung der Rennkommission eintragen
+- offene und abgeschlossene Fälle
+- Fälle bearbeiten und löschen
+- Suche sowie Filter nach Status, Maßnahme und Fahrer
+- vollständige Strafhistorie pro Fahrer und Liga
+- getrennte lokale Speicherung je Liga
 
-Gaststarter werden nicht in die Statistik aufgenommen.
+## Automatische Punktewirkung
 
-## Definition „Ausfälle“
+Nur ein Fall mit:
+- Maßnahme **Punktabzug**
+- Status **Abgeschlossen**
 
-Ausfälle sind:
-- DNF
-- technischer Disconnect
-- Disqualifikation
+wird automatisch von der Meisterschaftstabelle abgezogen.
 
-DNS und Abwesenheiten werden separat angezeigt.
+Der Abzug erscheint beim Fahrer als `Strafen −X`.
+
+Bei der WHC wird der Abzug zusätzlich von der jeweiligen Fahrerleistung des
+Rennens abgezogen, bevor die drei besten Herstellerbeiträge ausgewählt werden.
+
+Zeit- und Positionsstrafen werden dokumentiert, verändern das Rennergebnis aber
+nicht automatisch. Das offizielle Ergebnis kann anschließend im Reiter
+**Ergebnisse** angepasst werden.
 
 ## GitHub-Upload
 
 Hochladen:
+- `data`
 - `css`
 - `js`
 - `index.html`
 - `README.md`
 
 Commit:
-`Schritt 16 Statistiken hinzugefügt`
+`Schritt 17 Strafenverwaltung hinzugefügt`
 
 ## Test
 
-1. Eine Liga mit gespeicherten Ergebnissen auswählen.
-2. Reiter **Statistiken** öffnen.
-3. Punkte, Siege, Podien, Pole und schnellste Runden müssen mit der Tabelle übereinstimmen.
-4. Einen Fahrer suchen und verschiedene Sortierungen testen.
-5. Bei WHC zwischen Liga 1 und Liga 2 wechseln.
-6. Zu einer anderen Liga wechseln – deren Statistiken müssen vollständig getrennt bleiben.
+1. Eine Liga mit Fahrer, Rennen und Ergebnis auswählen.
+2. Im Reiter **Strafen** einen offenen Punktabzug von 5 Punkten speichern.
+3. Die Tabelle darf sich noch nicht verändern.
+4. Den Fall bearbeiten, auf **Abgeschlossen** setzen und eine Entscheidung eintragen.
+5. In der Tabelle müssen beim Fahrer 5 Punkte abgezogen werden.
+6. Im Statistikreiter müssen die reduzierten Punkte ebenfalls erscheinen.
+7. Zu einer anderen Liga wechseln: Dort darf die Strafakte nicht sichtbar sein.
+8. Zurückwechseln: Die Strafakte muss erhalten bleiben.
