@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=4.0.0">
-  <script type="module" src="js/app.js?v=4.0.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=4.1.0">
+  <script type="module" src="js/app.js?v=4.1.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -111,7 +111,7 @@
         <section class="page-view dashboard-page is-active" data-page-content="dashboard" aria-label="Dashboard">
           <section class="dashboard-hero">
             <div class="dashboard-hero-logo" aria-hidden="true">
-              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.0.0" alt="" hidden>
+              <img id="dashboardLeagueLogo" src="assets/logos/pgtc.png?v=4.1.0" alt="" hidden>
               <span id="dashboardLeagueLogoFallback">PG</span>
             </div>
 
@@ -226,10 +226,10 @@
 
         <section class="page-view calendar-page" data-page-content="calendar" aria-labelledby="calendarTitle" hidden>
           <section class="calendar-hero">
-            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.0.0" alt="">
+            <img class="calendar-hero-watermark" id="calendarLeagueWatermark" src="assets/logos/pgtc.png?v=4.1.0" alt="">
 
             <div class="calendar-hero-logo">
-              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.0.0" alt="" hidden>
+              <img id="calendarLeagueLogo" src="assets/logos/pgtc.png?v=4.1.0" alt="" hidden>
               <span id="calendarLeagueLogoFallback">PG</span>
             </div>
 
@@ -1243,7 +1243,7 @@ NurEinFahrername</pre>
         <section class="page-view export-page" data-page-content="export" aria-labelledby="exportTitle" hidden>
           <section class="export-hero">
             <div>
-              <p class="eyebrow">Schritt 21 · Exportstudio & Datensicherheit</p>
+              <p class="eyebrow">Schritt 22 · Grafikexport & Datensicherheit</p>
               <h3 id="exportTitle">Export & Backup für <span id="exportActiveLeagueName">Porsche GT Cup</span></h3>
               <p>Erstelle fertige Tabellenposter, sichere deine Race-Control-Daten oder exportiere die Meisterschaft als CSV.</p>
             </div>
@@ -1390,6 +1390,98 @@ NurEinFahrername</pre>
                   <div class="table-poster-loading" id="tablePosterLoading" hidden>
                     <span aria-hidden="true">🏁</span>
                     <strong>Poster wird aufgebaut …</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <section class="result-poster-studio" aria-labelledby="resultPosterTitle">
+            <header class="result-poster-header">
+              <div>
+                <p class="eyebrow">Grafikexport V1 · Rennergebnis</p>
+                <h3 id="resultPosterTitle">Ergebnisposter erstellen</h3>
+                <p>Wähle ein bereits gespeichertes Rennen und eine Session. Race Control erstellt daraus automatisch eine fertige Ergebnisgrafik im Design der aktiven Liga.</p>
+              </div>
+
+              <div class="result-poster-header-badge">
+                <span aria-hidden="true">🏁</span>
+                <strong>RESULT</strong>
+                <small>Top 3, Status, FL, Pole und Gaststarter</small>
+              </div>
+            </header>
+
+            <div class="result-poster-workspace">
+              <aside class="result-poster-controls">
+                <div class="form-field">
+                  <label for="resultPosterRace">Rennen</label>
+                  <select id="resultPosterRace">
+                    <option value="">Noch keine gespeicherten Ergebnisse</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="resultPosterSession">Session</label>
+                  <select id="resultPosterSession">
+                    <option value="">Keine Session verfügbar</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="resultPosterFormat">Bildformat</label>
+                  <select id="resultPosterFormat">
+                    <option value="portrait">4:5 · Instagram</option>
+                    <option value="landscape">16:9 · Discord / Bildschirm</option>
+                  </select>
+                </div>
+
+                <section class="result-poster-info-grid" aria-label="Posterdaten">
+                  <div>
+                    <span>Auflösung</span>
+                    <strong id="resultPosterDimensions">1080 × 1350 px</strong>
+                  </div>
+                  <div>
+                    <span>Ergebnisumfang</span>
+                    <strong id="resultPosterEntryCount">0 Teilnehmer</strong>
+                  </div>
+                  <div>
+                    <span>Auswahl</span>
+                    <strong id="resultPosterSessionInfo">Keine Session · 0 gewertet</strong>
+                  </div>
+                </section>
+
+                <aside class="result-poster-note">
+                  <span aria-hidden="true">ℹ️</span>
+                  <p>Die Grafik übernimmt das gespeicherte Ergebnis unverändert. DNF, Disconnect, DNS, Abwesenheit, DSQ, schnellste Runde, Pole und Gaststarter werden automatisch gekennzeichnet.</p>
+                </aside>
+
+                <div class="result-poster-actions">
+                  <button class="secondary-button" id="resultPosterRefreshButton" type="button">
+                    Vorschau neu laden
+                  </button>
+                  <button class="primary-button" id="resultPosterDownloadButton" type="button" disabled>
+                    PNG herunterladen
+                  </button>
+                </div>
+
+                <p class="form-message" id="resultPosterMessage" role="status" hidden></p>
+              </aside>
+
+              <div class="result-poster-preview-column">
+                <div class="result-poster-preview-label">
+                  <span>Live-Vorschau</span>
+                  <small>Die PNG wird in voller Auflösung gespeichert.</small>
+                </div>
+
+                <div class="result-poster-preview-shell" id="resultPosterPreviewShell" data-poster-format="portrait">
+                  <canvas id="resultPosterCanvas" width="1080" height="1350">
+                    Dein Browser unterstützt die Ergebnisposter-Vorschau nicht.
+                  </canvas>
+
+                  <div class="result-poster-loading" id="resultPosterLoading" hidden>
+                    <span aria-hidden="true">🏁</span>
+                    <strong>Ergebnisposter wird aufgebaut …</strong>
                   </div>
                 </div>
               </div>

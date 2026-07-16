@@ -1,12 +1,17 @@
-# Division 23 Race Control V2 – Schritt 21: Tabellenposter Export V1
+# Division 23 Race Control V2 – Schritt 22: Ergebnisposter Export V1
 
-Version: 4.0.0
+Version: 4.1.0
 
 Dieser Schritt erweitert ausschließlich den bestehenden Reiter **Export** um
-den ersten Grafikexport.
+den zweiten Grafikexport.
 
-## Tabellenposter
+## Ergebnisposter
 
+- gespeichertes Rennen auswählen
+- vorhandene Session auswählen:
+  - Hauptrennen
+  - Sprintrennen
+  - Qualifying
 - Live-Vorschau direkt im Browser
 - PNG-Download in voller Auflösung
 - Formate:
@@ -15,29 +20,27 @@ den ersten Grafikexport.
 - automatisches Liga-Logo
 - automatische Liga-Farben
 - Liga- und Saisonname
-- aktuelle Wertung direkt aus Race Control
-- Stand nach gespeicherten Rennen
-- Punktstrafen bereits im Punktestand berücksichtigt
+- Rennnummer, WHC-Liga, Strecke, Datum und Uhrzeit
+- Teilnehmerzahl und Anzahl gewerteter Fahrer
 - Top 3 optisch hervorgehoben
-
-## Unterstützte Wertungen
-
-- PGTC Fahrerwertung
-- ATM Fahrerwertung
-- WHC Liga 1
-- WHC Liga 2
-- WHC Herstellerwertung
-- MTC Fahrerwertung
-- GT3DL Fahrerwertung
-- MoM Fahrerwertung
-- Twingo Rush Fahrerwertung
+- vollständige Statusdarstellung:
+  - Gewertet
+  - DNF
+  - technischer Disconnect
+  - DNS
+  - Abwesend
+  - DSQ
+- Kennzeichnung:
+  - schnellste Runde
+  - Pole
+  - Gaststarter
 
 ## Bewusste Grenze von V1
 
-Schritt 21 erzeugt ausschließlich **Tabellenposter**.
+Schritt 22 erzeugt ausschließlich **Ergebnisposter aus bereits gespeicherten
+Ergebnissen**.
 
 Noch nicht enthalten:
-- Ergebnisposter
 - Starterlisten
 - Strafengrafiken
 - Statistikposter
@@ -53,15 +56,17 @@ Hochladen:
 - `README.md`
 
 Commit:
-`Schritt 21 Tabellenposter Export V1 hinzugefügt`
+`Schritt 22 Ergebnisposter Export V1 hinzugefügt`
 
 ## Test
 
-1. Eine Liga mit gespeicherten Ergebnissen auswählen.
+1. Eine Liga mit mindestens einem gespeicherten Ergebnis auswählen.
 2. Export öffnen.
-3. Im Tabellenposter-Studio muss eine Vorschau erscheinen.
-4. 4:5 auswählen und PNG herunterladen.
-5. 16:9 auswählen und PNG herunterladen.
-6. Liga wechseln: Logo, Farben und Tabellenstand müssen wechseln.
-7. WHC auswählen und Liga 1, Liga 2 sowie Herstellerwertung testen.
-8. Punktabzug prüfen: Der reduzierte Punktestand muss auch im Poster stehen.
+3. Zum Bereich **Ergebnisposter erstellen** scrollen.
+4. Rennen und Session auswählen.
+5. 4:5-Vorschau prüfen und PNG herunterladen.
+6. 16:9 auswählen und PNG herunterladen.
+7. Liga wechseln: Logo, Farben und verfügbare Ergebnisse müssen wechseln.
+8. Ein Ergebnis mit DNF, Gaststarter, Pole und schnellster Runde prüfen.
+9. WHC-Ergebnisse aus Liga 1 und Liga 2 testen.
+10. Tabellenposter, CSV und Backups müssen weiterhin funktionieren.
