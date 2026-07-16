@@ -5,11 +5,11 @@ import {
   getAllLeagues,
   getLeague,
   isValidLeagueId
-} from "./leagues.js?v=2.2.1";
+} from "./leagues.js?v=2.2.2";
 import {
   readStoredValue,
   writeStoredValue
-} from "./storage.js?v=2.2.1";
+} from "./storage.js?v=2.2.2";
 
 /**
  * Division 23 Race Control V2
@@ -19,7 +19,7 @@ import {
  */
 
 const APP_NAME = "Division 23 Race Control V2";
-const APP_VERSION = "2.2.1";
+const APP_VERSION = "2.2.2";
 const DEFAULT_PAGE = "dashboard";
 const ACTIVE_LEAGUE_STORAGE_KEY = "active_league";
 

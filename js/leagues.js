@@ -80,6 +80,25 @@ export const LEAGUES = Object.freeze({
     })
   }),
 
+
+  gt3dl: Object.freeze({
+    id: "gt3dl",
+    name: "GT3 Derby League",
+    shortName: "GT3DL",
+    logoText: "G3",
+    logoPath: "assets/logos/gt3dl.png",
+    kicker: "GT3 Derby League",
+    description:
+      "Die GT3 Derby League erhält ein eigenes Ligaprofil für Fahrer, Kalender, Ergebnisse, Tabellen und spätere Exporte.",
+    themeLabel: "Mint · Türkis",
+    colors: Object.freeze({
+      primary: "#14b8a6",
+      primaryRgb: "20, 184, 166",
+      accent: "#5eead4",
+      accentRgb: "94, 234, 212"
+    })
+  }),
+
   mom: Object.freeze({
     id: "mom",
     name: "MoM",
