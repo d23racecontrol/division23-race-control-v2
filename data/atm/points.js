@@ -38,5 +38,11 @@ export const POINTS_CONFIG = Object.freeze({
   tieBreakers: Object.freeze([
     "bestFinish",
     "finishCounts"
+  ]),
+  tieBreakerLabels: Object.freeze([
+    "Bestes Einzelergebnis",
+    "Anzahl der Siege",
+    "Anzahl der zweiten Plätze",
+    "Danach dritte, vierte Plätze usw."
   ])
 });

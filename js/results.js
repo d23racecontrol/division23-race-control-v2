@@ -1,18 +1,18 @@
 "use strict";
 
-import { DEFAULT_RESULTS as PGTC_DEFAULT_RESULTS } from "../data/pgtc/results.js?v=2.9.0";
-import { DEFAULT_RESULTS as ATM_DEFAULT_RESULTS } from "../data/atm/results.js?v=2.9.0";
-import { DEFAULT_RESULTS as WHC_DEFAULT_RESULTS } from "../data/whc/results.js?v=2.9.0";
-import { DEFAULT_RESULTS as MTC_DEFAULT_RESULTS } from "../data/mtc/results.js?v=2.9.0";
-import { DEFAULT_RESULTS as GT3DL_DEFAULT_RESULTS } from "../data/gt3dl/results.js?v=2.9.0";
-import { DEFAULT_RESULTS as MOM_DEFAULT_RESULTS } from "../data/mom/results.js?v=2.9.0";
-import { DEFAULT_RESULTS as TWINGO_RUSH_DEFAULT_RESULTS } from "../data/twingo-rush/results.js?v=2.9.0";
-import { getDriversForLeague } from "./drivers.js?v=2.9.0";
-import { getRacesForLeague } from "./races.js?v=2.9.0";
+import { DEFAULT_RESULTS as PGTC_DEFAULT_RESULTS } from "../data/pgtc/results.js?v=3.0.0";
+import { DEFAULT_RESULTS as ATM_DEFAULT_RESULTS } from "../data/atm/results.js?v=3.0.0";
+import { DEFAULT_RESULTS as WHC_DEFAULT_RESULTS } from "../data/whc/results.js?v=3.0.0";
+import { DEFAULT_RESULTS as MTC_DEFAULT_RESULTS } from "../data/mtc/results.js?v=3.0.0";
+import { DEFAULT_RESULTS as GT3DL_DEFAULT_RESULTS } from "../data/gt3dl/results.js?v=3.0.0";
+import { DEFAULT_RESULTS as MOM_DEFAULT_RESULTS } from "../data/mom/results.js?v=3.0.0";
+import { DEFAULT_RESULTS as TWINGO_RUSH_DEFAULT_RESULTS } from "../data/twingo-rush/results.js?v=3.0.0";
+import { getDriversForLeague } from "./drivers.js?v=3.0.0";
+import { getRacesForLeague } from "./races.js?v=3.0.0";
 import {
   readStoredJson,
   writeStoredJson
-} from "./storage.js?v=2.9.0";
+} from "./storage.js?v=3.0.0";
 
 const RESULT_STORAGE_PREFIX = "results_";
 
@@ -35,6 +35,7 @@ const SESSION_CONFIG = Object.freeze({
 const STATUS_CONFIG = Object.freeze({
   finished: Object.freeze({ label: "Gewertet", shortLabel: "Gewertet" }),
   dnf: Object.freeze({ label: "DNF", shortLabel: "DNF" }),
+  disconnect: Object.freeze({ label: "Technischer Disconnect", shortLabel: "Disconnect" }),
   dns: Object.freeze({ label: "DNS", shortLabel: "DNS" }),
   absent: Object.freeze({ label: "Abwesend", shortLabel: "Abwesend" }),
   dsq: Object.freeze({ label: "Disqualifiziert", shortLabel: "DSQ" })
@@ -79,6 +80,7 @@ function normalizeResultEntry(entry) {
     driverId: normalizeText(entry?.driverId, 100),
     driverName: normalizeText(entry?.driverName, 60),
     number: normalizeText(entry?.number, 4),
+    vehicle: normalizeText(entry?.vehicle, 80),
     position: normalizePosition(entry?.position),
     status: normalizeStatus(entry?.status),
     isGuest: Boolean(entry?.isGuest),
@@ -232,6 +234,7 @@ function getStarterData(race) {
       id: normalizeText(driver.id, 100),
       name: normalizeText(driver.name, 60),
       number: normalizeText(driver.number, 4),
+      vehicle: normalizeText(driver.vehicle, 80),
       status: normalizeText(driver.status, 20)
     }));
 }
@@ -249,7 +252,8 @@ function buildEditorEntries(race, existingResult) {
       return normalizeResultEntry({
         ...saved,
         driverName: starter.name,
-        number: starter.number
+        number: starter.number,
+        vehicle: starter.vehicle
       });
     }
 
@@ -257,6 +261,7 @@ function buildEditorEntries(race, existingResult) {
       driverId: starter.id,
       driverName: starter.name,
       number: starter.number,
+      vehicle: starter.vehicle,
       status: "finished",
       isGuest: starter.status === "guest"
     });
@@ -397,7 +402,7 @@ function applyRowStatus(row, status) {
   const positionInput = row.querySelector('[data-result-field="position"]');
   const fastestLapInput = row.querySelector('[data-result-field="fastestLap"]');
   const poleInput = row.querySelector('[data-result-field="pole"]');
-  const disabledForNoStart = ["dns", "absent", "dsq"].includes(status);
+  const disabledForNoStart = ["dns", "absent", "dsq", "disconnect"].includes(status);
 
   if (positionInput) {
     positionInput.disabled = disabledForNoStart;
@@ -410,8 +415,8 @@ function applyRowStatus(row, status) {
   }
 
   if (poleInput) {
-    poleInput.disabled = status === "absent";
-    if (status === "absent") poleInput.checked = false;
+    poleInput.disabled = ["absent", "dns", "dsq", "disconnect"].includes(status);
+    if (poleInput.disabled) poleInput.checked = false;
   }
 }
 
@@ -425,6 +430,7 @@ function readEntriesFromEditor() {
       driverId,
       driverName,
       number: numberText === "—" ? "" : numberText.replace(/^#/, ""),
+      vehicle: row.dataset.vehicle || "",
       position: row.querySelector('[data-result-field="position"]')?.value,
       status: row.querySelector('[data-result-field="status"]')?.value,
       isGuest: row.querySelector('[data-result-field="guest"]')?.checked,
@@ -473,12 +479,14 @@ function validateEntries(entries) {
 function updateSummary(entries = readEntriesFromEditor()) {
   const classified = entries.filter((entry) => entry.status === "finished").length;
   const dnf = entries.filter((entry) => entry.status === "dnf").length;
+  const disconnect = entries.filter((entry) => entry.status === "disconnect").length;
   const dns = entries.filter((entry) => entry.status === "dns").length;
   const absent = entries.filter((entry) => entry.status === "absent").length;
   const guests = entries.filter((entry) => entry.isGuest).length;
 
   setText("resultClassifiedCount", classified);
   setText("resultDnfCount", dnf);
+  setText("resultDisconnectCount", disconnect);
   setText("resultDnsCount", dns);
   setText("resultAbsentCount", absent);
   setText("resultGuestCount", guests);

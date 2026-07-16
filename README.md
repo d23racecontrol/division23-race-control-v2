@@ -1,72 +1,50 @@
-# Division 23 Race Control V2 – Schritt 10: ATM-Tabelle
+# Division 23 Race Control V2 – Schritt 11: WHC-Wertungen
 
-Version: 2.9.0
+Version: 3.0.0
 
-## ATM-Format
+## Fahrerwertungen
 
-- eine gemeinsame Liga
-- 10 Minuten Qualifying
-- 60 Minuten Hauptrennen
-- kein Sprintrennen
+- Liga 1 und Liga 2 werden getrennt berechnet.
+- Hauptrennen: 25, 20, 16, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 Punkte.
+- Rennen 1: Qualifying + Hauptrennen, kein Sprint.
+- Pole nur Rennen 1: +1 Punkt.
+- Ab Rennen 2: Sprint ohne Positionspunkte; nur schnellste Runde Sprint +1.
+- Schnellste Runde Hauptrennen: +1.
+- Anerkannter technischer Disconnect: 3 Punkte, ohne Pole/FL-Bonus.
+- DNF, DNS, DSQ und Abwesenheit: 0.
+- Gaststarter werden nicht in Meisterschaftstabellen gewertet.
 
-## Positionspunkte Hauptrennen
+## Gemeinsame Herstellerwertung
 
-- P1 40
-- P2 37
-- P3 35
-- P4 33
-- P5 31
-- P6 29
-- P7 27
-- P8 25
-- P9 23
-- P10 21
-- P11 19
-- P12 17
-- P13 15
-- P14 13
-- P15 11
+- Liga 1 und Liga 2 werden pro Rennnummer zusammengeführt.
+- Pro Runde zählen die drei punktbesten Fahrer jedes Herstellers.
+- Bonuspunkte sind enthalten.
+- Erkannte Hersteller: Porsche, Ferrari, BMW, Peugeot und Toyota.
+- Die Zuordnung erfolgt über das Feld „Fahrzeug / Hersteller“ im Fahrerprofil.
 
-## Zusatzregeln
+## Neue Ergebniserfassung
 
-- Pole im Qualifying bei jedem Rennen: +1
-- Schnellste Runde Hauptrennen: +1
-- DNF: 0
-- DNS: 0
-- Disqualifiziert: 0
-- Abwesenheit: 0
-- Gaststarter: keine Meisterschaftspunkte
-
-## Punktgleichheit
-
-1. bestes Einzelergebnis
-2. Anzahl Siege
-3. Anzahl zweite Plätze
-4. danach dritte, vierte Plätze usw.
-
-## Technische Verbesserung
-
-Die Regelanzeige im Tabellenreiter ist jetzt ligaabhängig. PGTC zeigt weiterhin
-seine Sprint- und Rennen-1-Regeln, ATM ausschließlich seine Qualifying- und
-Hauptrennen-Regeln.
+- Neuer Status: „Technischer Disconnect“.
+- Der Status steht auch anderen Ligen zur Verfügung, bringt dort aber ohne Konfiguration 0 Punkte.
+- Fahrzeug/Hersteller wird zusätzlich im Ergebnis gespeichert.
 
 ## GitHub-Upload
 
 Hochladen:
 - `data`
+- `css`
 - `js`
 - `index.html`
 - `README.md`
 
 Commit:
-`Schritt 10 ATM Tabelle hinzugefügt`
+`Schritt 11 WHC Wertungen hinzugefügt`
 
 ## Test
 
-1. ATM auswählen.
-2. Ein Rennen mit Qualifying und Hauptrennen erfassen.
-3. Im Qualifying einen Fahrer als Pole markieren.
-4. Im Hauptrennen Positionen und schnellste Runde speichern.
-5. Tabellenreiter öffnen.
-6. P1 mit Pole und schnellster Runde erhält 42 Punkte.
-7. PGTC auswählen und prüfen, dass dessen Regeln unverändert bleiben.
+1. WHC-Fahrer mit Gruppe „Liga 1“ bzw. „Liga 2“ und Fahrzeugen wie Porsche 963, Ferrari 499P usw. anlegen.
+2. Rennen 1 für beide Gruppen mit derselben Rennnummer anlegen.
+3. Qualifying und Hauptrennen speichern.
+4. Tabellenreiter öffnen und Liga 1 sowie Liga 2 prüfen.
+5. „Herstellerwertung“ wählen: Die drei besten Fahrerbeiträge je Hersteller und Rennnummer müssen addiert werden.
+6. Einen Fahrer auf „Technischer Disconnect“ setzen: Er erhält 3 Punkte und keine Bonuspunkte.

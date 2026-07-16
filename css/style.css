@@ -2155,7 +2155,7 @@ select {
 
 .result-stats-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(110px, 1fr));
+  grid-template-columns: repeat(6, minmax(110px, 1fr));
   gap: 12px;
 }
 
@@ -2274,6 +2274,10 @@ select {
 
 .result-entry-row.status-dnf {
   background: rgba(245, 158, 11, 0.035);
+}
+
+.result-entry-row.status-disconnect {
+  background: rgba(59, 130, 246, 0.055);
 }
 
 .result-entry-row.status-dns,
@@ -2663,7 +2667,7 @@ select {
 
 .standings-row {
   display: grid;
-  grid-template-columns: 66px minmax(250px, 1.55fr) repeat(7, minmax(74px, 0.55fr)) minmax(92px, 0.65fr);
+  grid-template-columns: 66px minmax(250px, 1.55fr) repeat(8, minmax(70px, 0.52fr)) minmax(92px, 0.65fr);
   align-items: center;
   min-height: 70px;
   border-bottom: 1px solid var(--color-border);
@@ -2843,4 +2847,76 @@ select {
   .standings-group-field select {
     width: 100%;
   }
+}
+
+
+/* WHC-Herstellerwertung */
+.manufacturer-table {
+  min-width: 820px;
+}
+
+.manufacturer-row {
+  display: grid;
+  grid-template-columns: 66px minmax(240px, 1.4fr) repeat(5, minmax(90px, 0.65fr)) minmax(100px, 0.75fr);
+  align-items: center;
+  min-height: 72px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.manufacturer-row:last-child {
+  border-bottom: 0;
+}
+
+.manufacturer-row > div {
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.manufacturer-row-head {
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.manufacturer-row-head > div:nth-child(2) {
+  text-align: left;
+}
+
+.manufacturer-row[data-rank="1"] {
+  background: linear-gradient(90deg, rgba(var(--color-primary-rgb), 0.14), transparent 48%);
+}
+
+.manufacturer-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left !important;
+}
+
+.manufacturer-name > span {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 38px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.32);
+  border-radius: 11px;
+  background: rgba(var(--color-primary-rgb), 0.09);
+  color: var(--color-accent);
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.manufacturer-warning {
+  margin: 18px 26px 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(245, 158, 11, 0.32);
+  border-radius: 12px;
+  background: rgba(245, 158, 11, 0.08);
+  color: #fbbf24;
+  font-size: 0.78rem;
+  line-height: 1.55;
 }

@@ -1,17 +1,18 @@
 "use strict";
 
-import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=2.9.0";
-import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=2.9.0";
-import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=2.9.0";
-import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=2.9.0";
-import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=2.9.0";
-import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=2.9.0";
-import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=2.9.0";
-import { getDriversForLeague } from "./drivers.js?v=2.9.0";
-import { getRacesForLeague } from "./races.js?v=2.9.0";
-import { getResultsForLeague } from "./results.js?v=2.9.0";
+import { POINTS_CONFIG as PGTC_POINTS } from "../data/pgtc/points.js?v=3.0.0";
+import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=3.0.0";
+import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=3.0.0";
+import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=3.0.0";
+import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=3.0.0";
+import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=3.0.0";
+import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=3.0.0";
+import { getDriversForLeague } from "./drivers.js?v=3.0.0";
+import { getRacesForLeague } from "./races.js?v=3.0.0";
+import { getResultsForLeague } from "./results.js?v=3.0.0";
 
 const ALL_GROUPS = "__all__";
+const MANUFACTURERS_VIEW = "__manufacturers__";
 
 const POINTS_BY_LEAGUE = Object.freeze({
   pgtc: PGTC_POINTS,
@@ -30,7 +31,7 @@ const SESSION_PRIORITY_FOR_POLE = Object.freeze([
 ]);
 
 let activeLeagueId = "pgtc";
-let selectedGroup = ALL_GROUPS;
+let selectedView = ALL_GROUPS;
 let initialized = false;
 
 function normalizeText(value, maxLength = 120) {
@@ -55,15 +56,15 @@ function getPointsConfig() {
 
 function getSortedRaces() {
   return [...getRacesForLeague(activeLeagueId)].sort((first, second) => {
+    const numberDifference = first.number - second.number;
+    if (numberDifference !== 0) return numberDifference;
+
     const groupDifference = normalizeGroup(first.group).localeCompare(
       normalizeGroup(second.group),
       "de",
       { sensitivity: "base", numeric: true }
     );
     if (groupDifference !== 0) return groupDifference;
-
-    const numberDifference = first.number - second.number;
-    if (numberDifference !== 0) return numberDifference;
 
     return first.date.localeCompare(second.date);
   });
@@ -80,51 +81,52 @@ function getGroups(races) {
   );
 }
 
-function updateGroupSelect(races, config) {
+function updateViewSelect(races, config) {
   const select = document.getElementById("standingsGroupSelect");
   const field = document.getElementById("standingsGroupField");
   if (!select || !field) return;
 
   const groups = config.useGroups === false ? [] : getGroups(races);
-  const previous = selectedGroup;
-  select.replaceChildren();
-
-  if (config.useGroups === false || groups.length === 0) {
-    const option = document.createElement("option");
-    option.value = ALL_GROUPS;
-    option.textContent = "Gesamtwertung";
-    select.append(option);
-    selectedGroup = ALL_GROUPS;
-    select.value = selectedGroup;
-    field.hidden = true;
-    return;
-  }
+  const previous = selectedView;
+  const options = [];
 
   groups.forEach((group) => {
-    const option = document.createElement("option");
-    option.value = group;
-    option.textContent = group;
-    select.append(option);
+    options.push({ value: group, label: group });
   });
 
-  const allOption = document.createElement("option");
-  allOption.value = ALL_GROUPS;
-  allOption.textContent = "Alle Gruppen zusammen";
-  select.append(allOption);
+  if (config.useGroups !== false && config.allowCombinedDriverView !== false) {
+    options.push({ value: ALL_GROUPS, label: "Alle Gruppen zusammen" });
+  }
 
-  selectedGroup = groups.includes(previous)
-    ? previous
-    : previous === ALL_GROUPS && initialized
-      ? ALL_GROUPS
-      : groups[0];
+  if (config.manufacturer?.enabled) {
+    options.push({
+      value: MANUFACTURERS_VIEW,
+      label: config.manufacturer.label || "Herstellerwertung"
+    });
+  }
 
-  select.value = selectedGroup;
-  field.hidden = false;
+  if (options.length === 0) {
+    options.push({ value: ALL_GROUPS, label: "Gesamtwertung" });
+  }
+
+  select.replaceChildren(
+    ...options.map(({ value, label }) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      return option;
+    })
+  );
+
+  const allowedValues = new Set(options.map((option) => option.value));
+  selectedView = allowedValues.has(previous) ? previous : options[0].value;
+  select.value = selectedView;
+  field.hidden = options.length === 1;
 }
 
-function raceMatchesSelectedGroup(race) {
-  return selectedGroup === ALL_GROUPS ||
-    normalizeGroup(race.group) === selectedGroup;
+function raceMatchesSelectedView(race) {
+  return selectedView === ALL_GROUPS ||
+    normalizeGroup(race.group) === selectedView;
 }
 
 function createEmptyStanding(driver) {
@@ -140,6 +142,7 @@ function createEmptyStanding(driver) {
     fastestLaps: 0,
     poles: 0,
     absences: 0,
+    disconnects: 0,
     bestFinish: null,
     finishCounts: new Map(),
     racePoints: new Map()
@@ -153,7 +156,6 @@ function getResultsByRace(results) {
     if (!byRace.has(result.raceId)) {
       byRace.set(result.raceId, new Map());
     }
-
     byRace.get(result.raceId).set(result.session, result);
   });
 
@@ -166,53 +168,12 @@ function getEntryByDriver(result) {
   );
 }
 
-function isPointEligible(entry) {
-  if (!entry) return false;
-  if (entry.isGuest) return false;
-  return !["dns", "absent", "dsq"].includes(entry.status);
-}
-
-function getPositionPoints(pointsTable, entry) {
-  if (!entry || entry.isGuest || entry.status !== "finished") return 0;
-  if (!Number.isInteger(entry.position) || entry.position < 1) return 0;
-
-  return pointsTable[entry.position - 1] ?? 0;
-}
-
-function addRacePoints(standing, raceId, points) {
-  if (!points) return;
-
-  standing.points += points;
-  standing.racePoints.set(
-    raceId,
-    (standing.racePoints.get(raceId) ?? 0) + points
-  );
-}
-
-function updateMainRaceStatistics(standing, entry) {
-  if (!entry || entry.isGuest || entry.status !== "finished") return;
-  if (!Number.isInteger(entry.position) || entry.position < 1) return;
-
-  standing.bestFinish = standing.bestFinish === null
-    ? entry.position
-    : Math.min(standing.bestFinish, entry.position);
-
-  standing.finishCounts.set(
-    entry.position,
-    (standing.finishCounts.get(entry.position) ?? 0) + 1
-  );
-
-  if (entry.position === 1) standing.wins += 1;
-  if (entry.position <= 3) standing.podiums += 1;
-}
-
-function driverStartedEvent(sessionEntries) {
-  return ["main", "sprint"].some((session) => {
-    const entry = sessionEntries[session];
-    return entry &&
-      !entry.isGuest &&
-      ["finished", "dnf", "dsq"].includes(entry.status);
-  });
+function getSessionEntries(sessionMaps, driverId) {
+  return {
+    main: getEntryByDriver(sessionMaps.get("main")).get(driverId) ?? null,
+    sprint: getEntryByDriver(sessionMaps.get("sprint")).get(driverId) ?? null,
+    qualifying: getEntryByDriver(sessionMaps.get("qualifying")).get(driverId) ?? null
+  };
 }
 
 function getEventStatusEntry(sessionEntries) {
@@ -222,6 +183,39 @@ function getEventStatusEntry(sessionEntries) {
     null;
 }
 
+function driverStartedEvent(sessionEntries) {
+  return ["main", "sprint"].some((session) => {
+    const entry = sessionEntries[session];
+    return entry &&
+      !entry.isGuest &&
+      ["finished", "dnf", "dsq", "disconnect"].includes(entry.status);
+  });
+}
+
+function getPositionPoints(pointsTable, entry) {
+  if (!entry || entry.isGuest || entry.status !== "finished") return 0;
+  if (!Number.isInteger(entry.position) || entry.position < 1) return 0;
+  return pointsTable[entry.position - 1] ?? 0;
+}
+
+function bonusEntryIsEligible(entry) {
+  if (!entry || entry.isGuest) return false;
+  return !["dns", "absent", "dsq", "disconnect"].includes(entry.status);
+}
+
+function getFastestLapPoints(config, session, race) {
+  const value = config.bonuses?.fastestLap?.[session] ?? 0;
+  if (typeof value === "number") return value;
+
+  const excluded = value.excludedRaceNumbers ?? [];
+  if (excluded.includes(race.number)) return 0;
+
+  const allowed = value.raceNumbers ?? [];
+  if (allowed.length && !allowed.includes(race.number)) return 0;
+
+  return value.points ?? 0;
+}
+
 function findPoleWinner(sessionMaps, config, race) {
   const poleConfig = config.bonuses?.pole;
   if (!poleConfig || (poleConfig.points ?? 0) <= 0) return null;
@@ -229,7 +223,6 @@ function findPoleWinner(sessionMaps, config, race) {
   const allowedRaceNumbers = poleConfig.raceNumbers ?? [];
   const raceIsEligible = poleConfig.allRaces === true ||
     allowedRaceNumbers.includes(race.number);
-
   if (!raceIsEligible) return null;
 
   const sessions = poleConfig.session
@@ -241,13 +234,81 @@ function findPoleWinner(sessionMaps, config, race) {
     const winner = result?.entries?.find((entry) =>
       entry.pole &&
       !entry.isGuest &&
-      !["absent", "dns", "dsq"].includes(entry.status)
+      !["absent", "dns", "dsq", "disconnect"].includes(entry.status)
     );
-
     if (winner) return winner;
   }
 
   return null;
+}
+
+function calculateDriverRaceContribution(config, race, sessionMaps, driverId) {
+  const sessionEntries = getSessionEntries(sessionMaps, driverId);
+  const mainEntry = sessionEntries.main;
+  const sprintEntry = sessionEntries.sprint;
+  const qualifyingEntry = sessionEntries.qualifying;
+
+  let points = 0;
+  let fastestLaps = 0;
+  let poles = 0;
+
+  points += getPositionPoints(config.positionPoints?.main ?? [], mainEntry);
+  points += getPositionPoints(config.positionPoints?.sprint ?? [], sprintEntry);
+  points += getPositionPoints(config.positionPoints?.qualifying ?? [], qualifyingEntry);
+
+  for (const [session, entry] of Object.entries(sessionEntries)) {
+    const fastestLapPoints = getFastestLapPoints(config, session, race);
+    if (
+      fastestLapPoints > 0 &&
+      bonusEntryIsEligible(entry) &&
+      entry.fastestLap
+    ) {
+      points += fastestLapPoints;
+      fastestLaps += 1;
+    }
+  }
+
+  const statusEntry = getEventStatusEntry(sessionEntries);
+  if (statusEntry && !statusEntry.isGuest) {
+    points += config.statuses?.[statusEntry.status] ?? 0;
+  }
+
+  const poleWinner = findPoleWinner(sessionMaps, config, race);
+  if (poleWinner?.driverId === driverId) {
+    points += config.bonuses?.pole?.points ?? 0;
+    poles = 1;
+  }
+
+  const mainPosition = mainEntry?.status === "finished" &&
+    Number.isInteger(mainEntry.position)
+      ? mainEntry.position
+      : null;
+
+  return {
+    points,
+    started: driverStartedEvent(sessionEntries),
+    fastestLaps,
+    poles,
+    absent: statusEntry?.status === "absent" ? 1 : 0,
+    disconnect: statusEntry?.status === "disconnect" ? 1 : 0,
+    mainPosition,
+    isGuest: Boolean(statusEntry?.isGuest),
+    hasEntry: Boolean(mainEntry || sprintEntry || qualifyingEntry)
+  };
+}
+
+function addFinishStatistics(standing, position) {
+  if (!Number.isInteger(position) || position < 1) return;
+
+  standing.bestFinish = standing.bestFinish === null
+    ? position
+    : Math.min(standing.bestFinish, position);
+  standing.finishCounts.set(
+    position,
+    (standing.finishCounts.get(position) ?? 0) + 1
+  );
+  if (position === 1) standing.wins += 1;
+  if (position <= 3) standing.podiums += 1;
 }
 
 function getCandidateDrivers(drivers, races, resultsByRace) {
@@ -265,109 +326,42 @@ function getCandidateDrivers(drivers, races, resultsByRace) {
 
   return drivers.filter((driver) => {
     if (driver.status === "guest") return false;
-    if (selectedGroup === ALL_GROUPS) return true;
-
-    return normalizeGroup(driver.group) === selectedGroup ||
+    if (selectedView === ALL_GROUPS) return true;
+    return normalizeGroup(driver.group) === selectedView ||
       appearedDriverIds.has(driver.id);
   });
 }
 
-function calculateStandings(config, races, results) {
+function calculateDriverStandings(config, races, results) {
   const resultsByRace = getResultsByRace(results);
   const drivers = getDriversForLeague(activeLeagueId);
-  const candidateDrivers = getCandidateDrivers(drivers, races, resultsByRace);
   const standings = new Map(
-    candidateDrivers.map((driver) => [driver.id, createEmptyStanding(driver)])
+    getCandidateDrivers(drivers, races, resultsByRace)
+      .map((driver) => [driver.id, createEmptyStanding(driver)])
   );
 
   races.forEach((race) => {
     const sessionMaps = resultsByRace.get(race.id) ?? new Map();
-    const entryMaps = {
-      main: getEntryByDriver(sessionMaps.get("main")),
-      sprint: getEntryByDriver(sessionMaps.get("sprint")),
-      qualifying: getEntryByDriver(sessionMaps.get("qualifying"))
-    };
 
     standings.forEach((standing, driverId) => {
-      const sessionEntries = {
-        main: entryMaps.main.get(driverId) ?? null,
-        sprint: entryMaps.sprint.get(driverId) ?? null,
-        qualifying: entryMaps.qualifying.get(driverId) ?? null
-      };
-
-      if (driverStartedEvent(sessionEntries)) {
-        standing.starts += 1;
-      }
-
-      const mainEntry = sessionEntries.main;
-      const mainPoints = getPositionPoints(
-        config.positionPoints?.main ?? [],
-        mainEntry
+      const contribution = calculateDriverRaceContribution(
+        config,
+        race,
+        sessionMaps,
+        driverId
       );
-      addRacePoints(standing, race.id, mainPoints);
-      updateMainRaceStatistics(standing, mainEntry);
 
-      if (
-        isPointEligible(mainEntry) &&
-        mainEntry.fastestLap &&
-        (config.bonuses?.fastestLap?.main ?? 0) > 0
-      ) {
-        addRacePoints(
-          standing,
-          race.id,
-          config.bonuses.fastestLap.main
-        );
-        standing.fastestLaps += 1;
-      }
+      if (!contribution.hasEntry || contribution.isGuest) return;
 
-      const sprintEntry = sessionEntries.sprint;
-      const sprintPoints = getPositionPoints(
-        config.positionPoints?.sprint ?? [],
-        sprintEntry
-      );
-      addRacePoints(standing, race.id, sprintPoints);
-
-      if (
-        isPointEligible(sprintEntry) &&
-        sprintEntry.fastestLap &&
-        (config.bonuses?.fastestLap?.sprint ?? 0) > 0
-      ) {
-        addRacePoints(
-          standing,
-          race.id,
-          config.bonuses.fastestLap.sprint
-        );
-        standing.fastestLaps += 1;
-      }
-
-      const statusEntry = getEventStatusEntry(sessionEntries);
-      if (
-        statusEntry &&
-        !statusEntry.isGuest &&
-        statusEntry.status === "absent"
-      ) {
-        addRacePoints(
-          standing,
-          race.id,
-          config.statuses?.absent ?? 0
-        );
-        standing.absences += 1;
-      }
+      standing.points += contribution.points;
+      standing.racePoints.set(race.id, contribution.points);
+      if (contribution.started) standing.starts += 1;
+      standing.fastestLaps += contribution.fastestLaps;
+      standing.poles += contribution.poles;
+      standing.absences += contribution.absent;
+      standing.disconnects += contribution.disconnect;
+      addFinishStatistics(standing, contribution.mainPosition);
     });
-
-    const poleWinner = findPoleWinner(sessionMaps, config, race);
-    const poleStanding = poleWinner
-      ? standings.get(poleWinner.driverId)
-      : null;
-
-    if (poleStanding) {
-      addRacePoints(
-        poleStanding,
-        race.id,
-        config.bonuses?.pole?.points ?? 0
-      );
-      poleStanding.poles += 1;
-    }
   });
 
   return [...standings.values()];
@@ -375,51 +369,35 @@ function calculateStandings(config, races, results) {
 
 function getMaximumRecordedPosition(standings) {
   let maximum = 0;
-
   standings.forEach((standing) => {
     standing.finishCounts.forEach((_, position) => {
       maximum = Math.max(maximum, position);
     });
   });
-
   return maximum;
 }
 
 function compareSportingCriteria(first, second, maximumPosition) {
-  if (first.points !== second.points) {
-    return second.points - first.points;
-  }
+  if (first.points !== second.points) return second.points - first.points;
 
   const firstBest = first.bestFinish ?? Number.MAX_SAFE_INTEGER;
   const secondBest = second.bestFinish ?? Number.MAX_SAFE_INTEGER;
-  if (firstBest !== secondBest) {
-    return firstBest - secondBest;
-  }
+  if (firstBest !== secondBest) return firstBest - secondBest;
 
   for (let position = 1; position <= maximumPosition; position += 1) {
     const firstCount = first.finishCounts.get(position) ?? 0;
     const secondCount = second.finishCounts.get(position) ?? 0;
-
-    if (firstCount !== secondCount) {
-      return secondCount - firstCount;
-    }
+    if (firstCount !== secondCount) return secondCount - firstCount;
   }
 
   return 0;
 }
 
-function sortAndRankStandings(standings) {
+function sortAndRank(standings) {
   const maximumPosition = getMaximumRecordedPosition(standings);
-
   const sorted = [...standings].sort((first, second) => {
-    const sportingDifference = compareSportingCriteria(
-      first,
-      second,
-      maximumPosition
-    );
-
-    if (sportingDifference !== 0) return sportingDifference;
-
+    const sporting = compareSportingCriteria(first, second, maximumPosition);
+    if (sporting !== 0) return sporting;
     return first.name.localeCompare(second.name, "de", {
       sensitivity: "base",
       numeric: true
@@ -430,24 +408,143 @@ function sortAndRankStandings(standings) {
   let previousRank = 0;
 
   return sorted.map((standing, index) => {
-    const sameSportingResult = previous &&
+    const same = previous &&
       compareSportingCriteria(previous, standing, maximumPosition) === 0;
-
-    const rank = sameSportingResult ? previousRank : index + 1;
+    const rank = same ? previousRank : index + 1;
     previous = standing;
     previousRank = rank;
-
-    return {
-      ...standing,
-      rank
-    };
+    return { ...standing, rank };
   });
 }
 
+function identifyManufacturer(vehicle, manufacturerConfig) {
+  const normalizedVehicle = normalizeText(vehicle, 100).toLocaleLowerCase("de");
+  if (!normalizedVehicle) return null;
+
+  return manufacturerConfig.manufacturers.find((manufacturer) =>
+    manufacturer.terms.some((term) =>
+      normalizedVehicle.includes(term.toLocaleLowerCase("de"))
+    )
+  ) ?? null;
+}
+
+function calculateManufacturerStandings(config, races, results) {
+  const manufacturerConfig = config.manufacturer;
+  const resultsByRace = getResultsByRace(results);
+  const drivers = getDriversForLeague(activeLeagueId);
+  const driversById = new Map(drivers.map((driver) => [driver.id, driver]));
+  const standings = new Map(
+    manufacturerConfig.manufacturers.map((manufacturer) => [
+      manufacturer.id,
+      {
+        id: manufacturer.id,
+        name: manufacturer.name,
+        points: 0,
+        wins: 0,
+        podiums: 0,
+        bestFinish: null,
+        finishCounts: new Map(),
+        contributorIds: new Set(),
+        countedContributions: 0,
+        roundPoints: new Map()
+      }
+    ])
+  );
+
+  const contributionsByRound = new Map();
+  const unassignedDrivers = new Set();
+
+  races.forEach((race) => {
+    const sessionMaps = resultsByRace.get(race.id) ?? new Map();
+    const driverIds = new Set();
+
+    sessionMaps.forEach((result) => {
+      result.entries.forEach((entry) => {
+        if (!entry.isGuest) driverIds.add(entry.driverId);
+      });
+    });
+
+    driverIds.forEach((driverId) => {
+      const driver = driversById.get(driverId);
+      const fallbackEntry = [...sessionMaps.values()]
+        .flatMap((result) => result.entries)
+        .find((entry) => entry.driverId === driverId);
+      const vehicle = driver?.vehicle || fallbackEntry?.vehicle || "";
+      const manufacturer = identifyManufacturer(vehicle, manufacturerConfig);
+
+      if (!manufacturer) {
+        if (driver?.name || fallbackEntry?.driverName) {
+          unassignedDrivers.add(driver?.name || fallbackEntry.driverName);
+        }
+        return;
+      }
+
+      const contribution = calculateDriverRaceContribution(
+        config,
+        race,
+        sessionMaps,
+        driverId
+      );
+
+      if (!contribution.hasEntry || contribution.isGuest) return;
+
+      const roundKey = String(race.number);
+      if (!contributionsByRound.has(roundKey)) {
+        contributionsByRound.set(roundKey, new Map());
+      }
+      const round = contributionsByRound.get(roundKey);
+      if (!round.has(manufacturer.id)) round.set(manufacturer.id, []);
+
+      round.get(manufacturer.id).push({
+        driverId,
+        driverName: driver?.name || fallbackEntry?.driverName || "Unbekannt",
+        points: contribution.points,
+        mainPosition: contribution.mainPosition
+      });
+    });
+  });
+
+  contributionsByRound.forEach((round, roundKey) => {
+    round.forEach((contributions, manufacturerId) => {
+      const standing = standings.get(manufacturerId);
+      if (!standing) return;
+
+      const selected = [...contributions]
+        .sort((first, second) => {
+          if (first.points !== second.points) return second.points - first.points;
+          const firstPosition = first.mainPosition ?? Number.MAX_SAFE_INTEGER;
+          const secondPosition = second.mainPosition ?? Number.MAX_SAFE_INTEGER;
+          if (firstPosition !== secondPosition) return firstPosition - secondPosition;
+          return first.driverName.localeCompare(second.driverName, "de", {
+            sensitivity: "base",
+            numeric: true
+          });
+        })
+        .slice(0, manufacturerConfig.countPerRound ?? 3);
+
+      const roundPoints = selected.reduce((sum, item) => sum + item.points, 0);
+      standing.points += roundPoints;
+      standing.roundPoints.set(roundKey, roundPoints);
+      standing.countedContributions += selected.length;
+
+      selected.forEach((item) => {
+        standing.contributorIds.add(item.driverId);
+        addFinishStatistics(standing, item.mainPosition);
+      });
+    });
+  });
+
+  return {
+    standings: sortAndRank([...standings.values()]),
+    unassignedDrivers: [...unassignedDrivers].sort((first, second) =>
+      first.localeCompare(second, "de", { sensitivity: "base", numeric: true })
+    ),
+    scoredRounds: [...contributionsByRound.keys()].length
+  };
+}
+
 function formatBestFinish(standing) {
-  return standing.bestFinish === null
-    ? "—"
-    : `P${standing.bestFinish}`;
+  return standing.bestFinish === null ? "—" : `P${standing.bestFinish}`;
 }
 
 function createStandingRow(standing) {
@@ -468,10 +565,8 @@ function createStandingRow(standing) {
   const identity = document.createElement("span");
   const name = document.createElement("strong");
   name.textContent = standing.name;
-
   const detail = document.createElement("small");
   detail.textContent = standing.group || "Gesamtwertung";
-
   identity.append(name, detail);
   driver.append(number, identity);
 
@@ -482,6 +577,7 @@ function createStandingRow(standing) {
     standing.fastestLaps,
     standing.poles,
     standing.absences,
+    standing.disconnects,
     formatBestFinish(standing)
   ].map((value) => {
     const cell = document.createElement("div");
@@ -498,7 +594,45 @@ function createStandingRow(standing) {
   return row;
 }
 
-function renderStandingsTable(standings) {
+function createManufacturerRow(standing) {
+  const row = document.createElement("div");
+  row.className = "manufacturer-row";
+  row.dataset.rank = String(standing.rank);
+
+  const rank = document.createElement("div");
+  rank.className = "standings-rank";
+  rank.textContent = String(standing.rank);
+
+  const manufacturer = document.createElement("div");
+  manufacturer.className = "manufacturer-name";
+  const badge = document.createElement("span");
+  badge.textContent = standing.name.slice(0, 2).toUpperCase();
+  const name = document.createElement("strong");
+  name.textContent = standing.name;
+  manufacturer.append(badge, name);
+
+  const values = [
+    standing.contributorIds.size,
+    standing.countedContributions,
+    standing.wins,
+    standing.podiums,
+    formatBestFinish(standing)
+  ].map((value) => {
+    const cell = document.createElement("div");
+    cell.className = "standings-value";
+    cell.textContent = String(value);
+    return cell;
+  });
+
+  const points = document.createElement("div");
+  points.className = "standings-points";
+  points.textContent = String(standing.points);
+
+  row.append(rank, manufacturer, ...values, points);
+  return row;
+}
+
+function renderDriverTable(standings) {
   const rows = document.getElementById("standingsRows");
   const empty = document.getElementById("standingsEmpty");
   if (!rows || !empty) return;
@@ -506,6 +640,25 @@ function renderStandingsTable(standings) {
   rows.replaceChildren(...standings.map(createStandingRow));
   rows.hidden = standings.length === 0;
   empty.hidden = standings.length !== 0;
+}
+
+function renderManufacturerTable(standings, unassignedDrivers) {
+  const rows = document.getElementById("manufacturerStandingsRows");
+  const empty = document.getElementById("manufacturerStandingsEmpty");
+  const warning = document.getElementById("standingsManufacturerWarning");
+  if (!rows || !empty || !warning) return;
+
+  rows.replaceChildren(...standings.map(createManufacturerRow));
+  rows.hidden = standings.length === 0;
+  empty.hidden = standings.length !== 0;
+
+  if (unassignedDrivers.length) {
+    warning.hidden = false;
+    warning.textContent = `Kein Hersteller erkannt bei: ${unassignedDrivers.join(", ")}. Bitte im Fahrerprofil „Fahrzeug / Hersteller“ prüfen.`;
+  } else {
+    warning.hidden = true;
+    warning.textContent = "";
+  }
 }
 
 function getSessionLabel(session) {
@@ -536,10 +689,24 @@ function getPoleDescription(config) {
   return `Pole im ${sessionLabel}${restriction}: +${formatPoints(pole.points)}`;
 }
 
+function getFastestLapDescription(config, session) {
+  const value = config.bonuses?.fastestLap?.[session] ?? 0;
+  const points = typeof value === "number" ? value : value.points ?? 0;
+  if (points <= 0) return null;
+
+  let restriction = "";
+  if (typeof value === "object" && value.excludedRaceNumbers?.length === 1) {
+    restriction = ` (nicht Rennen ${value.excludedRaceNumbers[0]})`;
+  }
+
+  return `Schnellste Runde ${getSessionLabel(session)}${restriction}: +${formatPoints(points)}`;
+}
+
 function renderConfiguration(config) {
   const positionList = document.getElementById("standingsPositionPoints");
   const bonusList = document.getElementById("standingsBonusPoints");
-  if (!positionList || !bonusList) return;
+  const tieList = document.getElementById("standingsTieBreakers");
+  if (!positionList || !bonusList || !tieList) return;
 
   const mainPoints = config.positionPoints?.main ?? [];
   positionList.replaceChildren(
@@ -554,16 +721,10 @@ function renderConfiguration(config) {
   const poleDescription = getPoleDescription(config);
   if (poleDescription) bonusItems.push(poleDescription);
 
-  const fastestLap = config.bonuses?.fastestLap ?? {};
-  if ((fastestLap.sprint ?? 0) > 0) {
-    bonusItems.push(`Schnellste Runde Sprint: +${formatPoints(fastestLap.sprint)}`);
-  }
-  if ((fastestLap.main ?? 0) > 0) {
-    bonusItems.push(`Schnellste Runde Hauptrennen: +${formatPoints(fastestLap.main)}`);
-  }
-  if ((fastestLap.qualifying ?? 0) > 0) {
-    bonusItems.push(`Schnellste Runde Qualifying: +${formatPoints(fastestLap.qualifying)}`);
-  }
+  ["sprint", "main", "qualifying"].forEach((session) => {
+    const description = getFastestLapDescription(config, session);
+    if (description) bonusItems.push(description);
+  });
 
   const statuses = config.statuses ?? {};
   bonusItems.push(
@@ -573,12 +734,38 @@ function renderConfiguration(config) {
     `Disqualifiziert: ${formatPoints(statuses.dsq ?? 0)}`
   );
 
+  if ((statuses.disconnect ?? 0) > 0) {
+    bonusItems.push(
+      `Anerkannter technischer Disconnect: ${formatPoints(statuses.disconnect)} (keine Zusatzpunkte)`
+    );
+  }
+
   if (config.excludeGuests) {
     bonusItems.push("Gaststarter: keine Meisterschaftspunkte");
   }
 
+  if (config.manufacturer?.enabled) {
+    bonusItems.push(
+      `Herstellerwertung: pro Runde zählen die ${config.manufacturer.countPerRound} besten Fahrerbeiträge aus beiden Ligen inklusive Bonuspunkten`
+    );
+  }
+
   bonusList.replaceChildren(
     ...bonusItems.map((text) => {
+      const item = document.createElement("li");
+      item.textContent = text;
+      return item;
+    })
+  );
+
+  const labels = config.tieBreakerLabels ?? [
+    "Bestes Einzelergebnis",
+    "Anzahl der Siege",
+    "Anzahl der zweiten Plätze",
+    "Danach dritte, vierte Plätze usw."
+  ];
+  tieList.replaceChildren(
+    ...labels.map((text) => {
       const item = document.createElement("li");
       item.textContent = text;
       return item;
@@ -607,6 +794,16 @@ function renderUnconfigured(config) {
   setText("standingsLeaderPoints", 0);
 }
 
+function setTableMode(mode) {
+  const driverCard = document.getElementById("standingsDriverTableCard");
+  const manufacturerCard = document.getElementById("standingsManufacturerTableCard");
+  const manufacturerMode = mode === MANUFACTURERS_VIEW;
+
+  if (driverCard) driverCard.hidden = manufacturerMode;
+  if (manufacturerCard) manufacturerCard.hidden = !manufacturerMode;
+  setText("standingsCountLabel", manufacturerMode ? "Hersteller" : "Gewertete Fahrer");
+}
+
 function renderConfigured(config) {
   const configured = document.getElementById("standingsConfigured");
   const unconfigured = document.getElementById("standingsUnconfigured");
@@ -620,26 +817,43 @@ function renderConfigured(config) {
   }
 
   const allRaces = getSortedRaces();
-  updateGroupSelect(allRaces, config);
+  updateViewSelect(allRaces, config);
+  renderConfiguration(config);
+  setTableMode(selectedView);
 
-  const races = allRaces.filter(raceMatchesSelectedGroup);
+  const allResults = getResultsForLeague(activeLeagueId);
+
+  if (selectedView === MANUFACTURERS_VIEW) {
+    const calculation = calculateManufacturerStandings(
+      config,
+      allRaces,
+      allResults
+    );
+
+    renderManufacturerTable(
+      calculation.standings,
+      calculation.unassignedDrivers
+    );
+    setText("standingsDriverCount", calculation.standings.length);
+    setText("standingsRaceCount", calculation.scoredRounds);
+    setText("standingsLeaderPoints", calculation.standings[0]?.points ?? 0);
+    setText("standingsGroupLabel", config.manufacturer.label || "Herstellerwertung");
+    return;
+  }
+
+  const races = allRaces.filter(raceMatchesSelectedView);
   const raceIds = new Set(races.map((race) => race.id));
-  const results = getResultsForLeague(activeLeagueId)
-    .filter((result) => raceIds.has(result.raceId));
-
-  const calculated = calculateStandings(config, races, results);
-  const ranked = sortAndRankStandings(calculated);
+  const results = allResults.filter((result) => raceIds.has(result.raceId));
+  const ranked = sortAndRank(calculateDriverStandings(config, races, results));
   const scoredRaceCount = new Set(results.map((result) => result.raceId)).size;
 
-  renderStandingsTable(ranked);
-  renderConfiguration(config);
-
+  renderDriverTable(ranked);
   setText("standingsDriverCount", ranked.length);
   setText("standingsRaceCount", scoredRaceCount);
   setText("standingsLeaderPoints", ranked[0]?.points ?? 0);
   setText(
     "standingsGroupLabel",
-    selectedGroup === ALL_GROUPS ? "Gesamtwertung" : selectedGroup
+    selectedView === ALL_GROUPS ? "Gesamtwertung" : selectedView
   );
 }
 
@@ -658,11 +872,7 @@ export function renderStandingsForLeague(leagueId = activeLeagueId) {
 export function setStandingsLeague(leagueId) {
   const leagueChanged = activeLeagueId !== leagueId;
   activeLeagueId = leagueId;
-
-  if (leagueChanged) {
-    selectedGroup = ALL_GROUPS;
-  }
-
+  if (leagueChanged) selectedView = ALL_GROUPS;
   renderStandingsForLeague(activeLeagueId);
 }
 
@@ -673,7 +883,6 @@ export function initializeStandingsModule(initialLeagueId) {
   }
 
   activeLeagueId = initialLeagueId;
-
   const groupSelect = document.getElementById("standingsGroupSelect");
   if (!groupSelect) {
     console.error("Race Control V2: Die Tabellenberechnung konnte nicht initialisiert werden.");
@@ -681,7 +890,7 @@ export function initializeStandingsModule(initialLeagueId) {
   }
 
   groupSelect.addEventListener("change", (event) => {
-    selectedGroup = event.target.value;
+    selectedView = event.target.value;
     renderStandingsForLeague(activeLeagueId);
   });
 

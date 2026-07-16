@@ -6,8 +6,8 @@
   <meta name="description" content="Division 23 Race Control V2">
   <title>Dashboard | PGTC | Division 23 Race Control V2</title>
 
-  <link rel="stylesheet" href="css/style.css?v=2.9.0">
-  <script type="module" src="js/app.js?v=2.9.0"></script>
+  <link rel="stylesheet" href="css/style.css?v=3.0.0">
+  <script type="module" src="js/app.js?v=3.0.0"></script>
 </head>
 <body>
   <div class="app-shell">
@@ -218,6 +218,15 @@
                 <p>Schritt 10</p>
                 <h3>ATM-Tabelle</h3>
                 <span>Qualifying, Hauptrennen und ATM-Punkte werden automatisch gewertet.</span>
+              </div>
+            </article>
+
+            <article class="progress-card is-done">
+              <span class="progress-icon" aria-hidden="true">✓</span>
+              <div>
+                <p>Schritt 11</p>
+                <h3>WHC-Wertungen</h3>
+                <span>Liga 1, Liga 2 und gemeinsame Herstellerwertung sind eingerichtet.</span>
               </div>
             </article>
           </section>
@@ -655,6 +664,10 @@ NurEinFahrername</pre>
               <strong id="resultDnfCount">0</strong>
             </article>
             <article class="result-stat-card">
+              <span>Disconnect</span>
+              <strong id="resultDisconnectCount">0</strong>
+            </article>
+            <article class="result-stat-card">
               <span>DNS</span>
               <strong id="resultDnsCount">0</strong>
             </article>
@@ -758,7 +771,7 @@ NurEinFahrername</pre>
 
             <section class="standings-stats-grid" aria-label="Tabellenübersicht">
               <article>
-                <span>Gewertete Fahrer</span>
+                <span id="standingsCountLabel">Gewertete Fahrer</span>
                 <strong id="standingsDriverCount">0</strong>
               </article>
               <article>
@@ -771,7 +784,7 @@ NurEinFahrername</pre>
               </article>
             </section>
 
-            <section class="standings-table-card">
+            <section class="standings-table-card" id="standingsDriverTableCard">
               <header class="standings-table-header">
                 <div>
                   <p class="eyebrow">Automatisch berechnet</p>
@@ -791,6 +804,7 @@ NurEinFahrername</pre>
                     <div>FL</div>
                     <div>Pole</div>
                     <div>Abw.</div>
+                    <div>Disc.</div>
                     <div>Bestes</div>
                     <div>Punkte</div>
                   </div>
@@ -803,6 +817,41 @@ NurEinFahrername</pre>
                 <span aria-hidden="true">🏆</span>
                 <h4>Noch keine Meisterschaftsdaten</h4>
                 <p>Sobald du ein Ergebnis speicherst, erscheint hier automatisch die Tabelle.</p>
+              </div>
+            </section>
+
+
+            <section class="standings-table-card manufacturer-table-card" id="standingsManufacturerTableCard" hidden>
+              <header class="standings-table-header">
+                <div>
+                  <p class="eyebrow">Liga 1 + Liga 2 gemeinsam</p>
+                  <h3>Herstellerwertung</h3>
+                </div>
+                <span>Pro Runde zählen die drei punktbesten Fahrer jedes Herstellers inklusive Pole und schnellster Runden.</span>
+              </header>
+
+              <p class="manufacturer-warning" id="standingsManufacturerWarning" hidden></p>
+
+              <div class="standings-table-scroll">
+                <div class="manufacturer-table">
+                  <div class="manufacturer-row manufacturer-row-head" aria-hidden="true">
+                    <div>Pos.</div>
+                    <div>Hersteller</div>
+                    <div>Fahrer</div>
+                    <div>Beiträge</div>
+                    <div>Siege</div>
+                    <div>Podien</div>
+                    <div>Bestes</div>
+                    <div>Punkte</div>
+                  </div>
+                  <div id="manufacturerStandingsRows"></div>
+                </div>
+              </div>
+
+              <div class="standings-empty" id="manufacturerStandingsEmpty">
+                <span aria-hidden="true">🏭</span>
+                <h4>Noch keine Herstellerpunkte</h4>
+                <p>Trage bei den WHC-Fahrern Fahrzeug und Hersteller ein und speichere Ergebnisse aus Liga 1 und Liga 2.</p>
               </div>
             </section>
 
@@ -822,12 +871,7 @@ NurEinFahrername</pre>
               <article>
                 <p class="eyebrow">Punktgleichheit</p>
                 <h3>Sportliche Reihenfolge</h3>
-                <ol>
-                  <li>Bestes Einzelergebnis</li>
-                  <li>Anzahl der Siege</li>
-                  <li>Anzahl der zweiten Plätze</li>
-                  <li>Danach dritte, vierte Plätze usw.</li>
-                </ol>
+                <ol id="standingsTieBreakers"></ol>
               </article>
             </section>
           </div>
