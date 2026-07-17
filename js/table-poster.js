@@ -202,6 +202,8 @@ function drawText(
   let cursor = x;
   if (align === "center") cursor -= totalWidth / 2;
   if (align === "right") cursor -= totalWidth;
+  
+    context.textAlign = "left";
 
   characters.forEach((character, index) => {
     context.fillText(character, cursor, y);
