@@ -802,7 +802,7 @@ function createLayout(format) {
   const width = config.width;
   const height = config.height;
   const margin = portrait ? 66 : 86;
-  const headerHeight = portrait ? 268 : 205;
+  const headerHeight = portrait ? 268 : 235;
   const tableX = margin;
   const tableY = headerHeight + (portrait ? 26 : 18);
   const tableWidth = width - margin * 2;
@@ -826,7 +826,7 @@ function createLayout(format) {
     margin,
     headerHeight,
     logoSize: portrait ? 150 : 132,
-    titleSize: portrait ? 60 : 54,
+    titleSize: portrait ? 50 : 54,
     subtitleSize: portrait ? 24 : 22,
     smallSize: portrait ? 17 : 15,
     tableX,
