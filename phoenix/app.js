@@ -45,3 +45,20 @@ loginFormular.addEventListener("submit", async (event) => {
 
   loginStatus.textContent = "Erfolgreich angemeldet ✅";
 });
+
+const loginBereich = document.getElementById("login-bereich");
+
+function aktualisiereLoginAnsicht(session) {
+  loginBereich.hidden = Boolean(session);
+}
+
+async function pruefeAnmeldestatus() {
+  const { data } = await supabaseClient.auth.getSession();
+  aktualisiereLoginAnsicht(data.session);
+}
+
+supabaseClient.auth.onAuthStateChange((_ereignis, session) => {
+  aktualisiereLoginAnsicht(session);
+});
+
+pruefeAnmeldestatus();
