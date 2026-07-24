@@ -23,7 +23,7 @@ async function pruefeDatenbankverbindung() {
 
 const loginFormular = document.getElementById("login-form");
 const loginStatus = document.getElementById("login-status");
-
+const rollenAnzeige = document.getElementById("rollen-anzeige");
 loginFormular.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -50,9 +50,23 @@ const loginBereich = document.getElementById("login-bereich");
 const angemeldetBereich = document.getElementById("angemeldet-bereich");
 const abmeldenButton = document.getElementById("abmelden-button");
 
-function aktualisiereLoginAnsicht(session) {
+async function aktualisiereLoginAnsicht(session) {
   loginBereich.hidden = Boolean(session);
   angemeldetBereich.hidden = !session;
+  if (!session) {
+  rollenAnzeige.textContent = "";
+  return;
+}
+const { data: profil, error } = await supabaseClient
+  .from("phoenix_profiles")
+  .select("role")
+  .eq("id", session.user.id)
+  .single();
+  if (error) {
+  rollenAnzeige.textContent = "Rolle konnte nicht geladen werden";
+  return;
+}
+rollenAnzeige.textContent = `Rolle: ${profil.role}`;
 }
 
 async function pruefeAnmeldestatus() {
