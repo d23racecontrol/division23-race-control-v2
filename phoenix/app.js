@@ -25,6 +25,8 @@ const loginFormular = document.getElementById("login-form");
 const loginStatus = document.getElementById("login-status");
 const rollenAnzeige = document.getElementById("rollen-anzeige");
 const adminBereich = document.getElementById("admin-bereich");
+const benutzerStatus = document.getElementById("benutzer-status");
+const benutzerListe = document.getElementById("benutzer-liste");
 loginFormular.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -57,6 +59,8 @@ async function aktualisiereLoginAnsicht(session) {
   if (!session) {
   rollenAnzeige.textContent = "";
   adminBereich.hidden = true;
+  benutzerStatus.textContent = "";
+benutzerListe.innerHTML = "";
   return;
 }
 const { data: profil, error } = await supabaseClient
@@ -70,12 +74,34 @@ const { data: profil, error } = await supabaseClient
 }
 rollenAnzeige.textContent = `Rolle: ${profil.role}`;
 adminBereich.hidden = profil.role !== "admin";
+if (profil.role === "admin") {
+  await ladeBenutzer();
+}
 }
 
 async function pruefeAnmeldestatus() {
   const { data } = await supabaseClient.auth.getSession();
   aktualisiereLoginAnsicht(data.session);
   await pruefeDatenbankverbindung();
+}
+async function ladeBenutzer() {
+  benutzerStatus.textContent = "Benutzer werden geladen …";
+  benutzerListe.innerHTML = "";
+  const { data: benutzer, error } = await supabaseClient
+  .from("phoenix_profiles")
+  .select("id, email, role, created_at")
+  .order("created_at", { ascending: true });
+  if (error) {
+  benutzerStatus.textContent = "Benutzer konnten nicht geladen werden.";
+  return;}
+  benutzerStatus.textContent = `${benutzer.length} Benutzer gefunden.`;
+  benutzer.forEach((eintrag) => {
+  const benutzerKarte = document.createElement("article");
+  benutzerKarte.className = "benutzer-karte";
+  benutzerKarte.textContent = `${eintrag.email} – Rolle: ${eintrag.role}`;
+  benutzerListe.appendChild(benutzerKarte);
+});
+
 }
 
 supabaseClient.auth.onAuthStateChange((_ereignis, session) => {
