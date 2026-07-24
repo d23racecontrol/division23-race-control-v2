@@ -24,6 +24,7 @@ async function pruefeDatenbankverbindung() {
 const loginFormular = document.getElementById("login-form");
 const loginStatus = document.getElementById("login-status");
 const rollenAnzeige = document.getElementById("rollen-anzeige");
+const adminBereich = document.getElementById("admin-bereich");
 loginFormular.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -55,6 +56,7 @@ async function aktualisiereLoginAnsicht(session) {
   angemeldetBereich.hidden = !session;
   if (!session) {
   rollenAnzeige.textContent = "";
+  adminBereich.hidden = true;
   return;
 }
 const { data: profil, error } = await supabaseClient
@@ -67,6 +69,7 @@ const { data: profil, error } = await supabaseClient
   return;
 }
 rollenAnzeige.textContent = `Rolle: ${profil.role}`;
+adminBereich.hidden = profil.role !== "admin";
 }
 
 async function pruefeAnmeldestatus() {
