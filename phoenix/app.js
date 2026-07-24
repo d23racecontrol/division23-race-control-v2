@@ -20,3 +20,28 @@ async function pruefeDatenbankverbindung() {
 }
 
 pruefeDatenbankverbindung();
+
+const loginFormular = document.getElementById("login-form");
+const loginStatus = document.getElementById("login-status");
+
+loginFormular.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById("login-email").value;
+  const passwort = document.getElementById("login-password").value;
+
+  loginStatus.textContent = "Anmeldung wird geprüft …";
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: passwort
+  });
+
+  if (error) {
+    loginStatus.textContent =
+      "Anmeldung fehlgeschlagen – bitte E-Mail und Passwort prüfen.";
+    return;
+  }
+
+  loginStatus.textContent = "Erfolgreich angemeldet ✅";
+});
