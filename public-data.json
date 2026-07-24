@@ -2,7 +2,7 @@
   "schema": "division23-race-control-v2-public",
   "schemaVersion": 1,
   "appVersion": "4.7.0",
-  "publishedAt": "2026-07-16T07:40:48.475Z",
+  "publishedAt": "2026-07-24T09:46:29.586Z",
   "publisher": "Division 23 Race Control V2",
   "leagues": {
     "pgtc": {
@@ -355,7 +355,7 @@
         ],
         "races": [
           {
-            "id": "09f284ea-aac3-45f1-9688-d6a71b5c8c86",
+            "id": "03cc8642-672f-44e3-a4a1-de403fc87248",
             "number": 1,
             "name": "Porsche GT Cup Saison 1",
             "track": "Dragon Trail Gärten",
@@ -370,11 +370,14 @@
               "aaf55ee4-2284-4a31-b07a-96fdc6c3f21d",
               "214ca9df-ae98-4c0a-802f-262636185464",
               "ef5cc95f-d1fd-42ad-ac64-a31d7e141c04",
+              "f1726416-71eb-4ca6-bb86-041ccf5f9af0",
               "592c7825-6ac0-43f1-930a-f97ded73cb54",
+              "c1751997-4d89-4ae4-b499-41427be3eec5",
               "0720ed0d-4e0c-4e57-a6e2-a8587b674e61",
               "948c5aee-7a2d-4bc5-82c2-8995ba870088",
               "78d32f7f-34e8-46c4-8a12-474952c8c3cd",
               "971dbc63-4ba9-4797-928e-70160c11f4f6",
+              "61a8c4cb-bee5-49f5-94df-e1f1ed24e605",
               "8cce7f23-109c-4f42-b8ae-4fc2bef70a6b",
               "017e6abf-1d81-49f0-a29b-4931ea6ac004"
             ],
@@ -428,9 +431,25 @@
                 "vehicle": "Porsche 911 GT3 R (992) '22"
               },
               {
+                "id": "f1726416-71eb-4ca6-bb86-041ccf5f9af0",
+                "name": "EifelRing87",
+                "number": "420",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Porsche 911 GT3 R (992) '22"
+              },
+              {
                 "id": "592c7825-6ac0-43f1-930a-f97ded73cb54",
                 "name": "fcbchris92",
                 "number": "92",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Porsche 911 GT3 R (992) '22"
+              },
+              {
+                "id": "c1751997-4d89-4ae4-b499-41427be3eec5",
+                "name": "FFP_Riemen81",
+                "number": "81",
                 "status": "regular",
                 "group": "Liga 1",
                 "vehicle": "Porsche 911 GT3 R (992) '22"
@@ -468,6 +487,14 @@
                 "vehicle": "Porsche 911 GT3 R (992) '22"
               },
               {
+                "id": "61a8c4cb-bee5-49f5-94df-e1f1ed24e605",
+                "name": "TPu13",
+                "number": "129",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Porsche 911 GT3 R (992) '22"
+              },
+              {
                 "id": "8cce7f23-109c-4f42-b8ae-4fc2bef70a6b",
                 "name": "Waidla_82",
                 "number": "249",
@@ -484,11 +511,11 @@
                 "vehicle": "Porsche 911 GT3 R (992) '22"
               }
             ],
-            "createdAt": "2026-07-16T01:34:38.418Z",
-            "updatedAt": "2026-07-16T01:36:08.598Z"
+            "createdAt": "2026-07-17T16:12:57.716Z",
+            "updatedAt": "2026-07-17T16:13:29.754Z"
           },
           {
-            "id": "e9ec3338-823c-4e93-a30d-b7e57c500d90",
+            "id": "461de143-6153-4093-892a-8c72d9c8f693",
             "number": 1,
             "name": "Porsche GT Cup Saison 1",
             "track": "Dragon Trail Gärten",
@@ -626,14 +653,14 @@
                 "vehicle": "Porsche 911 GT3 R (992) '22"
               }
             ],
-            "createdAt": "2026-07-16T01:38:13.008Z",
-            "updatedAt": "2026-07-16T01:38:13.008Z"
+            "createdAt": "2026-07-17T16:45:52.039Z",
+            "updatedAt": "2026-07-17T16:45:52.039Z"
           },
           {
-            "id": "6bdb00c1-3ae8-453f-9571-6c0edfa6d752",
+            "id": "e23bf94d-8e95-4703-8d48-9e443a76be5d",
             "number": 2,
             "name": "Porsche GT Cup Saison 1",
-            "track": "Highspeed Ring Rückwärts",
+            "track": "High Speed Ring rückwärts",
             "date": "2026-07-20",
             "time": "20:00",
             "group": "Liga 1",
@@ -652,7 +679,8 @@
               "78d32f7f-34e8-46c4-8a12-474952c8c3cd",
               "971dbc63-4ba9-4797-928e-70160c11f4f6",
               "61a8c4cb-bee5-49f5-94df-e1f1ed24e605",
-              "8cce7f23-109c-4f42-b8ae-4fc2bef70a6b"
+              "8cce7f23-109c-4f42-b8ae-4fc2bef70a6b",
+              "017e6abf-1d81-49f0-a29b-4931ea6ac004"
             ],
             "starterSnapshots": [
               {
@@ -766,16 +794,24 @@
                 "status": "regular",
                 "group": "Liga 1",
                 "vehicle": "Porsche 911 GT3 R (992) '22"
+              },
+              {
+                "id": "017e6abf-1d81-49f0-a29b-4931ea6ac004",
+                "name": "x-I_EnDless_I-x",
+                "number": "920",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Porsche 911 GT3 R (992) '22"
               }
             ],
-            "createdAt": "2026-07-16T01:40:47.952Z",
-            "updatedAt": "2026-07-16T01:40:47.952Z"
+            "createdAt": "2026-07-17T17:02:48.394Z",
+            "updatedAt": "2026-07-17T17:02:48.394Z"
           },
           {
-            "id": "b057a408-63fb-4ae1-adf0-0be882c16714",
+            "id": "168dba81-a378-4495-991f-144f1b4ad5c0",
             "number": 2,
             "name": "Porsche GT Cup Saison 1",
-            "track": "Highspeed Ring Rückwärts",
+            "track": "High Speed Ring rückwärts",
             "date": "2026-07-20",
             "time": "20:00",
             "group": "Liga 2",
@@ -788,6 +824,7 @@
               "80307a9b-7c90-4c39-baf1-733878821ce5",
               "e1115c70-50b0-4a44-9f15-e2d2706a98b4",
               "a3d76b23-6607-400c-b6b2-2ec603525165",
+              "3fad2b4c-1a0f-42f5-87bf-b7130c483d3f",
               "4eedad79-e013-403c-a193-1761195f6e03",
               "af1ca61f-6ed2-4f9c-a3cf-81a09227191f",
               "3da35762-278a-4ce8-93f2-c8a8ce9678cf"
@@ -850,6 +887,14 @@
                 "vehicle": "Porsche 911 GT3 R (992) '22"
               },
               {
+                "id": "3fad2b4c-1a0f-42f5-87bf-b7130c483d3f",
+                "name": "Mo360",
+                "number": "360",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "Porsche 911 GT3 R (992) '22"
+              },
+              {
                 "id": "4eedad79-e013-403c-a193-1761195f6e03",
                 "name": "Patze-80",
                 "number": "80",
@@ -874,71 +919,16 @@
                 "vehicle": "Porsche 911 GT3 R (992) '22"
               }
             ],
-            "createdAt": "2026-07-16T01:42:54.218Z",
-            "updatedAt": "2026-07-16T01:42:54.218Z"
+            "createdAt": "2026-07-17T17:04:22.285Z",
+            "updatedAt": "2026-07-17T17:04:22.285Z"
           }
         ],
         "results": [
           {
-            "id": "903e71f9-7161-4557-a457-f72309f91a4f",
-            "raceId": "09f284ea-aac3-45f1-9688-d6a71b5c8c86",
+            "id": "c0ed74d2-9a32-4615-b018-7268518b8195",
+            "raceId": "03cc8642-672f-44e3-a4a1-de403fc87248",
             "session": "main",
             "entries": [
-              {
-                "driverId": "f1d2192e-c1de-46b7-8572-b7c8e8003672",
-                "driverName": "Ashes_-2-_Glory",
-                "number": "13",
-                "vehicle": "",
-                "position": 6,
-                "status": "finished",
-                "isGuest": false,
-                "fastestLap": false,
-                "pole": false
-              },
-              {
-                "driverId": "b6df58cd-9cd7-4387-81ec-0df18ae5358f",
-                "driverName": "D23_Asterix",
-                "number": "583",
-                "vehicle": "",
-                "position": 10,
-                "status": "finished",
-                "isGuest": false,
-                "fastestLap": false,
-                "pole": false
-              },
-              {
-                "driverId": "0d4c695d-80cc-4b7c-b49b-2ccd2d29498a",
-                "driverName": "D23_gigdfgj",
-                "number": "23",
-                "vehicle": "",
-                "position": 5,
-                "status": "finished",
-                "isGuest": false,
-                "fastestLap": false,
-                "pole": false
-              },
-              {
-                "driverId": "aaf55ee4-2284-4a31-b07a-96fdc6c3f21d",
-                "driverName": "D23_Weisser-hut",
-                "number": "34",
-                "vehicle": "",
-                "position": 8,
-                "status": "finished",
-                "isGuest": false,
-                "fastestLap": false,
-                "pole": false
-              },
-              {
-                "driverId": "214ca9df-ae98-4c0a-802f-262636185464",
-                "driverName": "D23-Roppe",
-                "number": "33",
-                "vehicle": "",
-                "position": 7,
-                "status": "finished",
-                "isGuest": true,
-                "fastestLap": false,
-                "pole": false
-              },
               {
                 "driverId": "ef5cc95f-d1fd-42ad-ac64-a31d7e141c04",
                 "driverName": "DodoWWTS67",
@@ -951,15 +941,15 @@
                 "pole": false
               },
               {
-                "driverId": "592c7825-6ac0-43f1-930a-f97ded73cb54",
-                "driverName": "fcbchris92",
-                "number": "92",
+                "driverId": "971dbc63-4ba9-4797-928e-70160c11f4f6",
+                "driverName": "The_Gentleman_82",
+                "number": "82",
                 "vehicle": "",
-                "position": 12,
+                "position": 2,
                 "status": "finished",
                 "isGuest": false,
                 "fastestLap": false,
-                "pole": false
+                "pole": true
               },
               {
                 "driverId": "0720ed0d-4e0c-4e57-a6e2-a8587b674e61",
@@ -967,17 +957,6 @@
                 "number": "66",
                 "vehicle": "",
                 "position": 3,
-                "status": "finished",
-                "isGuest": false,
-                "fastestLap": false,
-                "pole": false
-              },
-              {
-                "driverId": "948c5aee-7a2d-4bc5-82c2-8995ba870088",
-                "driverName": "Mironight",
-                "number": "99",
-                "vehicle": "",
-                "position": 11,
                 "status": "finished",
                 "isGuest": false,
                 "fastestLap": false,
@@ -995,15 +974,48 @@
                 "pole": false
               },
               {
-                "driverId": "971dbc63-4ba9-4797-928e-70160c11f4f6",
-                "driverName": "The_Gentleman_82",
-                "number": "82",
+                "driverId": "0d4c695d-80cc-4b7c-b49b-2ccd2d29498a",
+                "driverName": "D23_gigdfgj",
+                "number": "23",
                 "vehicle": "",
-                "position": 2,
+                "position": 5,
                 "status": "finished",
                 "isGuest": false,
                 "fastestLap": false,
-                "pole": true
+                "pole": false
+              },
+              {
+                "driverId": "f1d2192e-c1de-46b7-8572-b7c8e8003672",
+                "driverName": "Ashes_-2-_Glory",
+                "number": "13",
+                "vehicle": "",
+                "position": 6,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "214ca9df-ae98-4c0a-802f-262636185464",
+                "driverName": "D23-Roppe",
+                "number": "33",
+                "vehicle": "",
+                "position": 7,
+                "status": "finished",
+                "isGuest": true,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "aaf55ee4-2284-4a31-b07a-96fdc6c3f21d",
+                "driverName": "D23_Weisser-hut",
+                "number": "34",
+                "vehicle": "",
+                "position": 8,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
               },
               {
                 "driverId": "8cce7f23-109c-4f42-b8ae-4fc2bef70a6b",
@@ -1011,6 +1023,39 @@
                 "number": "249",
                 "vehicle": "",
                 "position": 9,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "b6df58cd-9cd7-4387-81ec-0df18ae5358f",
+                "driverName": "D23_Asterix",
+                "number": "583",
+                "vehicle": "",
+                "position": 10,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "948c5aee-7a2d-4bc5-82c2-8995ba870088",
+                "driverName": "Mironight",
+                "number": "99",
+                "vehicle": "",
+                "position": 11,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "592c7825-6ac0-43f1-930a-f97ded73cb54",
+                "driverName": "fcbchris92",
+                "number": "92",
+                "vehicle": "",
+                "position": 12,
                 "status": "finished",
                 "isGuest": false,
                 "fastestLap": false,
@@ -1026,14 +1071,395 @@
                 "isGuest": false,
                 "fastestLap": false,
                 "pole": false
+              },
+              {
+                "driverId": "f1726416-71eb-4ca6-bb86-041ccf5f9af0",
+                "driverName": "EifelRing87",
+                "number": "420",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "c1751997-4d89-4ae4-b499-41427be3eec5",
+                "driverName": "FFP_Riemen81",
+                "number": "81",
+                "vehicle": "",
+                "position": null,
+                "status": "dns",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "61a8c4cb-bee5-49f5-94df-e1f1ed24e605",
+                "driverName": "TPu13",
+                "number": "129",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
               }
             ],
-            "createdAt": "2026-07-16T01:56:41.009Z",
-            "updatedAt": "2026-07-16T01:56:41.009Z"
+            "createdAt": "2026-07-17T16:15:38.363Z",
+            "updatedAt": "2026-07-17T16:16:55.439Z"
           },
           {
-            "id": "59203769-720e-409f-acd6-50828e1e9ae4",
-            "raceId": "e9ec3338-823c-4e93-a30d-b7e57c500d90",
+            "id": "7485ef90-c875-47d4-9200-0193cdde4aa7",
+            "raceId": "03cc8642-672f-44e3-a4a1-de403fc87248",
+            "session": "qualifying",
+            "entries": [
+              {
+                "driverId": "f1d2192e-c1de-46b7-8572-b7c8e8003672",
+                "driverName": "Ashes_-2-_Glory",
+                "number": "13",
+                "vehicle": "",
+                "position": 13,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "b6df58cd-9cd7-4387-81ec-0df18ae5358f",
+                "driverName": "D23_Asterix",
+                "number": "583",
+                "vehicle": "",
+                "position": 4,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "0d4c695d-80cc-4b7c-b49b-2ccd2d29498a",
+                "driverName": "D23_gigdfgj",
+                "number": "23",
+                "vehicle": "",
+                "position": 7,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "aaf55ee4-2284-4a31-b07a-96fdc6c3f21d",
+                "driverName": "D23_Weisser-hut",
+                "number": "34",
+                "vehicle": "",
+                "position": 12,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "214ca9df-ae98-4c0a-802f-262636185464",
+                "driverName": "D23-Roppe",
+                "number": "33",
+                "vehicle": "",
+                "position": 10,
+                "status": "finished",
+                "isGuest": true,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "ef5cc95f-d1fd-42ad-ac64-a31d7e141c04",
+                "driverName": "DodoWWTS67",
+                "number": "67",
+                "vehicle": "",
+                "position": 2,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "f1726416-71eb-4ca6-bb86-041ccf5f9af0",
+                "driverName": "EifelRing87",
+                "number": "420",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "592c7825-6ac0-43f1-930a-f97ded73cb54",
+                "driverName": "fcbchris92",
+                "number": "92",
+                "vehicle": "",
+                "position": 5,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "c1751997-4d89-4ae4-b499-41427be3eec5",
+                "driverName": "FFP_Riemen81",
+                "number": "81",
+                "vehicle": "",
+                "position": null,
+                "status": "dns",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "0720ed0d-4e0c-4e57-a6e2-a8587b674e61",
+                "driverName": "GT_Icke_",
+                "number": "66",
+                "vehicle": "",
+                "position": 6,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "948c5aee-7a2d-4bc5-82c2-8995ba870088",
+                "driverName": "Mironight",
+                "number": "99",
+                "vehicle": "",
+                "position": 9,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "78d32f7f-34e8-46c4-8a12-474952c8c3cd",
+                "driverName": "Sheldor1980",
+                "number": "80",
+                "vehicle": "",
+                "position": 8,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "971dbc63-4ba9-4797-928e-70160c11f4f6",
+                "driverName": "The_Gentleman_82",
+                "number": "82",
+                "vehicle": "",
+                "position": 1,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": true
+              },
+              {
+                "driverId": "61a8c4cb-bee5-49f5-94df-e1f1ed24e605",
+                "driverName": "TPu13",
+                "number": "129",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "8cce7f23-109c-4f42-b8ae-4fc2bef70a6b",
+                "driverName": "Waidla_82",
+                "number": "249",
+                "vehicle": "",
+                "position": 11,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "017e6abf-1d81-49f0-a29b-4931ea6ac004",
+                "driverName": "x-I_EnDless_I-x",
+                "number": "920",
+                "vehicle": "",
+                "position": 3,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              }
+            ],
+            "createdAt": "2026-07-17T16:47:57.255Z",
+            "updatedAt": "2026-07-17T16:47:57.255Z"
+          },
+          {
+            "id": "3506eeaa-ba38-45ce-a7c7-0025761d9a3a",
+            "raceId": "461de143-6153-4093-892a-8c72d9c8f693",
+            "session": "qualifying",
+            "entries": [
+              {
+                "driverId": "b70594f2-86c1-4f29-bc59-e5742f366990",
+                "driverName": "boschi47",
+                "number": "89",
+                "vehicle": "",
+                "position": 3,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "3faca83d-19e0-4017-a1a5-42121b5907bc",
+                "driverName": "cjl8172",
+                "number": "92",
+                "vehicle": "",
+                "position": 4,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "2a9d5be3-52f6-4d20-bc54-7abf60a7839e",
+                "driverName": "D23_Speedy_2912",
+                "number": "29",
+                "vehicle": "",
+                "position": 1,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": true
+              },
+              {
+                "driverId": "a4336afe-c506-477b-9f66-703f8cec3985",
+                "driverName": "der_Pate_von_LE",
+                "number": "78",
+                "vehicle": "",
+                "position": 5,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "3eb16d4e-0ac8-4b51-89e9-9409cf44e6a0",
+                "driverName": "Drolingo",
+                "number": "411",
+                "vehicle": "",
+                "position": 6,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "240fa2a2-79b5-4f6d-80e1-10a555579063",
+                "driverName": "fussi_0815",
+                "number": "9",
+                "vehicle": "",
+                "position": 7,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "415a31a1-0baf-48f8-89b9-042713cb2bf2",
+                "driverName": "grimlee82",
+                "number": "82",
+                "vehicle": "",
+                "position": 8,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "80307a9b-7c90-4c39-baf1-733878821ce5",
+                "driverName": "HypnoBoss64",
+                "number": "164",
+                "vehicle": "",
+                "position": 9,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "e1115c70-50b0-4a44-9f15-e2d2706a98b4",
+                "driverName": "machtlos_Hammer",
+                "number": "15",
+                "vehicle": "",
+                "position": 10,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "a3d76b23-6607-400c-b6b2-2ec603525165",
+                "driverName": "MariusLee09",
+                "number": "22",
+                "vehicle": "",
+                "position": 11,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "3fad2b4c-1a0f-42f5-87bf-b7130c483d3f",
+                "driverName": "Mo360",
+                "number": "360",
+                "vehicle": "",
+                "position": 12,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "4eedad79-e013-403c-a193-1761195f6e03",
+                "driverName": "Patze-80",
+                "number": "80",
+                "vehicle": "",
+                "position": 2,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "af1ca61f-6ed2-4f9c-a3cf-81a09227191f",
+                "driverName": "TCR_Landy1264",
+                "number": "64",
+                "vehicle": "",
+                "position": 13,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "3da35762-278a-4ce8-93f2-c8a8ce9678cf",
+                "driverName": "Zippy114",
+                "number": "21",
+                "vehicle": "",
+                "position": 14,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              }
+            ],
+            "createdAt": "2026-07-17T16:52:50.097Z",
+            "updatedAt": "2026-07-17T16:52:50.097Z"
+          },
+          {
+            "id": "ad094695-e5f2-423d-bcb4-7f19f1ef8105",
+            "raceId": "461de143-6153-4093-892a-8c72d9c8f693",
             "session": "main",
             "entries": [
               {
@@ -1067,7 +1493,7 @@
                 "status": "finished",
                 "isGuest": false,
                 "fastestLap": false,
-                "pole": true
+                "pole": false
               },
               {
                 "driverId": "a4336afe-c506-477b-9f66-703f8cec3985",
@@ -1191,8 +1617,8 @@
                 "pole": false
               }
             ],
-            "createdAt": "2026-07-16T01:59:15.057Z",
-            "updatedAt": "2026-07-16T01:59:15.057Z"
+            "createdAt": "2026-07-17T16:54:28.835Z",
+            "updatedAt": "2026-07-17T16:54:28.835Z"
           }
         ],
         "penalties": [],
@@ -1868,12 +2294,12 @@
             "id": "1937c071-6a71-46fb-9f88-dd4ecd950428",
             "name": "machtlos_Hammer",
             "number": "15",
-            "status": "regular",
+            "status": "inactive",
             "group": "Liga 2",
             "vehicle": "Porsche 963",
             "note": "",
             "createdAt": "2026-07-16T03:32:22.709Z",
-            "updatedAt": "2026-07-16T03:32:22.709Z"
+            "updatedAt": "2026-07-24T09:39:50.120Z"
           },
           {
             "id": "61175195-2d9e-4881-80d1-668f172aa908",
@@ -1885,6 +2311,17 @@
             "note": "",
             "createdAt": "2026-07-16T03:33:38.481Z",
             "updatedAt": "2026-07-16T03:33:38.481Z"
+          },
+          {
+            "id": "9d74b411-95cd-4249-808f-0c123f41339d",
+            "name": "FNGL_Pascal",
+            "number": "26",
+            "status": "regular",
+            "group": "Liga 2",
+            "vehicle": "Ferrari 499P",
+            "note": "",
+            "createdAt": "2026-07-16T17:52:26.488Z",
+            "updatedAt": "2026-07-16T17:52:26.488Z"
           }
         ],
         "races": [
@@ -2356,6 +2793,236 @@
             ],
             "createdAt": "2026-07-16T03:42:33.934Z",
             "updatedAt": "2026-07-16T03:42:33.934Z"
+          },
+          {
+            "id": "93ba4dcc-0db0-4d99-9151-2e66eec87f44",
+            "number": 3,
+            "name": "World Hypercar Championship Saison 1",
+            "track": "Circuit Gilles Villeneuve",
+            "date": "2026-07-23",
+            "time": "20:00",
+            "group": "Liga 1",
+            "note": "",
+            "starterIds": [
+              "4cd2a25f-e78a-4f68-bc5d-2ae64eb5cc5e",
+              "710d2331-7871-452c-b67e-ab53b06d40d8",
+              "295c85d6-1c64-41f9-9785-c84de8bd8dc3",
+              "e63cfe77-424d-4fd3-86a9-794c00c8bf25",
+              "7830d6b9-279b-4174-88ea-1f832143cc5c",
+              "9c92d6ed-ac73-4fd2-b0d2-6576f74957b6",
+              "92364f7c-9257-4a56-be46-d859eef53cbb",
+              "d0a3ce1c-4659-457f-ad56-430edd29a166",
+              "b0043443-5a51-41ab-8512-cd354b6ab9c9",
+              "89a9ac73-6cab-4fcf-8820-61900416e90f",
+              "449c22d5-3f32-4d24-b528-0b563864b015",
+              "6f91f28f-c321-414c-95f9-44bdf448dac7",
+              "3632a0bf-5c6f-4ed5-8e0d-82f40ef3ae92",
+              "6b9b4f86-f550-4574-8a62-8375a8ede1b0",
+              "7246688f-8920-4b3e-8a37-9919ce3cae31",
+              "8b0a64ec-6937-43eb-8642-c5d56e2c6c73"
+            ],
+            "starterSnapshots": [
+              {
+                "id": "4cd2a25f-e78a-4f68-bc5d-2ae64eb5cc5e",
+                "name": "beckbechhofen519",
+                "number": "84",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "BMW M Hybrid V8"
+              },
+              {
+                "id": "710d2331-7871-452c-b67e-ab53b06d40d8",
+                "name": "D23__DennyNation",
+                "number": "99",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Peugeot 9X8"
+              },
+              {
+                "id": "295c85d6-1c64-41f9-9785-c84de8bd8dc3",
+                "name": "D23_Asterix",
+                "number": "583",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Porsche 963"
+              },
+              {
+                "id": "e63cfe77-424d-4fd3-86a9-794c00c8bf25",
+                "name": "D23_gigdfgj",
+                "number": "23",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Porsche 963"
+              },
+              {
+                "id": "7830d6b9-279b-4174-88ea-1f832143cc5c",
+                "name": "D23-Roppe",
+                "number": "33",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "Peugeot 9X8"
+              },
+              {
+                "id": "9c92d6ed-ac73-4fd2-b0d2-6576f74957b6",
+                "name": "DK_KR_86",
+                "number": "86",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "Toyota GR010 Hybrid ´21"
+              },
+              {
+                "id": "92364f7c-9257-4a56-be46-d859eef53cbb",
+                "name": "Dvice79",
+                "number": "36",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "BMW M Hybrid V8"
+              },
+              {
+                "id": "d0a3ce1c-4659-457f-ad56-430edd29a166",
+                "name": "DxrkFxte",
+                "number": "7",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Toyota GR010 Hybrid ´21"
+              },
+              {
+                "id": "b0043443-5a51-41ab-8512-cd354b6ab9c9",
+                "name": "EifelBlitz497",
+                "number": "497",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "BMW M Hybrid V8"
+              },
+              {
+                "id": "89a9ac73-6cab-4fcf-8820-61900416e90f",
+                "name": "GTRP_Hayabusa",
+                "number": "8",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Toyota GR010 Hybrid ´21"
+              },
+              {
+                "id": "449c22d5-3f32-4d24-b528-0b563864b015",
+                "name": "HermannWau",
+                "number": "10",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Peugeot 9X8"
+              },
+              {
+                "id": "6f91f28f-c321-414c-95f9-44bdf448dac7",
+                "name": "HR_Kick-Mac",
+                "number": "26",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Toyota GR010 Hybrid ´21"
+              },
+              {
+                "id": "3632a0bf-5c6f-4ed5-8e0d-82f40ef3ae92",
+                "name": "MaxdeLachs",
+                "number": "95",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Ferrari 499P"
+              },
+              {
+                "id": "6b9b4f86-f550-4574-8a62-8375a8ede1b0",
+                "name": "StefanNuss-30",
+                "number": "30",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Porsche 963"
+              },
+              {
+                "id": "7246688f-8920-4b3e-8a37-9919ce3cae31",
+                "name": "TheAce-180",
+                "number": "90",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Toyota GR010 Hybrid ´21"
+              },
+              {
+                "id": "8b0a64ec-6937-43eb-8642-c5d56e2c6c73",
+                "name": "Viper",
+                "number": "26",
+                "status": "regular",
+                "group": "Liga 1",
+                "vehicle": "Peugeot 9X8"
+              }
+            ],
+            "createdAt": "2026-07-17T17:21:20.121Z",
+            "updatedAt": "2026-07-24T09:33:22.899Z"
+          },
+          {
+            "id": "a4666a97-7117-4740-8d64-25f267c313ce",
+            "number": 3,
+            "name": "World Hypercar Championship Saison 1",
+            "track": "Circuit Gilles Villeneuve",
+            "date": "2026-07-30",
+            "time": "20:00",
+            "group": "Liga 2",
+            "note": "",
+            "starterIds": [
+              "e47b8bb8-a4e8-49f4-a3cf-503833b9bde2",
+              "76e23d01-1d09-4f9c-b3ad-eb379be6db17",
+              "4c1ffec4-40f6-4169-8f38-d702497d2087",
+              "1937c071-6a71-46fb-9f88-dd4ecd950428",
+              "11c6fea7-900e-4446-88ff-f84921142aad",
+              "b05a3b55-96ac-4758-813d-219024dd363a"
+            ],
+            "starterSnapshots": [
+              {
+                "id": "e47b8bb8-a4e8-49f4-a3cf-503833b9bde2",
+                "name": "Assphxlt",
+                "number": "3",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "Ferrari 499P"
+              },
+              {
+                "id": "76e23d01-1d09-4f9c-b3ad-eb379be6db17",
+                "name": "Herr-Kules-8",
+                "number": "32",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "BMW M Hybrid V8"
+              },
+              {
+                "id": "4c1ffec4-40f6-4169-8f38-d702497d2087",
+                "name": "JollyCoco",
+                "number": "13",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "Porsche 963"
+              },
+              {
+                "id": "1937c071-6a71-46fb-9f88-dd4ecd950428",
+                "name": "machtlos_Hammer",
+                "number": "15",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "Porsche 963"
+              },
+              {
+                "id": "11c6fea7-900e-4446-88ff-f84921142aad",
+                "name": "Sheldor1980",
+                "number": "80",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "Porsche 963"
+              },
+              {
+                "id": "b05a3b55-96ac-4758-813d-219024dd363a",
+                "name": "takka241",
+                "number": "86",
+                "status": "regular",
+                "group": "Liga 2",
+                "vehicle": "Ferrari 499P"
+              }
+            ],
+            "createdAt": "2026-07-17T17:22:56.644Z",
+            "updatedAt": "2026-07-17T17:22:56.644Z"
           }
         ],
         "results": [
@@ -2759,6 +3426,376 @@
             ],
             "createdAt": "2026-07-16T03:48:23.115Z",
             "updatedAt": "2026-07-16T03:48:23.115Z"
+          },
+          {
+            "id": "e49be25b-1b6c-4f0f-831e-884cd5338ac8",
+            "raceId": "93ba4dcc-0db0-4d99-9151-2e66eec87f44",
+            "session": "sprint",
+            "entries": [
+              {
+                "driverId": "4cd2a25f-e78a-4f68-bc5d-2ae64eb5cc5e",
+                "driverName": "beckbechhofen519",
+                "number": "84",
+                "vehicle": "",
+                "position": 6,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "710d2331-7871-452c-b67e-ab53b06d40d8",
+                "driverName": "D23__DennyNation",
+                "number": "99",
+                "vehicle": "",
+                "position": 8,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "295c85d6-1c64-41f9-9785-c84de8bd8dc3",
+                "driverName": "D23_Asterix",
+                "number": "583",
+                "vehicle": "",
+                "position": 4,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "e63cfe77-424d-4fd3-86a9-794c00c8bf25",
+                "driverName": "D23_gigdfgj",
+                "number": "23",
+                "vehicle": "",
+                "position": 9,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "7830d6b9-279b-4174-88ea-1f832143cc5c",
+                "driverName": "D23-Roppe",
+                "number": "33",
+                "vehicle": "",
+                "position": 10,
+                "status": "finished",
+                "isGuest": true,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "9c92d6ed-ac73-4fd2-b0d2-6576f74957b6",
+                "driverName": "DK_KR_86",
+                "number": "86",
+                "vehicle": "",
+                "position": 11,
+                "status": "finished",
+                "isGuest": true,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "92364f7c-9257-4a56-be46-d859eef53cbb",
+                "driverName": "Dvice79",
+                "number": "36",
+                "vehicle": "",
+                "position": 5,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "d0a3ce1c-4659-457f-ad56-430edd29a166",
+                "driverName": "DxrkFxte",
+                "number": "7",
+                "vehicle": "",
+                "position": 2,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "b0043443-5a51-41ab-8512-cd354b6ab9c9",
+                "driverName": "EifelBlitz497",
+                "number": "497",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "89a9ac73-6cab-4fcf-8820-61900416e90f",
+                "driverName": "GTRP_Hayabusa",
+                "number": "8",
+                "vehicle": "",
+                "position": 1,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": true,
+                "pole": false
+              },
+              {
+                "driverId": "449c22d5-3f32-4d24-b528-0b563864b015",
+                "driverName": "HermannWau",
+                "number": "10",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "6f91f28f-c321-414c-95f9-44bdf448dac7",
+                "driverName": "HR_Kick-Mac",
+                "number": "26",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "3632a0bf-5c6f-4ed5-8e0d-82f40ef3ae92",
+                "driverName": "MaxdeLachs",
+                "number": "95",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "6b9b4f86-f550-4574-8a62-8375a8ede1b0",
+                "driverName": "StefanNuss-30",
+                "number": "30",
+                "vehicle": "",
+                "position": 7,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "7246688f-8920-4b3e-8a37-9919ce3cae31",
+                "driverName": "TheAce-180",
+                "number": "90",
+                "vehicle": "",
+                "position": 3,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "8b0a64ec-6937-43eb-8642-c5d56e2c6c73",
+                "driverName": "Viper",
+                "number": "26",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              }
+            ],
+            "createdAt": "2026-07-24T09:36:15.162Z",
+            "updatedAt": "2026-07-24T09:36:15.162Z"
+          },
+          {
+            "id": "450e18d3-a764-40d2-8327-3e36d2fa8d48",
+            "raceId": "93ba4dcc-0db0-4d99-9151-2e66eec87f44",
+            "session": "main",
+            "entries": [
+              {
+                "driverId": "4cd2a25f-e78a-4f68-bc5d-2ae64eb5cc5e",
+                "driverName": "beckbechhofen519",
+                "number": "84",
+                "vehicle": "",
+                "position": 5,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "710d2331-7871-452c-b67e-ab53b06d40d8",
+                "driverName": "D23__DennyNation",
+                "number": "99",
+                "vehicle": "",
+                "position": 4,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "295c85d6-1c64-41f9-9785-c84de8bd8dc3",
+                "driverName": "D23_Asterix",
+                "number": "583",
+                "vehicle": "",
+                "position": 6,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "e63cfe77-424d-4fd3-86a9-794c00c8bf25",
+                "driverName": "D23_gigdfgj",
+                "number": "23",
+                "vehicle": "",
+                "position": 7,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "7830d6b9-279b-4174-88ea-1f832143cc5c",
+                "driverName": "D23-Roppe",
+                "number": "33",
+                "vehicle": "",
+                "position": 8,
+                "status": "finished",
+                "isGuest": true,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "9c92d6ed-ac73-4fd2-b0d2-6576f74957b6",
+                "driverName": "DK_KR_86",
+                "number": "86",
+                "vehicle": "",
+                "position": 11,
+                "status": "finished",
+                "isGuest": true,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "92364f7c-9257-4a56-be46-d859eef53cbb",
+                "driverName": "Dvice79",
+                "number": "36",
+                "vehicle": "",
+                "position": 9,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "d0a3ce1c-4659-457f-ad56-430edd29a166",
+                "driverName": "DxrkFxte",
+                "number": "7",
+                "vehicle": "",
+                "position": 2,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": true,
+                "pole": false
+              },
+              {
+                "driverId": "b0043443-5a51-41ab-8512-cd354b6ab9c9",
+                "driverName": "EifelBlitz497",
+                "number": "497",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "89a9ac73-6cab-4fcf-8820-61900416e90f",
+                "driverName": "GTRP_Hayabusa",
+                "number": "8",
+                "vehicle": "",
+                "position": 1,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "449c22d5-3f32-4d24-b528-0b563864b015",
+                "driverName": "HermannWau",
+                "number": "10",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "6f91f28f-c321-414c-95f9-44bdf448dac7",
+                "driverName": "HR_Kick-Mac",
+                "number": "26",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "3632a0bf-5c6f-4ed5-8e0d-82f40ef3ae92",
+                "driverName": "MaxdeLachs",
+                "number": "95",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "6b9b4f86-f550-4574-8a62-8375a8ede1b0",
+                "driverName": "StefanNuss-30",
+                "number": "30",
+                "vehicle": "",
+                "position": 10,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "7246688f-8920-4b3e-8a37-9919ce3cae31",
+                "driverName": "TheAce-180",
+                "number": "90",
+                "vehicle": "",
+                "position": 3,
+                "status": "finished",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              },
+              {
+                "driverId": "8b0a64ec-6937-43eb-8642-c5d56e2c6c73",
+                "driverName": "Viper",
+                "number": "26",
+                "vehicle": "",
+                "position": null,
+                "status": "absent",
+                "isGuest": false,
+                "fastestLap": false,
+                "pole": false
+              }
+            ],
+            "createdAt": "2026-07-24T09:38:08.996Z",
+            "updatedAt": "2026-07-24T09:38:08.996Z"
           }
         ],
         "penalties": [],
