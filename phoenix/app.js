@@ -47,10 +47,13 @@ loginFormular.addEventListener("submit", async (event) => {
 });
 
 const loginBereich = document.getElementById("login-bereich");
+const angemeldetBereich = document.getElementById("angemeldet-bereich");
+const abmeldenButton = document.getElementById("abmelden-button");
 
 function aktualisiereLoginAnsicht(session) {
   loginBereich.hidden = Boolean(session);
 }
+angemeldetBereich.hidden = !session;
 
 async function pruefeAnmeldestatus() {
   const { data } = await supabaseClient.auth.getSession();
@@ -62,3 +65,14 @@ supabaseClient.auth.onAuthStateChange((_ereignis, session) => {
 });
 
 pruefeAnmeldestatus();
+
+abmeldenButton.addEventListener("click", async () => {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    alert("Abmelden fehlgeschlagen – bitte erneut versuchen.");
+    return;
+  }
+
+  loginStatus.textContent = "Erfolgreich abgemeldet.";
+});
