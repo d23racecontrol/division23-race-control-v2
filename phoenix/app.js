@@ -19,7 +19,7 @@ async function pruefeDatenbankverbindung() {
       : "Datenbankverbindung: kein Status gefunden";
 }
 
-pruefeDatenbankverbindung();
+
 
 const loginFormular = document.getElementById("login-form");
 const loginStatus = document.getElementById("login-status");
@@ -58,6 +58,7 @@ function aktualisiereLoginAnsicht(session) {
 async function pruefeAnmeldestatus() {
   const { data } = await supabaseClient.auth.getSession();
   aktualisiereLoginAnsicht(data.session);
+  await pruefeDatenbankverbindung();
 }
 
 supabaseClient.auth.onAuthStateChange((_ereignis, session) => {
