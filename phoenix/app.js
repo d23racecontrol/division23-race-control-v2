@@ -52,8 +52,8 @@ const abmeldenButton = document.getElementById("abmelden-button");
 
 function aktualisiereLoginAnsicht(session) {
   loginBereich.hidden = Boolean(session);
+  angemeldetBereich.hidden = !session;
 }
-angemeldetBereich.hidden = !session;
 
 async function pruefeAnmeldestatus() {
   const { data } = await supabaseClient.auth.getSession();
