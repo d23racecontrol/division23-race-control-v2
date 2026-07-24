@@ -32,7 +32,7 @@ loginFormular.addEventListener("submit", async (event) => {
 
   loginStatus.textContent = "Anmeldung wird geprüft …";
 
-  const { error } = await supabaseClient.auth.signInWithPassword({
+ const { data, error } = await supabaseClient.auth.signInWithPassword({
     email: email,
     password: passwort
   });
@@ -42,7 +42,7 @@ loginFormular.addEventListener("submit", async (event) => {
       "Anmeldung fehlgeschlagen – bitte E-Mail und Passwort prüfen.";
     return;
   }
-
+aktualisiereLoginAnsicht(data.session);
   loginStatus.textContent = "Erfolgreich angemeldet ✅";
 });
 
