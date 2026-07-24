@@ -98,7 +98,31 @@ async function ladeBenutzer() {
   benutzer.forEach((eintrag) => {
   const benutzerKarte = document.createElement("article");
   benutzerKarte.className = "benutzer-karte";
-  benutzerKarte.textContent = `${eintrag.email} – Rolle: ${eintrag.role}`;
+  const emailAnzeige = document.createElement("p");
+emailAnzeige.textContent = eintrag.email;
+benutzerKarte.appendChild(emailAnzeige);
+const rollenAuswahl = document.createElement("select");
+rollenAuswahl.className = "rollen-auswahl";
+["admin", "ligaleiter", "fahrer"].forEach((rolle) => {
+  const option = document.createElement("option");
+  option.value = rolle;
+  option.textContent = rolle;
+  option.selected = rolle === eintrag.role;
+  rollenAuswahl.appendChild(option);
+});
+benutzerKarte.appendChild(rollenAuswahl);
+rollenAuswahl.addEventListener("change", async () => {
+  benutzerStatus.textContent = "Rolle wird gespeichert …";
+  const { error: rollenFehler } = await supabaseClient
+  .from("phoenix_profiles")
+  .update({ role: rollenAuswahl.value })
+  .eq("id", eintrag.id);
+  if (rollenFehler) {
+  benutzerStatus.textContent = "Rolle konnte nicht gespeichert werden.";
+  return;
+  benutzerStatus.textContent = "Rolle wurde gespeichert.";
+}
+});
   benutzerListe.appendChild(benutzerKarte);
 });
 
