@@ -98,7 +98,7 @@ export const LEAGUES = Object.freeze({
       accentRgb: "94, 234, 212"
     })
   }),
-  }),
+  
   
   hgtc: Object.freeze({
     id: "hgtc",
@@ -117,7 +117,7 @@ export const LEAGUES = Object.freeze({
       accentRgb: "181, 31, 46"
     })
   }),
-  }),
+  
 
   twingoRush: Object.freeze({
     id: "twingoRush",
