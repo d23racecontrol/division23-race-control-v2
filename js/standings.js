@@ -5,7 +5,7 @@ import { POINTS_CONFIG as ATM_POINTS } from "../data/atm/points.js?v=4.7.0";
 import { POINTS_CONFIG as WHC_POINTS } from "../data/whc/points.js?v=4.7.0";
 import { POINTS_CONFIG as MTC_POINTS } from "../data/mtc/points.js?v=4.7.0";
 import { POINTS_CONFIG as GT3DL_POINTS } from "../data/gt3dl/points.js?v=4.7.0";
-import { POINTS_CONFIG as MOM_POINTS } from "../data/mom/points.js?v=4.7.0";
+import { POINTS_CONFIG as HGTC_POINTS } from "../data/hgtc/points.js?v=4.7.0";
 import { POINTS_CONFIG as TWINGO_RUSH_POINTS } from "../data/twingo-rush/points.js?v=4.7.0";
 import { getDriversForLeague } from "./drivers.js?v=4.7.0";
 import { getRacesForLeague } from "./races.js?v=4.7.0";
@@ -23,7 +23,7 @@ const POINTS_BY_LEAGUE = Object.freeze({
   whc: WHC_POINTS,
   mtc: MTC_POINTS,
   gt3dl: GT3DL_POINTS,
-  mom: MOM_POINTS,
+  hgtc: HGTC_POINTS,
   twingoRush: TWINGO_RUSH_POINTS
 });
 
