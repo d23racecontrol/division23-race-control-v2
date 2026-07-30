@@ -98,23 +98,25 @@ export const LEAGUES = Object.freeze({
       accentRgb: "94, 234, 212"
     })
   }),
-
-  mom: Object.freeze({
-    id: "mom",
-    name: "MoM",
-    shortName: "MoM",
-    logoText: "MM",
-    logoPath: "assets/logos/mom.png",
+  }),
+  
+  hgtc: Object.freeze({
+    id: "hgtc",
+    name: "Heritage GT Championship",
+    shortName: "HGTC",
+    logoText: "HGTC",
+    logoPath: "assets/logos/hgtc.png",
     kicker: "Division 23 United",
     description:
-      "MoM erhält in Race Control V2 ein eigenes Ligaprofil für Fahrer, Kalender, Ergebnisse und Tabellen.",
-    themeLabel: "Blau · Silber",
+      "Die Heritage GT Championship bringt die legendäre JGTC-Ära zurück und erhält in Race Control V2 ein eigenes Ligaprofil für Fahrer, Kalender, Ergebnisse und Tabellen.",
+    themeLabel: "Gold · Rot · Schwarz",
     colors: Object.freeze({
-      primary: "#174a9c",
-      primaryRgb: "23, 74, 156",
-      accent: "#cbd5e1",
-      accentRgb: "203, 213, 225"
+      primary: "#d4af37",
+      primaryRgb: "212, 175, 55",
+      accent: "#b51f2e",
+      accentRgb: "181, 31, 46"
     })
+  }),
   }),
 
   twingoRush: Object.freeze({
