@@ -6,7 +6,7 @@ import { CALENDAR_CONFIG as ATM_CALENDAR } from "../data/atm/calendar.js?v=4.7.0
 import { CALENDAR_CONFIG as WHC_CALENDAR } from "../data/whc/calendar.js?v=4.7.0";
 import { CALENDAR_CONFIG as MTC_CALENDAR } from "../data/mtc/calendar.js?v=4.7.0";
 import { CALENDAR_CONFIG as GT3DL_CALENDAR } from "../data/gt3dl/calendar.js?v=4.7.0";
-import { CALENDAR_CONFIG as MOM_CALENDAR } from "../data/mom/calendar.js?v=4.7.0";
+import { CALENDAR_CONFIG as HGTC_CALENDAR } from "../data/hgtc/calendar.js?v=4.7.0";
 import { CALENDAR_CONFIG as TWINGO_RUSH_CALENDAR } from "../data/twingo-rush/calendar.js?v=4.7.0";
 import {
   readStoredJson,
@@ -22,7 +22,7 @@ const DEFAULT_SEASONS = Object.freeze({
   whc: WHC_CALENDAR.season,
   mtc: MTC_CALENDAR.season,
   gt3dl: GT3DL_CALENDAR.season,
-  mom: MOM_CALENDAR.season,
+hgtc: HGTC_CALENDAR.season,
   twingoRush: TWINGO_RUSH_CALENDAR.season
 });
 
