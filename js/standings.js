@@ -97,9 +97,11 @@ function updateViewSelect(races, config) {
     options.push({ value: group, label: group });
   });
 
-  if (config.useGroups !== false && config.allowCombinedDriverView !== false) {
-    options.push({ value: ALL_GROUPS, label: "Alle Gruppen zusammen" });
-  }
+  if (config.useGroups === false) {
+  options.push({ value: ALL_GROUPS, label: "Fahrerwertung" });
+} else if (config.allowCombinedDriverView !== false) {
+  options.push({ value: ALL_GROUPS, label: "Alle Gruppen zusammen" });
+}
 
   if (config.manufacturer?.enabled) {
     options.push({
