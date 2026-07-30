@@ -1,28 +1,99 @@
 /**
- * Punktesystem der Heritage GT Championship.
+ * Heritage GT Championship – Punkte-Konfiguration
  *
- * Zusätzlich:
- * Pole-Position: 1 Bonuspunkt
- * Schnellste Rennrunde: 1 Bonuspunkt
+ * Fahrerwertung: eine gemeinsame Gesamtwertung.
+ * Herstellerwertung: Pro Rennen zählen die drei besten
+ * Fahrerbeiträge jedes Herstellers inklusive Bonuspunkten.
  */
 export const POINTS_CONFIG = Object.freeze({
-  positions: Object.freeze({
-    1: 40,
-    2: 37,
-    3: 35,
-    4: 33,
-    5: 31,
-    6: 29,
-    7: 27,
-    8: 25,
-    9: 23,
-    10: 21,
-    11: 19,
-    12: 17,
-    13: 15,
-    14: 13,
-    15: 11
+  configured: true,
+  label: "HGTC Punktesystem",
+  useGroups: false,
+  format: "10 Minuten Qualifying + 60 Minuten Hauptrennen",
+
+  positionPoints: Object.freeze({
+    main: Object.freeze([
+      40, 37, 35, 33, 31,
+      29, 27, 25, 23, 21,
+      19, 17, 15, 13, 11
+    ]),
+    sprint: Object.freeze([]),
+    qualifying: Object.freeze([])
   }),
-  polePositionBonus: 1,
-  fastestLapBonus: 1
+
+  bonuses: Object.freeze({
+    pole: Object.freeze({
+      points: 1,
+      session: "qualifying",
+      raceNumbers: Object.freeze([]),
+      allRaces: true,
+      oncePerRace: true
+    }),
+
+    fastestLap: Object.freeze({
+      main: 1,
+      sprint: 0,
+      qualifying: 0
+    })
+  }),
+
+  statuses: Object.freeze({
+    absent: 0,
+    dnf: 0,
+    dns: 0,
+    dsq: 0,
+    disconnect: 0
+  }),
+
+  excludeGuests: true,
+
+  tieBreakers: Object.freeze([
+    "bestFinish",
+    "finishCounts"
+  ]),
+
+  tieBreakerLabels: Object.freeze([
+    "Bestes Einzelergebnis",
+    "Anzahl der Siege",
+    "Anzahl der zweiten Plätze",
+    "Danach dritte, vierte Plätze usw."
+  ]),
+
+  manufacturer: Object.freeze({
+    enabled: true,
+    label: "Herstellerwertung",
+    countPerRound: 3,
+
+    manufacturers: Object.freeze([
+      Object.freeze({
+        id: "toyota",
+        name: "Toyota",
+        terms: Object.freeze([
+          "toyota",
+          "supra",
+          "gt500 '97"
+        ])
+      }),
+
+      Object.freeze({
+        id: "nissan",
+        name: "Nissan",
+        terms: Object.freeze([
+          "nissan",
+          "gt-r",
+          "gt500 '99"
+        ])
+      }),
+
+      Object.freeze({
+        id: "honda",
+        name: "Honda",
+        terms: Object.freeze([
+          "honda",
+          "nsx",
+          "gt500 '00"
+        ])
+      })
+    ])
+  })
 });
