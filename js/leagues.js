@@ -105,7 +105,7 @@ export const LEAGUES = Object.freeze({
     name: "Heritage GT Championship",
     shortName: "HGTC",
     logoText: "HGTC",
-    logoPath: "assets/logos/hgtc.png",
+    logoPath: "assets/logos/hgtc.jpg.jpeg",
     kicker: "Division 23 United",
     description:
       "Die Heritage GT Championship bringt die legendäre JGTC-Ära zurück und erhält in Race Control V2 ein eigenes Ligaprofil für Fahrer, Kalender, Ergebnisse und Tabellen.",
