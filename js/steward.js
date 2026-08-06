@@ -37,39 +37,105 @@ export function renderStewardForLeague(leagueId) {
     }
 
     container.innerHTML = `
-        <section class="dashboard-panel">
+  <section class="dashboard-hero">
 
-            <header class="dashboard-panel-header">
+    <div class="dashboard-hero-content">
 
-                <div>
+        <p class="eyebrow">
+            Rennkommission
+        </p>
 
-                    <p class="eyebrow">
-                        Rennleitung
-                    </p>
+        <h2>
+            Steward Center
+        </h2>
 
-                    <h3>
-                        Steward Center
-                    </h3>
+        <p>
+            Verwalte Vorfälle, überprüfe Rennszenen und dokumentiere Entscheidungen der Rennkommission.
+        </p>
 
-                </div>
+    </div>
 
-            </header>
+    <div class="dashboard-league-code">
+        STEWARD
+    </div>
 
-            <p>
+</section>
 
-                Willkommen im neuen
-                Division 23 Steward Center.
+<section class="dashboard-grid">
 
+    <article class="dashboard-card">
+
+        <h3>Offene Vorfälle</h3>
+
+        <strong id="stewardOpenCases">
+            0
+        </strong>
+
+        <small>Noch keine offenen Vorfälle.</small>
+
+    </article>
+
+    <article class="dashboard-card">
+
+        <h3>Entscheidungen</h3>
+
+        <strong id="stewardClosedCases">
+            0
+        </strong>
+
+        <small>Abgeschlossene Entscheidungen.</small>
+
+    </article>
+
+    <article class="dashboard-card">
+
+        <h3>Verwarnungen</h3>
+
+        <strong id="stewardWarnings">
+            0
+        </strong>
+
+        <small>Aktuelle Saison.</small>
+
+    </article>
+
+    <article class="dashboard-card">
+
+        <h3>Punktstrafen</h3>
+
+        <strong id="stewardPenaltyPoints">
+            0
+        </strong>
+
+        <small>Vergebene Punktabzüge.</small>
+
+    </article>
+
+</section>
+
+<section class="dashboard-panel">
+
+    <header class="dashboard-panel-header">
+
+        <div>
+
+            <p class="eyebrow">
+                Rennkommission
             </p>
 
-            <p>
+            <h3>
+                Vorfälle
+            </h3>
 
-                Version:
-                ${STEWARD_VERSION}
+        </div>
 
-            </p>
+    </header>
 
-        </section>
+    <p>
+        Hier erscheinen im nächsten Schritt alle gemeldeten Rennvorfälle.
+    </p>
+
+</section>
     `;
 
 }
