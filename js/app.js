@@ -89,6 +89,7 @@ const PAGE_CONFIG = Object.freeze({
   standings: { title: "Tabellen", status: "Meisterschaftstabelle aktiv" },
   statistics: { title: "Statistiken", status: "Statistikmodul aktiv" },
   penalties: { title: "Strafen", status: "Strafenverwaltung aktiv" },
+  steward: { title: "Steward", status: "Steward Center aktiv" },
   seasons: { title: "Saisons", status: "Saisonarchiv und Saisonwechsel aktiv" },
   export: { title: "Export", status: "Datensicherung und Export aktiv" }
 });
