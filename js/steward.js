@@ -27,7 +27,6 @@ export function initializeStewardModule() {
 }
 
 export function renderStewardForLeague(leagueId) {
-
     const container = document.querySelector(
         '[data-page-content="steward"]'
     );
@@ -37,105 +36,699 @@ export function renderStewardForLeague(leagueId) {
     }
 
     container.innerHTML = `
-  <section class="dashboard-hero">
+        <section class="dashboard-hero">
 
-    <div class="dashboard-hero-content">
+            <div class="dashboard-hero-content">
 
-        <p class="eyebrow">
-            Rennkommission
-        </p>
+                <p class="eyebrow">
+                    Rennkommission
+                </p>
 
-        <h2>
-            Steward Center
-        </h2>
+                <h2>
+                    Steward Center
+                </h2>
 
-        <p>
-            Verwalte Vorfälle, überprüfe Rennszenen und dokumentiere Entscheidungen der Rennkommission.
-        </p>
+                <p>
+                    Zwei Perspektiven, feste Bewertungskriterien und eine
+                    nachvollziehbare Strafempfehlung nach dem Reglement.
+                </p>
 
-    </div>
+            </div>
 
-    <div class="dashboard-league-code">
-        STEWARD
-    </div>
+            <div class="dashboard-league-code">
+                STEWARD
+            </div>
 
-</section>
+        </section>
 
-<section class="dashboard-grid">
+        <section class="dashboard-grid">
 
-    <article class="dashboard-card">
+            <article class="dashboard-card">
 
-        <h3>Offene Vorfälle</h3>
+                <p class="eyebrow">
+                    Fälle
+                </p>
 
-        <strong id="stewardOpenCases">
-            0
-        </strong>
+                <h3>
+                    Offene Vorfälle
+                </h3>
 
-        <small>Noch keine offenen Vorfälle.</small>
+                <strong id="stewardOpenCases">
+                    0
+                </strong>
 
-    </article>
+                <small>
+                    Noch nicht entschieden
+                </small>
 
-    <article class="dashboard-card">
+            </article>
 
-        <h3>Entscheidungen</h3>
+            <article class="dashboard-card">
 
-        <strong id="stewardClosedCases">
-            0
-        </strong>
+                <p class="eyebrow">
+                    Archiv
+                </p>
 
-        <small>Abgeschlossene Entscheidungen.</small>
+                <h3>
+                    Entscheidungen
+                </h3>
 
-    </article>
+                <strong id="stewardClosedCases">
+                    0
+                </strong>
 
-    <article class="dashboard-card">
+                <small>
+                    Abgeschlossene Fälle
+                </small>
 
-        <h3>Verwarnungen</h3>
+            </article>
 
-        <strong id="stewardWarnings">
-            0
-        </strong>
+            <article class="dashboard-card">
 
-        <small>Aktuelle Saison.</small>
+                <p class="eyebrow">
+                    Saison
+                </p>
 
-    </article>
+                <h3>
+                    Strafpunkte
+                </h3>
 
-    <article class="dashboard-card">
+                <strong id="stewardPenaltyPoints">
+                    0
+                </strong>
 
-        <h3>Punktstrafen</h3>
+                <small>
+                    Insgesamt vergeben
+                </small>
 
-        <strong id="stewardPenaltyPoints">
-            0
-        </strong>
+            </article>
 
-        <small>Vergebene Punktabzüge.</small>
+            <article class="dashboard-card">
 
-    </article>
+                <p class="eyebrow">
+                    Prüfung
+                </p>
 
-</section>
+                <h3>
+                    Unklare Fälle
+                </h3>
 
-<section class="dashboard-panel">
+                <strong id="stewardManualCases">
+                    0
+                </strong>
 
-    <header class="dashboard-panel-header">
+                <small>
+                    Manuelle Prüfung erforderlich
+                </small>
 
-        <div>
+            </article>
 
-            <p class="eyebrow">
-                Rennkommission
+        </section>
+
+        <section class="dashboard-panel">
+
+            <header class="dashboard-panel-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        Neuer Rennvorfall
+                    </p>
+
+                    <h3>
+                        Vorfall einreichen
+                    </h3>
+
+                    <p>
+                        Beide Perspektiven sind verpflichtend.
+                    </p>
+
+                </div>
+
+            </header>
+
+            <form id="stewardIncidentForm">
+
+                <div class="form-grid">
+
+                    <label class="form-field">
+
+                        <span>
+                            Serie / Liga
+                        </span>
+
+                        <input
+                            id="stewardLeague"
+                            name="league"
+                            type="text"
+                            value="${leagueId}"
+                            readonly
+                        >
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Rennen *
+                        </span>
+
+                        <input
+                            id="stewardRace"
+                            name="race"
+                            type="text"
+                            placeholder="z. B. Rennen 3 – Watkins Glen"
+                            required
+                        >
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Runde *
+                        </span>
+
+                        <input
+                            id="stewardLap"
+                            name="lap"
+                            type="number"
+                            min="1"
+                            placeholder="12"
+                            required
+                        >
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Kurve / Streckenabschnitt *
+                        </span>
+
+                        <input
+                            id="stewardCorner"
+                            name="corner"
+                            type="text"
+                            placeholder="z. B. Kurve 1"
+                            required
+                        >
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Fahrer A *
+                        </span>
+
+                        <input
+                            id="stewardDriverA"
+                            name="driverA"
+                            type="text"
+                            placeholder="PSN-Name"
+                            required
+                        >
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Fahrer B *
+                        </span>
+
+                        <input
+                            id="stewardDriverB"
+                            name="driverB"
+                            type="text"
+                            placeholder="PSN-Name"
+                            required
+                        >
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Clip Fahrer A *
+                        </span>
+
+                        <input
+                            id="stewardClipA"
+                            name="clipA"
+                            type="url"
+                            placeholder="YouTube-, Twitch- oder Drive-Link"
+                            required
+                        >
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Clip Fahrer B *
+                        </span>
+
+                        <input
+                            id="stewardClipB"
+                            name="clipB"
+                            type="url"
+                            placeholder="YouTube-, Twitch- oder Drive-Link"
+                            required
+                        >
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Vorfallstyp *
+                        </span>
+
+                        <select
+                            id="stewardIncidentType"
+                            name="incidentType"
+                            required
+                        >
+
+                            <option value="">
+                                Vorfall auswählen
+                            </option>
+
+                            <option value="racing-incident">
+                                Rennunfall / keine Strafe
+                            </option>
+
+                            <option value="light-contact">
+                                Leichter vermeidbarer Kontakt
+                            </option>
+
+                            <option value="unsafe-defending">
+                                Unsauberes Verteidigen
+                            </option>
+
+                            <option value="forced-off">
+                                Gegner von der Strecke gedrängt
+                            </option>
+
+                            <option value="avoidable-spin">
+                                Vermeidbarer Dreher eines Gegners
+                            </option>
+
+                            <option value="gross-unsporting">
+                                Grob unsportliches Verhalten
+                            </option>
+
+                            <option value="unclear">
+                                Noch nicht eindeutig
+                            </option>
+
+                        </select>
+
+                    </label>
+
+                    <label class="form-field">
+
+                        <span>
+                            Position zurückgegeben?
+                        </span>
+
+                        <select
+                            id="stewardPositionReturned"
+                            name="positionReturned"
+                        >
+
+                            <option value="unknown">
+                                Nicht bekannt
+                            </option>
+
+                            <option value="yes">
+                                Ja
+                            </option>
+
+                            <option value="no">
+                                Nein
+                            </option>
+
+                            <option value="not-possible">
+                                Nicht möglich
+                            </option>
+
+                        </select>
+
+                    </label>
+
+                </div>
+
+                <label class="form-field">
+
+                    <span>
+                        Beschreibung des Vorfalls *
+                    </span>
+
+                    <textarea
+                        id="stewardDescription"
+                        name="description"
+                        rows="5"
+                        placeholder="Was ist passiert? Bitte neutral und möglichst genau beschreiben."
+                        required
+                    ></textarea>
+
+                </label>
+
+                <div class="form-actions">
+
+                    <button
+                        class="primary-button"
+                        type="button"
+                        id="stewardAnalyzeButton"
+                    >
+                        Strafempfehlung ermitteln
+                    </button>
+
+                    <button
+                        class="secondary-button"
+                        type="reset"
+                        id="stewardResetButton"
+                    >
+                        Eingaben zurücksetzen
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <section
+            class="dashboard-panel"
+            id="stewardRecommendationPanel"
+            hidden
+        >
+
+            <header class="dashboard-panel-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        Automatische Vorprüfung
+                    </p>
+
+                    <h3>
+                        Strafempfehlung
+                    </h3>
+
+                </div>
+
+            </header>
+
+            <div id="stewardRecommendationContent"></div>
+
+        </section>
+
+        <section class="dashboard-panel">
+
+            <header class="dashboard-panel-header">
+
+                <div>
+
+                    <p class="eyebrow">
+                        PGTC-Reglement
+                    </p>
+
+                    <h3>
+                        Strafpunkte – Orientierungsrahmen
+                    </h3>
+
+                </div>
+
+            </header>
+
+            <div class="dashboard-grid">
+
+                <article class="dashboard-card">
+
+                    <strong>
+                        1
+                    </strong>
+
+                    <span>
+                        Leichter vermeidbarer Kontakt
+                    </span>
+
+                </article>
+
+                <article class="dashboard-card">
+
+                    <strong>
+                        2
+                    </strong>
+
+                    <span>
+                        Unsauberes Verteidigen
+                    </span>
+
+                </article>
+
+                <article class="dashboard-card">
+
+                    <strong>
+                        3
+                    </strong>
+
+                    <span>
+                        Gegner von der Strecke gedrängt
+                    </span>
+
+                </article>
+
+                <article class="dashboard-card">
+
+                    <strong>
+                        4
+                    </strong>
+
+                    <span>
+                        Vermeidbarer Dreher eines Gegners
+                    </span>
+
+                </article>
+
+                <article class="dashboard-card">
+
+                    <strong>
+                        5–10
+                    </strong>
+
+                    <span>
+                        Grob unsportliches Verhalten
+                    </span>
+
+                </article>
+
+            </div>
+
+            <p>
+                Die Rennkommission kann je nach Situation von diesem
+                Orientierungsrahmen abweichen.
             </p>
 
-            <h3>
-                Vorfälle
-            </h3>
+        </section>
 
-        </div>
+        <section class="dashboard-panel">
 
-    </header>
+            <header class="dashboard-panel-header">
 
-    <p>
-        Hier erscheinen im nächsten Schritt alle gemeldeten Rennvorfälle.
-    </p>
+                <div>
 
-</section>
+                    <p class="eyebrow">
+                        Fallverwaltung
+                    </p>
+
+                    <h3>
+                        Eingereichte Vorfälle
+                    </h3>
+
+                </div>
+
+            </header>
+
+            <div id="stewardIncidentList">
+
+                <p>
+                    Noch keine Rennvorfälle eingereicht.
+                </p>
+
+            </div>
+
+        </section>
     `;
 
+    const analyzeButton = document.getElementById(
+        "stewardAnalyzeButton"
+    );
+
+    const recommendationPanel = document.getElementById(
+        "stewardRecommendationPanel"
+    );
+
+    const recommendationContent = document.getElementById(
+        "stewardRecommendationContent"
+    );
+
+    const form = document.getElementById(
+        "stewardIncidentForm"
+    );
+
+    if (
+        !analyzeButton ||
+        !recommendationPanel ||
+        !recommendationContent ||
+        !form
+    ) {
+        return;
+    }
+
+    const penaltyRecommendations = {
+        "racing-incident": {
+            title: "Rennunfall",
+            points: 0,
+            confidence: "Regelbasierte Empfehlung",
+            reason:
+                "Auf Grundlage der gewählten Einordnung wird keine Strafe empfohlen."
+        },
+
+        "light-contact": {
+            title: "Leichter vermeidbarer Kontakt",
+            points: 1,
+            confidence: "Regelbasierte Empfehlung",
+            reason:
+                "Der Orientierungsrahmen sieht für einen leichten vermeidbaren Kontakt 1 Strafpunkt vor."
+        },
+
+        "unsafe-defending": {
+            title: "Unsauberes Verteidigen",
+            points: 2,
+            confidence: "Regelbasierte Empfehlung",
+            reason:
+                "Der Orientierungsrahmen sieht für unsauberes Verteidigen 2 Strafpunkte vor."
+        },
+
+        "forced-off": {
+            title: "Gegner von der Strecke gedrängt",
+            points: 3,
+            confidence: "Regelbasierte Empfehlung",
+            reason:
+                "Der Orientierungsrahmen sieht für das Abdrängen eines Gegners 3 Strafpunkte vor."
+        },
+
+        "avoidable-spin": {
+            title: "Vermeidbarer Dreher eines Gegners",
+            points: 4,
+            confidence: "Regelbasierte Empfehlung",
+            reason:
+                "Der Orientierungsrahmen sieht für einen vermeidbaren Dreher 4 Strafpunkte vor."
+        },
+
+        "gross-unsporting": {
+            title: "Grob unsportliches Verhalten",
+            points: "5–10",
+            confidence: "Manuelle Festlegung erforderlich",
+            reason:
+                "Die genaue Höhe muss von der Rennkommission anhand der Schwere und der Folgen festgelegt werden."
+        },
+
+        "unclear": {
+            title: "Keine eindeutige Bewertung möglich",
+            points: "–",
+            confidence: "Manuelle Prüfung erforderlich",
+            reason:
+                "Die beiden Clips müssen von der Rennkommission vollständig geprüft werden."
+        }
+    };
+
+    analyzeButton.addEventListener("click", () => {
+        if (!form.reportValidity()) {
+            return;
+        }
+
+        const incidentType = document.getElementById(
+            "stewardIncidentType"
+        ).value;
+
+        const recommendation =
+            penaltyRecommendations[incidentType];
+
+        if (!recommendation) {
+            return;
+        }
+
+        recommendationContent.innerHTML = `
+            <div class="dashboard-grid">
+
+                <article class="dashboard-card">
+
+                    <p class="eyebrow">
+                        Einordnung
+                    </p>
+
+                    <h3>
+                        ${recommendation.title}
+                    </h3>
+
+                </article>
+
+                <article class="dashboard-card">
+
+                    <p class="eyebrow">
+                        Empfehlung
+                    </p>
+
+                    <strong>
+                        ${recommendation.points}
+                    </strong>
+
+                    <small>
+                        Strafpunkte
+                    </small>
+
+                </article>
+
+                <article class="dashboard-card">
+
+                    <p class="eyebrow">
+                        Bewertungsstatus
+                    </p>
+
+                    <h3>
+                        ${recommendation.confidence}
+                    </h3>
+
+                </article>
+
+            </div>
+
+            <p>
+                ${recommendation.reason}
+            </p>
+
+            <p>
+                Diese Empfehlung ist noch keine endgültige Entscheidung.
+                Die Freigabe erfolgt durch die Rennkommission.
+            </p>
+        `;
+
+        recommendationPanel.hidden = false;
+
+        recommendationPanel.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    });
+
+    form.addEventListener("reset", () => {
+        recommendationPanel.hidden = true;
+        recommendationContent.innerHTML = "";
+    });
 }
