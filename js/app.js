@@ -43,7 +43,7 @@ import {
 import {
   initializeStewardModule,
   renderStewardForLeague
-} from "./steward.js?v=4.7.1";
+} from "./steward.js?v=4.7.2";
 import {
   initializeExportModule,
   renderExportForLeague,
