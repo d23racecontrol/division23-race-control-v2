@@ -41,6 +41,10 @@ import {
   setPenaltiesLeague
 } from "./penalties.js?v=4.7.0";
 import {
+  initializeStewardModule,
+  renderStewardForLeague
+} from "./steward.js?v=4.7.0";
+import {
   initializeExportModule,
   renderExportForLeague,
   setExportLeague
@@ -170,7 +174,11 @@ function renderPage(pageName) {
   if (safePageName === "penalties") {
     renderPenaltiesForLeague(activeLeagueId);
   }
-
+  
+if (safePageName === "steward") {
+    renderStewardForLeague(activeLeagueId);
+}
+  
   if (safePageName === "seasons") {
     renderSeasonArchiveForLeague(activeLeagueId);
   }
@@ -367,6 +375,7 @@ function initializeApp() {
   initializeStandingsModule(activeLeagueId);
   initializeStatisticsModule(activeLeagueId);
   initializePenaltiesModule(activeLeagueId);
+  initializeStewardModule(activeLeagueId);
   initializeExportModule(activeLeagueId);
   initializeDashboardModule(activeLeagueId);
   initializeCalendarModule(activeLeagueId);
