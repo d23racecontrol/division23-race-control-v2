@@ -39,6 +39,7 @@
               <option value="mtc">Mégane Trophy Cup</option>
               <option value="gt3dl">GT3 Derby League</option>
               <option value="mom">MoM</option>
+              <option value="hgtc">Heritage GT Championship</option>
               <option value="twingoRush">Twingo Rush</option>
             </select>
           </div>
@@ -61,7 +62,10 @@
           <span aria-hidden="true">👥</span>
           <span>Fahrer</span>
         </button>
-
+<button class="nav-item" type="button" data-page="manufacturer-choice">
+  <span aria-hidden="true">🏎️</span>
+  <span>Herstellerwahl</span>
+</button>
         <button class="nav-item" type="button" data-page="races">
           <span aria-hidden="true">🏎️</span>
           <span>Rennen</span>
@@ -551,7 +555,42 @@ NurEinFahrername</pre>
             <p><strong>Lokal gespeichert:</strong> Die Fahrerdaten bleiben in diesem Browser auf diesem Gerät. Eine Datensicherung und Übertragung bauen wir später im Export-Modul.</p>
           </aside>
         </section>
+        <section class="page-view manufacturer-choice-page" data-page-content="manufacturer-choice" aria-labelledby="manufacturerChoiceTitle" hidden>
+          <section class="manufacturer-choice-hero">
+            <div>
+              <p class="eyebrow">Fahrzeugzuordnung</p>
+              <h3 id="manufacturerChoiceTitle">Herstellerwahl · <span data-active-league-name>Heritage GT Championship</span></h3>
+              <p>Ordne jedem Stammfahrer ein Fahrzeug zu. Pro Hersteller stehen maximal 5 Plätze zur Verfügung.</p>
+            </div>
 
+            <div class="manufacturer-choice-total-pill">
+              <strong id="manufacturerChoiceTotal">0/15</strong>
+              <span>Plätze belegt</span>
+            </div>
+          </section>
+
+          <div class="manufacturer-choice-notice" id="manufacturerChoiceUnavailable" hidden>
+            <strong>Herstellerwahl nicht eingerichtet</strong>
+            <p>Dieses Werkzeug ist aktuell für die Heritage GT Championship verfügbar.</p>
+          </div>
+
+          <div id="manufacturerChoiceWorkspace">
+            <section class="manufacturer-choice-grid" id="manufacturerChoiceCards" aria-label="Herstellerbelegung"></section>
+
+            <article class="manufacturer-choice-driver-card">
+              <header class="manufacturer-choice-driver-header">
+                <div>
+                  <p class="eyebrow">Stammfahrer</p>
+                  <h3>Fahrzeuge zuweisen</h3>
+                  <span id="manufacturerChoiceDriverCount">0 Stammfahrer</span>
+                </div>
+              </header>
+
+              <div class="manufacturer-choice-driver-list" id="manufacturerChoiceRows"></div>
+              <p class="form-message" id="manufacturerChoiceMessage" role="status" hidden></p>
+            </article>
+          </div>
+        </section>
         <section class="page-view races-page" data-page-content="races" aria-labelledby="racesTitle" hidden>
           <section class="races-hero">
             <div>
