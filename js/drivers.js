@@ -6,6 +6,7 @@ import { DEFAULT_DRIVERS as WHC_DEFAULT_DRIVERS } from "../data/whc/drivers.js?v
 import { DEFAULT_DRIVERS as MTC_DEFAULT_DRIVERS } from "../data/mtc/drivers.js?v=4.7.0";
 import { DEFAULT_DRIVERS as GT3DL_DEFAULT_DRIVERS } from "../data/gt3dl/drivers.js?v=4.7.0";
 import { DEFAULT_DRIVERS as MOM_DEFAULT_DRIVERS } from "../data/mom/drivers.js?v=4.7.0";
+import { DEFAULT_DRIVERS as HGTC_DEFAULT_DRIVERS } from "../data/hgtc/drivers.js?v=4.7.0";
 import { DEFAULT_DRIVERS as TWINGO_RUSH_DEFAULT_DRIVERS } from "../data/twingo-rush/drivers.js?v=4.7.0";
 import {
   readStoredJson,
@@ -33,6 +34,7 @@ const DEFAULT_DRIVERS_BY_LEAGUE = Object.freeze({
   mtc: MTC_DEFAULT_DRIVERS,
   gt3dl: GT3DL_DEFAULT_DRIVERS,
   mom: MOM_DEFAULT_DRIVERS,
+  hgtc: HGTC_DEFAULT_DRIVERS,
   twingoRush: TWINGO_RUSH_DEFAULT_DRIVERS
 });
 
