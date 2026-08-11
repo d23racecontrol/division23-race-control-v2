@@ -68,6 +68,8 @@ export const POINTS_CONFIG = Object.freeze({
       Object.freeze({
         id: "toyota",
         name: "Toyota",
+        vehicle: "Toyota Supra GT500 '97",
+capacity: 5,
         terms: Object.freeze([
           "toyota",
           "supra",
@@ -78,6 +80,8 @@ export const POINTS_CONFIG = Object.freeze({
       Object.freeze({
         id: "nissan",
         name: "Nissan",
+      vehicle: "Nissan GT-R GT500 '99",
+capacity: 5,
         terms: Object.freeze([
           "nissan",
           "gt-r",
@@ -88,6 +92,8 @@ export const POINTS_CONFIG = Object.freeze({
       Object.freeze({
         id: "honda",
         name: "Honda",
+        vehicle: "Honda NSX GT500 '00",
+capacity: 5,
         terms: Object.freeze([
           "honda",
           "nsx",
