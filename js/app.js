@@ -15,6 +15,11 @@ import {
   renderDriversForLeague,
   setDriversLeague
 } from "./drivers.js?v=4.7.0";
+  import {
+  initializeManufacturerChoiceModule,
+  renderManufacturerChoiceForLeague,
+  setManufacturerChoiceLeague
+} from "./manufacturer-choice.js?v=4.7.0";
 import {
   initializeRacesModule,
   renderRacesForLeague,
@@ -84,6 +89,7 @@ const PAGE_CONFIG = Object.freeze({
   dashboard: { title: "Dashboard", status: "Ligaübersicht aktiv" },
   calendar: { title: "Kalender", status: "Saisonkalender aktiv" },
   drivers: { title: "Fahrer", status: "Fahrerverwaltung aktiv" },
+  "manufacturer-choice": { title: "Herstellerwahl", status: "Herstellerwahl aktiv" },
   races: { title: "Rennen", status: "Rennplanung aktiv" },
   results: { title: "Ergebnisse", status: "Ergebniserfassung aktiv" },
   standings: { title: "Tabellen", status: "Meisterschaftstabelle aktiv" },
@@ -155,7 +161,9 @@ function renderPage(pageName) {
   if (safePageName === "drivers") {
     renderDriversForLeague(activeLeagueId);
   }
-
+if (safePageName === "manufacturer-choice") {
+  renderManufacturerChoiceForLeague(activeLeagueId);
+}
   if (safePageName === "races") {
     renderRacesForLeague(activeLeagueId);
   }
@@ -297,6 +305,7 @@ function applyLeagueTheme(leagueId, { persist = true } = {}) {
 
   updateLeagueLogo(league);
   setDriversLeague(league.id);
+  setManufacturerChoiceLeague(league.id);
   setRacesLeague(league.id);
   setResultsLeague(league.id);
   setStandingsLeague(league.id);
@@ -371,6 +380,7 @@ function initializeApp() {
 
   initializeLeagueSelection();
   initializeDriversModule(activeLeagueId);
+  initializeManufacturerChoiceModule(activeLeagueId);
   initializeRacesModule(activeLeagueId);
   initializeResultsModule(activeLeagueId);
   initializeStandingsModule(activeLeagueId);
