@@ -7530,3 +7530,369 @@ select {
     width: 100%;
   }
 }
+/* Herstellerwahl */
+
+.manufacturer-choice-page:not([hidden]) {
+  display: grid;
+  gap: 24px;
+}
+
+.manufacturer-choice-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(139, 92, 246, 0.42);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.24), transparent 38%),
+    linear-gradient(135deg, rgba(30, 20, 52, 0.96), rgba(13, 17, 28, 0.96));
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
+}
+
+.manufacturer-choice-hero h3,
+.manufacturer-choice-driver-header h3 {
+  margin: 4px 0 8px;
+}
+
+.manufacturer-choice-hero p:last-child {
+  max-width: 720px;
+  margin-bottom: 0;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+.manufacturer-choice-total-pill {
+  display: grid;
+  min-width: 150px;
+  padding: 18px 22px;
+  text-align: center;
+  border: 1px solid rgba(167, 139, 250, 0.45);
+  border-radius: 18px;
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.manufacturer-choice-total-pill strong {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1;
+  color: #c4b5fd;
+}
+
+.manufacturer-choice-total-pill span {
+  margin-top: 8px;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.manufacturer-choice-notice {
+  padding: 20px;
+  border: 1px solid rgba(245, 158, 11, 0.42);
+  border-radius: 16px;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.manufacturer-choice-notice p {
+  margin: 6px 0 0;
+  color: var(--color-text-muted);
+}
+
+.manufacturer-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.manufacturer-choice-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.045), transparent 65%),
+    rgba(12, 16, 27, 0.82);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.manufacturer-choice-card[data-state="full"] {
+  border-color: rgba(239, 68, 68, 0.52);
+}
+
+.manufacturer-choice-card-header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.manufacturer-choice-card-identity {
+  display: flex;
+  min-width: 0;
+  gap: 12px;
+  align-items: center;
+}
+
+.manufacturer-choice-brand-badge {
+  display: grid;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 900;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.manufacturer-choice-card[data-manufacturer="toyota"]
+  .manufacturer-choice-brand-badge {
+  background: linear-gradient(135deg, #dc2626, #7f1d1d);
+}
+
+.manufacturer-choice-card[data-manufacturer="nissan"]
+  .manufacturer-choice-brand-badge {
+  background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+}
+
+.manufacturer-choice-card[data-manufacturer="honda"]
+  .manufacturer-choice-brand-badge {
+  background: linear-gradient(135deg, #f97316, #9a3412);
+}
+
+.manufacturer-choice-card-identity h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.manufacturer-choice-card-identity p {
+  margin: 4px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.83rem;
+  line-height: 1.35;
+}
+
+.manufacturer-choice-card-occupancy {
+  display: grid;
+  flex: 0 0 auto;
+  min-width: 76px;
+  gap: 4px;
+  text-align: right;
+}
+
+.manufacturer-choice-card-occupancy strong {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.manufacturer-choice-card-occupancy span {
+  color: #86efac;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.manufacturer-choice-card[data-state="full"]
+  .manufacturer-choice-card-occupancy span {
+  color: #fca5a5;
+}
+
+.manufacturer-choice-card-drivers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.manufacturer-choice-driver-chip {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  padding: 7px 10px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.11);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.manufacturer-choice-card-empty {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.manufacturer-choice-driver-card {
+  margin-top: 22px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: rgba(12, 16, 27, 0.82);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.manufacturer-choice-driver-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px;
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.manufacturer-choice-driver-header span {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+}
+
+.manufacturer-choice-driver-list {
+  display: grid;
+}
+
+.manufacturer-choice-driver-row {
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) 120px minmax(260px, 1.25fr);
+  gap: 18px;
+  align-items: center;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.manufacturer-choice-driver-row:last-child {
+  border-bottom: 0;
+}
+
+.manufacturer-choice-driver-row:hover {
+  background: rgba(139, 92, 246, 0.055);
+}
+
+.manufacturer-choice-driver-identity {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.manufacturer-choice-driver-identity strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.manufacturer-choice-driver-identity span {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.manufacturer-choice-current {
+  justify-self: start;
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.manufacturer-choice-current.is-assigned {
+  border-color: rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.11);
+  color: #86efac;
+}
+
+.manufacturer-choice-select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 38px 11px 13px;
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  color: inherit;
+  background-color: rgba(7, 10, 18, 0.86);
+  font: inherit;
+  font-size: 0.86rem;
+}
+
+.manufacturer-choice-select:focus {
+  outline: 2px solid rgba(139, 92, 246, 0.46);
+  outline-offset: 2px;
+  border-color: #8b5cf6;
+}
+
+.manufacturer-choice-select option {
+  background: #111827;
+  color: #f8fafc;
+}
+
+.manufacturer-choice-empty-state {
+  margin: 0;
+  padding: 26px 22px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.manufacturer-choice-page .form-message {
+  margin: 0 22px 20px;
+  padding: 12px 14px;
+  border-radius: 11px;
+}
+
+.manufacturer-choice-page .form-message[data-type="success"] {
+  border: 1px solid rgba(34, 197, 94, 0.38);
+  background: rgba(34, 197, 94, 0.1);
+  color: #86efac;
+}
+
+.manufacturer-choice-page .form-message[data-type="error"] {
+  border: 1px solid rgba(239, 68, 68, 0.42);
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+}
+
+@media (max-width: 1100px) {
+  .manufacturer-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .manufacturer-choice-driver-row {
+    grid-template-columns: minmax(180px, 1fr) 110px minmax(220px, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .manufacturer-choice-hero {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .manufacturer-choice-total-pill {
+    width: 100%;
+  }
+
+  .manufacturer-choice-card-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .manufacturer-choice-card-occupancy {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    text-align: left;
+  }
+
+  .manufacturer-choice-driver-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .manufacturer-choice-select {
+    width: 100%;
+  }
+}
