@@ -589,6 +589,165 @@ NurEinFahrername</pre>
               <div class="manufacturer-choice-driver-list" id="manufacturerChoiceRows"></div>
               <p class="form-message" id="manufacturerChoiceMessage" role="status" hidden></p>
             </article>
+          <article class="manufacturer-poster-studio" aria-labelledby="manufacturerPosterTitle">
+  <header class="manufacturer-poster-studio-header">
+    <div>
+      <p class="eyebrow">Poster-Generator</p>
+      <h3 id="manufacturerPosterTitle">Herstellerwahl als Poster</h3>
+      <p>
+        Erstelle die aktuelle Herstellerbelegung direkt aus den
+        Race-Control-Daten und lade sie als fertige PNG-Datei herunter.
+      </p>
+    </div>
+
+    <span class="manufacturer-poster-live-badge">
+      Live aus Race Control
+    </span>
+  </header>
+
+  <div class="manufacturer-poster-studio-grid">
+    <div class="manufacturer-poster-controls">
+      <section class="manufacturer-poster-control-group">
+        <span class="manufacturer-poster-control-label">Design</span>
+
+        <div
+          class="manufacturer-poster-option-grid"
+          role="group"
+          aria-label="Posterdesign auswählen"
+        >
+          <button
+            class="manufacturer-poster-option is-active"
+            type="button"
+            data-manufacturer-poster-design="racing"
+            aria-pressed="true"
+          >
+            <strong>HGTC-Renngrafik</strong>
+            <span>Mit Fahrzeugbildern und Motorsport-Look</span>
+          </button>
+
+          <button
+            class="manufacturer-poster-option"
+            type="button"
+            data-manufacturer-poster-design="clean"
+            aria-pressed="false"
+          >
+            <strong>Race-Control clean</strong>
+            <span>Klare Übersicht ohne Fahrzeugbilder</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="manufacturer-poster-control-group">
+        <span class="manufacturer-poster-control-label">Format</span>
+
+        <div
+          class="manufacturer-poster-option-grid"
+          role="group"
+          aria-label="Posterformat auswählen"
+        >
+          <button
+            class="manufacturer-poster-option is-active"
+            type="button"
+            data-manufacturer-poster-format="portrait"
+            aria-pressed="true"
+          >
+            <strong>4:5 · Instagram</strong>
+            <span>1080 × 1350 Pixel</span>
+          </button>
+
+          <button
+            class="manufacturer-poster-option"
+            type="button"
+            data-manufacturer-poster-format="landscape"
+            aria-pressed="false"
+          >
+            <strong>16:9 · Discord</strong>
+            <span>1920 × 1080 Pixel</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="manufacturer-poster-current">
+        <div>
+          <span>Aktuelles Design</span>
+          <strong id="manufacturerPosterCurrentDesign">
+            HGTC-Renngrafik
+          </strong>
+        </div>
+
+        <div>
+          <span>Aktuelles Format</span>
+          <strong id="manufacturerPosterCurrentFormat">
+            4:5 · Instagram
+          </strong>
+        </div>
+
+        <div>
+          <span>Herstellerwahl</span>
+          <strong id="manufacturerPosterCurrentStand">
+            0/15 Plätze belegt
+          </strong>
+        </div>
+      </div>
+
+      <div class="manufacturer-poster-actions">
+        <button
+          class="secondary-button"
+          id="manufacturerPosterRefreshButton"
+          type="button"
+        >
+          Vorschau aktualisieren
+        </button>
+
+        <button
+          class="primary-button"
+          id="manufacturerPosterDownloadButton"
+          type="button"
+        >
+          PNG herunterladen
+        </button>
+      </div>
+
+      <p
+        class="form-message"
+        id="manufacturerPosterMessage"
+        role="status"
+        hidden
+      ></p>
+    </div>
+
+    <div class="manufacturer-poster-preview">
+      <div class="manufacturer-poster-preview-header">
+        <div>
+          <span>Live-Vorschau</span>
+          <strong>Herstellerwahl</strong>
+        </div>
+
+        <span>PNG</span>
+      </div>
+
+      <div class="manufacturer-poster-canvas-shell">
+        <canvas
+          id="manufacturerPosterCanvas"
+          width="1080"
+          height="1350"
+          aria-label="Vorschau des Herstellerwahl-Posters"
+        >
+          Dein Browser unterstützt die Poster-Vorschau nicht.
+        </canvas>
+
+        <div
+          class="manufacturer-poster-loading"
+          id="manufacturerPosterLoading"
+          hidden
+        >
+          <span aria-hidden="true"></span>
+          <strong>Poster wird erstellt …</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
           </div>
         </section>
         <section class="page-view races-page" data-page-content="races" aria-labelledby="racesTitle" hidden>
