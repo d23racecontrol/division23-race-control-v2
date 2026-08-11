@@ -712,7 +712,44 @@ function resetDriverFilters() {
 export function getDriversForLeague(leagueId = activeLeagueId) {
   return loadDrivers(leagueId).map((driver) => ({ ...driver }));
 }
+export function setDriverVehicleForLeague(leagueId, driverId, vehicle) {
+  const drivers = loadDrivers(leagueId);
+  const driver = drivers.find((item) => item.id === driverId);
 
+  if (!driver) {
+    return {
+      ok: false,
+      message: "Der ausgewählte Fahrer wurde nicht gefunden."
+    };
+  }
+
+  const normalizedVehicle = normalizeText(vehicle, 80);
+  const now = new Date().toISOString();
+
+  const nextDrivers = drivers.map((item) =>
+    item.id === driverId
+      ? {
+          ...item,
+          vehicle: normalizedVehicle,
+          updatedAt: now
+        }
+      : item
+  );
+
+  if (!saveDrivers(leagueId, nextDrivers)) {
+    return {
+      ok: false,
+      message: "Die Herstellerwahl konnte nicht gespeichert werden."
+    };
+  }
+
+  return {
+    ok: true,
+    message: normalizedVehicle
+      ? `${driver.name} fährt jetzt ${normalizedVehicle}.`
+      : `Die Herstellerwahl für ${driver.name} wurde zurückgesetzt.`
+  };
+}
 export function renderDriversForLeague(leagueId = activeLeagueId) {
   activeLeagueId = leagueId;
   const drivers = loadDrivers(activeLeagueId);
